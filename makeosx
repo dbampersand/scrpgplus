@@ -1,0 +1,1 @@
+clang++ *.cpp -g -ggdb -fsanitize=address -rdynamic -L/usr/local/Cellar/raylib/5.0/lib -lraylib -I/usr/local/Cellar/raylib/5.0/include -o game 

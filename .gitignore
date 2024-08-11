@@ -1,0 +1,8 @@
+.DS_STORE
+game
+*.exe
+include/*
+.vscode/
+*.dSYM
+
+
