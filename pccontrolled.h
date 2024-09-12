@@ -106,6 +106,8 @@ class PCControlled : public  Player
                 
                 std::shared_ptr<Slot> tilePlayed = std::make_shared<Slot>(x,y+Slot::h+padding);
                 tilePlayed->tile = Tile(' ');
+                tilePlayed->tile.Selectable = false;
+                tilePlayed->tile.color = (Color){0,0,0,0};
                 PlayerTiles.push_back((tilePlayed));
             }
         };    

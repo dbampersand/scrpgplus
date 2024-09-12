@@ -5,7 +5,7 @@
 #include "raylib.h"
 
 typedef class Slot Slot;
-class Tile : Draggable, Drawable, Updatable
+class Tile : public Draggable, Drawable, Updatable
 {
     public:
         char character;

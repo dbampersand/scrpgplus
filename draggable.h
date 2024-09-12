@@ -31,6 +31,7 @@ class Draggable
 
     int RenderOrderAdd = 100;
     virtual void AddRenderOrder(int amt) = 0;
+    bool Selectable = true;
 };
 
 class DragTarget

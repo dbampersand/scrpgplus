@@ -31,9 +31,12 @@ void Draggable::CheckDraggables()
         Drawable* dr = (Drawable*)d;
         if (IsMouseButtonPressed(0) && CheckCollisionPointRec(Render::GetMousePos(), d->GetPosition()))
         {
-            d->IsDragged = true;
-            if (dr)
-                dr->AddRenderOrder(d->RenderOrderAdd);
+            if (d->Selectable)
+            {
+                d->IsDragged = true;
+                if (dr)
+                    dr->AddRenderOrder(d->RenderOrderAdd);
+            }
         }
         if (d->IsDragged && IsMouseButtonReleased(0))
         {
