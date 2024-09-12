@@ -9,15 +9,20 @@ class Drawable
 {
     public:
     
-        void SetOrder(unsigned int ord) { 
+        void SetOrder(int ord) { 
             isSorted = false;
             order = ord; 
         }
-        unsigned int GetOrder() {return order;}; 
+        int GetOrder() {
+            return order;
+        }; 
         static bool IsSorted()
         { return isSorted; }
 
         virtual Rectangle GetPosition() = 0;
+        void AddRenderOrder(int amt) {
+            SetOrder(order + amt);
+        }
 
         virtual void Draw(Rectangle r);
 
@@ -43,7 +48,7 @@ class Drawable
         static std::vector<Drawable*> drawables;
     private:
         Sprite sprite;
-        unsigned int order;
+        int order = 0;
         static bool isSorted;
 
 

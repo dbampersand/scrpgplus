@@ -20,6 +20,10 @@ class Tile : Draggable, Drawable, Updatable
         void MoveObject(float x, float y) override;
         Rectangle GetPosition() override;
         Rectangle GetDefaultPosition() override;
+        void AddRenderOrder(int amt) override {
+            Drawable::AddRenderOrder(amt);
+        };
+
 
         void ParentTo(Slot* parent);
         void Update(float dt) override {
@@ -29,19 +33,20 @@ class Tile : Draggable, Drawable, Updatable
                 Drawable::Hidden = false;
         };
 
-        Tile(char c) : Drawable(std::string(""),300)
+
+        Tile(char c) : Drawable(std::string(""),600)
         {
             character = c;
             parent = NULL;
         };
-        Tile(char c, float mult) : Drawable(std::string(""),300)
+        Tile(char c, float mult) : Drawable(std::string(""),600)
         {
             character = c;
             mutiplier = mult;
             parent = NULL;
         };
 
-        Tile() : Drawable(std::string(""),300) {
+        Tile() : Drawable(std::string(""),600) {
             parent = NULL;
         };   
         ~Tile() {};

@@ -17,13 +17,16 @@ void Drawable::SetTexture(std::string path) {
     sprite = Sprite(path);
 }
 
-bool SortFunc (Drawable* d1, Drawable* d2) 
+bool SortFunc(Drawable* d1, Drawable* d2) 
 { return (d1->GetOrder() < d2->GetOrder()); }
 
 void Drawable::DrawAll()
 {
     if (Drawable::IsSorted() == false)
-        std::sort(drawables.begin(), drawables.end());
+    {
+        std::sort(drawables.begin(), drawables.end(), SortFunc);
+        isSorted = true;
+    }
     for (Drawable* d : drawables)
     {
         if (!d->Hidden)

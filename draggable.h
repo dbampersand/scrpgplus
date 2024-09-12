@@ -28,6 +28,9 @@ class Draggable
 
     virtual Rectangle GetPosition() = 0;
     virtual Rectangle GetDefaultPosition() = 0;
+
+    int RenderOrderAdd = 100;
+    virtual void AddRenderOrder(int amt) = 0;
 };
 
 class DragTarget

@@ -1,4 +1,5 @@
 #include "draggable.h"
+#include "drawable.h"
 #include "raylib.h"
 #include "render.h"
 
@@ -27,9 +28,12 @@ void Draggable::CheckDraggables()
 {
     for (Draggable* d : AllDraggables)
     {
+        Drawable* dr = (Drawable*)d;
         if (IsMouseButtonPressed(0) && CheckCollisionPointRec(Render::GetMousePos(), d->GetPosition()))
         {
             d->IsDragged = true;
+            if (dr)
+                dr->AddRenderOrder(d->RenderOrderAdd);
         }
         if (d->IsDragged && IsMouseButtonReleased(0))
         {
@@ -46,6 +50,8 @@ void Draggable::CheckDraggables()
         if (IsMouseButtonReleased(0) && d->IsDragged)
         {
             d->IsDragged = false;
+            if (dr)
+                dr->AddRenderOrder(-d->RenderOrderAdd);
 
             Rectangle defaultPosition = d->GetDefaultPosition();
             d->MoveObject(defaultPosition.x,defaultPosition.y);
