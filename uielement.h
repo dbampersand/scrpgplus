@@ -4,6 +4,7 @@
 #include "drawable.h"
 #include "updatable.h"
 #include <iostream>
+#include "render.h"
 
 class Clickable 
 {
@@ -14,10 +15,7 @@ class Clickable
 
 
         bool MousedOver(Rectangle r) {
-            std::cout << r.x << ", " << r.y << ", " << r.width << ", " << r.height << "\n";
-            std::cout << "mouse: " << GetMousePosition().x << ", " << GetMousePosition().y << "\n";
-            
-            return CheckCollisionPointRec(GetMousePosition(),r);
+            return CheckCollisionPointRec(Render::GetMousePos(),r);
         };
         bool clicked;
         bool IsClickable = true;
@@ -78,11 +76,11 @@ class UIElement : public Drawable, public Clickable, public Updatable
             return (Rectangle){(float)x,(float)y,(float)w,(float)h};
         }
 
-        virtual void Draw() override {
+        virtual void Draw(Rectangle r) override {
 
         };
 
-        UIElement(int X, int Y, int W, int H) : Drawable("") {
+        UIElement(int X, int Y, int W, int H) : Drawable("",300) {
             x = X; 
             y = Y;
             w = W;

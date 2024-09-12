@@ -1,3 +1,5 @@
+#pragma once
+
 #include "raylib.h"
 #include "sprite.h"
 #include "vector.h"
@@ -18,7 +20,7 @@ class Render
 
         static Vector GetScreenCenter();
         static void Draw(float dt);
-
+        static Vector2 GetMousePos();
     private:
         //static void LoadSprite(std::string path);
 

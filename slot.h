@@ -1,0 +1,28 @@
+#pragma once
+#include "drawable.h"
+#include "draggable.h"
+#include "tile.h"
+#include <memory>
+
+typedef class Tile Tile;
+class Slot : Drawable, DragTarget
+{ 
+    public:
+        Tile tile;
+        bool filled = false;
+
+        Rectangle GetPosition() override;
+        void Draw(Rectangle r) override;
+        int x; int y; 
+        static int w; static int h;
+        void AddTile(Tile* t);
+        Slot(int X, int Y) : Drawable(std::string(""),200) {
+            x = X; y = Y;
+            tile = NULL;
+        };
+        Slot() : Drawable(std::string(""),200) {
+
+        };
+        ~Slot(){};
+        void OnDrag(Draggable* d) override;
+}; 

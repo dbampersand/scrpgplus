@@ -3,11 +3,9 @@
 #include "uigroup.h"
 #include "UI.h"
 #include <iostream>
-void Button::Draw()
+void Button::Draw(Rectangle r)
 {
-    std::cout <<"Ggg\n\n";
     Button* b = (Button*)this;
-    Rectangle r = this->GetPosition();
     DrawRectangle(r.x,r.y,r.width,r.height,background);
     DrawRectangle(r.x+1,r.y+1,r.width-2,r.height-2,foreground);
     if (!text.empty())

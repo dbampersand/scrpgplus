@@ -59,3 +59,12 @@ Vector Render::GetScreenCenter()
  void Render::Draw(float dt)
 {
 }
+Vector2 Render::GetMousePos()
+{
+    Vector2 mouse = GetMousePosition();
+    Vector v = (Vector){mouse.x,mouse.y};
+    
+    v = TranslateToScreenSpace(v);
+
+    return (Vector2){v.x,v.y};
+}

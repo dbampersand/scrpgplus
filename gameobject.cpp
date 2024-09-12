@@ -3,5 +3,4 @@
 
 void GameObject::Update(float dt)
 {
-    std::cout << "updating\n";
 }

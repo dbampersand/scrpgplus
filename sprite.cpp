@@ -29,20 +29,20 @@ Texture2D Sprite::AddLoadedSprite(std::string path)
 {
     if (path == "")
         return sprites[""];
-
     if (!SpriteExists(path))
     {
+        if (!FileExists(path.c_str()))
+        {
+            std::cout << "File not found: " << path << "\n";
+            fflush(stdout);
+            return sprites[""];
+        }
+
         Texture2D t = LoadTexture(path.c_str());
         sprites.insert({path,t});
         return sprites[path];
     }
 
-    if (!FileExists(path.c_str()))
-    {
-        std::cout << "File not found: " << path << "\n";
-        fflush(stdout);
-        return sprites[""];
-    }
 
     return sprites[path];
 };

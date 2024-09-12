@@ -2,15 +2,16 @@
 #include "sprite.h"
 #include "raylib.h"
 #include <string>
+#include <iostream>
+#include "render.h"
 
 std::vector<Drawable*> Drawable::drawables;
 bool Drawable::isSorted;
 
 
-void Drawable::Draw()
+void Drawable::Draw(Rectangle r)
 {
-    Rectangle position = GetPosition();
-    sprite.Draw(position.x,position.y,WHITE);
+    sprite.Draw(r.x,r.y,WHITE);
 }
 void Drawable::SetTexture(std::string path) {
     sprite = Sprite(path);
@@ -26,7 +27,14 @@ void Drawable::DrawAll()
     for (Drawable* d : drawables)
     {
         if (!d->Hidden)
-            d->Draw();
+        {
+            Rectangle r = Render::TranslateToScreenSpace(d->GetPosition());
+            d->Draw(r);
+        }
+        else
+        {
+            
+        }
     }
 }
 

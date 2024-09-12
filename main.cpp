@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include "path.h"
 #include "updatable.h"
+#include "scene.h"
+#include <memory>
 
 void handler(int sig) {
   void *array[10];
@@ -51,6 +53,7 @@ void Update()
 
     Updatable::UpdateAll(dt);
     Clickable::UpdateClickables();    
+    Draggable::CheckDraggables();
     //UI::UpdateUI(dt);
 
 }
@@ -74,7 +77,6 @@ int main()
 
     Init(); 
 
-    GameObject g = GameObject("");
 
     bool shouldExit = false;
     while (!shouldExit)

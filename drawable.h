@@ -4,7 +4,7 @@
 #include "vector.h"
 #include <vector>
 #include "raylib.h"
-
+    
 class Drawable
 {
     public:
@@ -19,7 +19,7 @@ class Drawable
 
         virtual Rectangle GetPosition() = 0;
 
-        virtual void Draw();
+        virtual void Draw(Rectangle r);
 
         bool Hidden = false;
 
@@ -27,14 +27,17 @@ class Drawable
         {
             drawables.erase(std::remove(drawables.begin(), drawables.end(), this), drawables.end());
         }
-        Drawable(std::string path) {
-
+        Drawable(std::string path, int index) {
+            SetTexture(path);
             drawables.push_back(this);
             isSorted = false;
+            SetOrder(index);
         };
         
         void SetTexture(std::string path);
-        Vector GetSize() { return sprite.GetTexSize();};
+        Vector GetSize() { 
+            return sprite.GetTexSize();
+        };
 
         static void DrawAll();
         static std::vector<Drawable*> drawables;

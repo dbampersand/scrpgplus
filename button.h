@@ -12,7 +12,7 @@ class Button : public UIElement
         void SetText(std::string str) {
             this->text = str;
         };
-        void Draw() override;
+        void Draw(Rectangle r) override;
         Button(int X, int Y, int W, int H, void (*Callback)()) : UIElement(X,Y,W,H){
             callback = Callback;
         };

@@ -70,7 +70,7 @@ void UI::UpdateUI(float dt)
 }
 void UI::StartGameButton()
 {
-    GameState::SetState(GameState::State::IN_GAME); 
+    GameState::StartGame();
 }
 void UI::CreateMainMenuUI()
 {

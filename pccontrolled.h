@@ -1,0 +1,112 @@
+#pragma once
+
+#include "player.h"
+#include "slot.h"
+#include "tile.h"
+#include <memory>
+#include <unordered_map>
+#include <forward_list>
+class PCControlled : public  Player
+{
+    public:
+        static PCControlled CurrentPlayer;
+
+        void Update(float dt) override;
+
+        static int DefaultBagSize;
+
+        std::vector<std::shared_ptr<Slot>> PlayerTiles;
+        std::vector<std::shared_ptr<Slot>> TilesPlayed;
+
+        std::vector<Tile> bag;
+        std::vector<Tile> discardedBag; 
+
+        const static int  _MaxTiles = 9;
+        Tile DrawTile()
+        {
+            Tile drawn = (bag.back());
+            bag.pop_back();
+            return drawn;
+        }
+        void AddTilesToBag(std::vector<Tile>* bag, int numToAdd, char character, float multiplier)
+        {
+            for (int i = 0; i < numToAdd; i++)
+            {
+                Tile t =  Tile(character,multiplier); 
+                bag->push_back((t));
+            }
+        }
+        void ShuffleBag(std::vector<Tile>* bag);
+        void InitBag()
+        {
+
+            bag.clear();
+            discardedBag.clear();
+
+            AddTilesToBag(&bag,12,'e',1);
+
+            AddTilesToBag(&bag,9,'a',1);
+            AddTilesToBag(&bag,9,'i',1);
+
+            AddTilesToBag(&bag,8,'o',1);
+
+            AddTilesToBag(&bag,6,'n',1);
+            AddTilesToBag(&bag,6,'r',1);
+            AddTilesToBag(&bag,6,'t',1);
+
+            AddTilesToBag(&bag,4,'l',1);
+            AddTilesToBag(&bag,4,'s',1);
+            AddTilesToBag(&bag,4,'u',1);
+            AddTilesToBag(&bag,4,'d',2);
+
+            AddTilesToBag(&bag,3,'g',2);
+
+            AddTilesToBag(&bag,2,'b',3);
+            AddTilesToBag(&bag,2,'c',3);
+            AddTilesToBag(&bag,2,'m',3);
+            AddTilesToBag(&bag,2,'p',3);
+            AddTilesToBag(&bag,2,'f',4);
+            AddTilesToBag(&bag,2,'h',4);
+            AddTilesToBag(&bag,2,'v',4);
+            AddTilesToBag(&bag,2,'w',4);
+            AddTilesToBag(&bag,2,'y',4);
+
+            AddTilesToBag(&bag,1,'k',5);
+            AddTilesToBag(&bag,1,'j',8);
+            AddTilesToBag(&bag,1,'x',8);
+            AddTilesToBag(&bag,1,'q',10);
+            AddTilesToBag(&bag,1,'z',10);
+
+            AddTilesToBag(&bag,2,'*',0); 
+
+        }
+        PCControlled(std::string path) : Player(path) {
+            int startX = 139;
+            int startY = 200;
+            int padding = 5;
+            
+            InitBag();
+            ShuffleBag(&bag);
+            PlayerTiles.clear();
+            TilesPlayed.clear();
+            for (int i = 0; i < _MaxTiles; i++)
+            {
+                int x = startX + (Slot::w*i) + (padding*i);
+                int y = startY;
+                std::shared_ptr<Slot> playerTile = std::make_shared<Slot>(x,y);
+
+                playerTile->tile = (DrawTile());
+                playerTile->tile.x = x;
+                playerTile->tile.y = y;
+                playerTile->tile.color = (Color){255,0,0,255};
+                playerTile->tile.parent = playerTile.get();
+                playerTile->filled = true;
+
+                PlayerTiles.push_back((playerTile));
+                
+                std::shared_ptr<Slot> tilePlayed = std::make_shared<Slot>(x,y+Slot::h+padding);
+                tilePlayed->tile = Tile(' ');
+                PlayerTiles.push_back((tilePlayed));
+            }
+        };    
+};

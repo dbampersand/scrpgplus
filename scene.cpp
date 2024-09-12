@@ -11,7 +11,6 @@ Rectangle Scene::GetPosition() {
     Vector center = Render::GetScreenCenter() - v;
 
     Vector size = GetSize();
-    std::cout << center.x << ", " << center.y << ", " << size.x << ", " << size.y << "\n";
     return (Rectangle){center.x,center.y,size.x,size.y};
 }
 
@@ -19,13 +18,6 @@ void Scene::DrawScene()
 {
     Vector v = GetSize() / 2.0f;
     Vector center = Render::GetScreenCenter() - v;
-    Drawable::Draw();
+    //Drawable::Draw();
 }
-void Scene::LoadScene(std::string background)
-{
-    Drawable::SetTexture(background); 
-}
-void Scene::Draw()
-{
-    DrawScene();
-}
+    
