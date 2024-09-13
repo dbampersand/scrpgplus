@@ -81,8 +81,8 @@ class UIElement : public Drawable, public Clickable, public Updatable
         };
 
         UIElement(int X, int Y, int W, int H) : Drawable("",300) {
-            x = X; 
-            y = Y;
+            x = X - W/2.0f;  
+            y = Y - H/2.0f;
             w = W;
             h = H;
         };

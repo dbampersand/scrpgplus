@@ -19,8 +19,8 @@ class Sprite
             tex = Path;
         };
         Sprite() {};
-        void Draw(int x, int y, Color tint);
-        void Draw(int x, int y, Color tint, SPRITE_ALIGN spriteAlign);
+        void Draw(int x, int y, int w, int h, Color tint);
+        void Draw(int x, int y, int w, int h, Color tint, SPRITE_ALIGN spriteAlign);
         Vector GetTexSize();
         
         Texture2D AddLoadedSprite(std::string path);

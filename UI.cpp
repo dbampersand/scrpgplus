@@ -14,6 +14,7 @@ void UI::SetGroupsActive(GameState::State state)
     for(std::unordered_map<GameState::State, std::vector<std::string>>::iterator it = UI::gameStateUI.begin(); it != UI::gameStateUI.end(); it++)
     {
         std::vector<std::string> names = it->second;
+        
         for (std::string name : names)
         {
             UIGroup* g = GetGroup(name);
@@ -62,34 +63,47 @@ void UI::DrawUI()
 }
 void UI::UpdateUI(float dt)
 {
-    /*for(std::unordered_map<std::string, UIGroup>::iterator it = UI::uiGroups.begin(); it != UI::uiGroups.end(); it++)
+    for(std::unordered_map<std::string, UIGroup>::iterator it = UI::uiGroups.begin(); it != UI::uiGroups.end(); it++)
     {
-        UIGroup g = it->second;
-        g.UpdateGroup(dt);
-    }*/
+       // UIGroup g = it->second;
+       // g.UpdateGroup(dt);
+    }
 }
 void UI::StartGameButton()
 {
     GameState::StartGame();
 }
+void UI::EndTurnButton()
+{
+
+}
 void UI::CreateMainMenuUI()
 {
     UIGroup u = UIGroup("MainMenu");
-
-    std::shared_ptr<Button> b = std::make_shared<Button>(100,100,80,35,UI::StartGameButton);//Button(100,100,80,35,UI::StartGameButton);
+    std::shared_ptr<Button> b = std::make_shared<Button>(100,100,80,35,UI::StartGameButton);
+    
     b->SetText("Start Game");
     u.AddElement<Button>(b);
 
     UI::AddGroup(u);
     UI::RegisterUIToGameState(GameState::State::IN_MENU, "MainMenu");
-    //SetGroupActive("MainMenu");
-
+}
+void UI::CreateGameUI()
+{
+    UIGroup u = UIGroup("InGame");
+    std::shared_ptr<Button> b = std::make_shared<Button>(Render::GetBasisWidth()/2.0f,Render::GetBasisHeight() - 20,160,25,UI::EndTurnButton);
     
+    b->SetText("End turn");
+    u.AddElement<Button>(b);
+
+    UI::AddGroup(u);
+    UI::RegisterUIToGameState(GameState::State::IN_GAME, "InGame");
 }
 
 void UI::CreateUI()
 {
     UI::CreateMainMenuUI();
+    UI::CreateGameUI();
 }
 void UI::DrawText(Font f, const char* c, int x, int y, int fontSize, Color col, UI::TextFormatting format)
 {
@@ -145,14 +159,14 @@ void UI::RegisterUIToGameState(GameState::State stateToAdd,  std::string name)
     for(std::unordered_map<GameState::State, std::vector<std::string>>::iterator it = UI::gameStateUI.begin(); it != UI::gameStateUI.end(); it++)
     {
         GameState::State state = it->first;
-        bool shouldAdd = true;
+        bool shouldAdd = false;
 
         for (std::string s : it->second)
         {
             if (s == name)
             {
                 exists = true;
-                shouldAdd = false;
+                shouldAdd = true;
                 break;
             }
         }

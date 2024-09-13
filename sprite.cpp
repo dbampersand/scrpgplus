@@ -4,25 +4,26 @@
 
 std::unordered_map<std::string, Texture2D> Sprite::sprites;
 
-
-void Sprite::Draw(int x, int y, Color tint)
+void Sprite::Draw(int x, int y, int w, int h, Color tint)
 {
-    Vector v = Render::TranslateToScreenSpace((Vector){(float)x,(float)y});
-    DrawTextureV(Sprite::AddLoadedSprite(tex),v.ToRLVector2(),tint);
+    Rectangle r = (Rectangle){(float)x,(float)y,(float)w,(float)h};
+    //DrawTextureV(Sprite::AddLoadedSprite(tex),v.ToRLVector2(),tint);
+    Texture2D t = Sprite::AddLoadedSprite(tex);
+    DrawTexturePro(t,(Rectangle){0,0,(float)t.width,(float)t.height},r,(Vector2){0,0},0,tint);
 }
 bool Sprite::SpriteExists(std::string path)
 {
     return (sprites.find(path) != sprites.end());
 }
-void Sprite::Draw(int x, int y, Color tint, SPRITE_ALIGN spriteAlign)
+void Sprite::Draw(int x, int y, int w, int h, Color tint, SPRITE_ALIGN spriteAlign)
 {
     Texture2D texture = GetTexture();
     if (spriteAlign == SPRITE_ALIGN::LEFT)
-        Draw(x,y,tint);
+        Draw(x,y,w,h,tint);
     if (spriteAlign == SPRITE_ALIGN::CENTER)
-        Draw(x - texture.width/2.0f, y -= texture.height/2.0f,tint);
+        Draw(x - texture.width/2.0f, y -= texture.height/2.0f,w,h,tint);
     if (spriteAlign == SPRITE_ALIGN::RIGHT)
-        Draw(x + texture.width/2.0f, y,tint);
+        Draw(x + texture.width/2.0f, y,w,h,tint);
 }
 
 Texture2D Sprite::AddLoadedSprite(std::string path) 

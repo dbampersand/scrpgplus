@@ -11,7 +11,7 @@ bool Drawable::isSorted;
 
 void Drawable::Draw(Rectangle r)
 {
-    sprite.Draw(r.x,r.y,WHITE);
+    sprite.Draw(r.x,r.y,r.width,r.height,WHITE);
 }
 void Drawable::SetTexture(std::string path) {
     sprite = Sprite(path);

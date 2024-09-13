@@ -32,7 +32,7 @@ void handler(int sig) {
 void Init()
 {
     signal(SIGSEGV, handler);
-    InitWindow(Render::GetBasisWidth(),Render::GetBasisHeight(),"scrpg");
+    InitWindow(Render::GetBasisWidth()*2,Render::GetBasisHeight()*2,"scrpg");
     
     Sprite::GenerateNullSprite();
 
@@ -76,6 +76,7 @@ int main()
 {
 
     Init(); 
+    GameState::SetState(GameState::IN_MENU);
 
 
     bool shouldExit = false;

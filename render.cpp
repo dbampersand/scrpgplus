@@ -28,13 +28,26 @@ Camera Render::camera = (Camera){
 }*/
 Vector Render::GetScreenSizeScale()
 {
-    float percentW = Render::GetBasisWidth() / (float)GetScreenWidth();
-    float percentH = Render::GetBasisWidth() / (float)GetScreenWidth();
+    float percentW = GetScreenWidth() /  (float)Render::GetBasisWidth();
+    float percentH =  GetScreenWidth() / (float)Render::GetBasisWidth();
     return (Vector){percentW,percentH};
 }
 Rectangle Render::TranslateToScreenSpace(Rectangle r)
 {
     Vector percent = GetScreenSizeScale();
+
+    r.x *= percent.x;
+    r.y *= percent.y;
+    r.width *= percent.x;
+    r.height *= percent.y;
+
+    return r;
+};
+Rectangle Render::TranslateToWorldSpace(Rectangle r)
+{
+    Vector percent = GetScreenSizeScale();
+    percent.x = 1/percent.x;
+    percent.y = 1/percent.y;
 
     r.x *= percent.x;
     r.y *= percent.y;
@@ -51,6 +64,14 @@ Vector Render::TranslateToScreenSpace(Vector v)
 
     return (Vector){r.x,r.y};
 }
+Vector Render::TranslateToWorldSpace(Vector v)
+{
+    Rectangle r = (Rectangle){v.x,v.y,0,0};
+    r = TranslateToWorldSpace(r);
+
+    return (Vector){r.x,r.y};
+}
+
 
 Vector Render::GetScreenCenter()
 {
@@ -64,7 +85,7 @@ Vector2 Render::GetMousePos()
     Vector2 mouse = GetMousePosition();
     Vector v = (Vector){mouse.x,mouse.y};
     
-    v = TranslateToScreenSpace(v);
+    v = TranslateToWorldSpace(v);
 
     return (Vector2){v.x,v.y};
 }

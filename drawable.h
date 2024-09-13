@@ -13,7 +13,7 @@ class Drawable
             isSorted = false;
             order = ord; 
         }
-        int GetOrder() {
+            int GetOrder() {
             return order;
         }; 
         static bool IsSorted()

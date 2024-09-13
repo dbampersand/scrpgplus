@@ -44,6 +44,10 @@ class DragTarget
         {
             DragTargets.push_back(this);
         }
+        ~DragTarget(){
+            DragTarget::DragTargets.erase(std::remove(DragTargets.begin(), DragTargets.end(), this), DragTargets.end());
+        };
+
         static std::vector<DragTarget*> DragTargets;
 
 };

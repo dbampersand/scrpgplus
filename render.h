@@ -13,6 +13,9 @@ class Render
         static Rectangle TranslateToScreenSpace(Rectangle r);
         static Vector TranslateToScreenSpace(Vector v);
                
+        static Rectangle TranslateToWorldSpace(Rectangle r);
+        static Vector TranslateToWorldSpace(Vector v);
+
         static Vector GetScreenSizeScale();
 
         static float GetBasisWidth() { return _BasisWidth;};

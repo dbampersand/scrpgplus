@@ -1,6 +1,7 @@
 #pragma once
 
 #include "scene.h"
+#include "player.h"
 
 class GameState
 {
@@ -13,6 +14,10 @@ class GameState
         static State GetState() { return state; };
         static std::unique_ptr<Scene> currentScene;
         static void StartGame();
+
+        static int turnNumber;
+        static void TakeTurn();
+
         
     private:
        static State state;  

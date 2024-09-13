@@ -42,6 +42,8 @@ class PCControlled : public  Player
 
             bag.clear();
             discardedBag.clear();
+            PlayerTiles.clear();
+            TilesPlayed.clear();
 
             AddTilesToBag(&bag,12,'e',1);
 
@@ -87,8 +89,7 @@ class PCControlled : public  Player
             
             InitBag();
             ShuffleBag(&bag);
-            PlayerTiles.clear();
-            TilesPlayed.clear();
+            
             for (int i = 0; i < _MaxTiles; i++)
             {
                 int x = startX + (Slot::w*i) + (padding*i);

@@ -39,11 +39,15 @@ class UI
         
         static void DrawUI();
         static void UpdateUI(float dt);
-        static void CreateMainMenuUI();
         static void CreateUI();
         static void DrawText(Font f, const char* c, int x, int y, int fontSize, Color col, TextFormatting format);
-        static void StartGameButton();
         static void SetGroupsActive(GameState::State state);
+
+        static void StartGameButton();
+        static void EndTurnButton();
+
+        static void CreateMainMenuUI();
+        static void CreateGameUI();
 
 };
 
