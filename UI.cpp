@@ -26,10 +26,7 @@ void UI::SetGroupsActive(GameState::State state)
             {
                 g->Hide();
             }
-
         }
-
-
     }
 }
 UIGroup* UI::GetGroup(std::string name)

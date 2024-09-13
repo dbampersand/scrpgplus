@@ -33,6 +33,18 @@ class PCControlled : public  Player
                 s->HideDrawing();
             }
         }
+        void ShowTiles()
+        {
+            for (std::shared_ptr<Slot> s : PlayerTiles)
+            {
+                s->ShowDrawing();
+            }
+            for (std::shared_ptr<Slot> s : TilesPlayed)
+            {
+                s->ShowDrawing();
+            }
+        }
+
         Tile DrawTile()
         {
             Tile drawn = (bag.back());
@@ -122,5 +134,6 @@ class PCControlled : public  Player
                 tilePlayed->tile.color = (Color){0,0,0,0};
                 PlayerTiles.push_back((tilePlayed));
             }
+            HideTiles();
         };    
 };

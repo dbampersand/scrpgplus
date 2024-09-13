@@ -2,6 +2,7 @@
 
 #include "scene.h"
 #include "player.h"
+#include <random>
 
 class GameState
 {
@@ -17,6 +18,10 @@ class GameState
 
         static int turnNumber;
         static void TakeTurn();
+
+        static void SeedRNG();
+
+        static std::default_random_engine rng;
 
         
     private:

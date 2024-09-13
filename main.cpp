@@ -34,6 +34,8 @@ void Init()
     signal(SIGSEGV, handler);
     InitWindow(Render::GetBasisWidth()*2,Render::GetBasisHeight()*2,"scrpg");
     
+    GameState::SeedRNG();
+    
     Sprite::GenerateNullSprite();
 
     UI::CreateUI();
