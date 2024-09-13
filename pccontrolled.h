@@ -22,6 +22,17 @@ class PCControlled : public  Player
         std::vector<Tile> discardedBag; 
 
         const static int  _MaxTiles = 9;
+        void HideTiles()
+        {
+            for (std::shared_ptr<Slot> s : PlayerTiles)
+            {
+                s->HideDrawing();
+            }
+            for (std::shared_ptr<Slot> s : TilesPlayed)
+            {
+                s->HideDrawing();
+            }
+        }
         Tile DrawTile()
         {
             Tile drawn = (bag.back());

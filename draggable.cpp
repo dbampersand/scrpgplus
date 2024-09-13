@@ -29,6 +29,9 @@ void Draggable::CheckDraggables()
     for (Draggable* d : AllDraggables)
     {
         Drawable* dr = (Drawable*)d;
+        if (dr && dr->IsHidden())
+            continue;
+
         if (IsMouseButtonPressed(0) && CheckCollisionPointRec(Render::GetMousePos(), d->GetPosition()))
         {
             if (d->Selectable)

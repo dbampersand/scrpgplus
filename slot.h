@@ -5,7 +5,7 @@
 #include <memory>
 
 typedef class Tile Tile;
-class Slot : Drawable, DragTarget
+class Slot : public Drawable, DragTarget
 { 
     public:
         Tile tile;
@@ -25,4 +25,15 @@ class Slot : Drawable, DragTarget
         };
         ~Slot(){};
         void OnDrag(Draggable* d) override;
+
+        void HideChildren() override
+        {
+            tile.HideDrawing();
+        }
+        void ShowChildren() override
+        {
+            tile.ShowDrawing();
+        }
+
+
 }; 

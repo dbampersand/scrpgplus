@@ -12,7 +12,7 @@ void UIGroup::Show()
     for (std::shared_ptr<UIElement> e : elements)
     {
         e->IsClickable = true;
-        e->Hidden = false;
+        e->ShowDrawing();
     }
 }
 void UIGroup::Hide()
@@ -20,7 +20,7 @@ void UIGroup::Hide()
     for (std::shared_ptr<UIElement> e : elements)
     {
         e->IsClickable = false;
-        e->Hidden = true;
+        e->HideDrawing(); 
     }
 }
 void UIGroup::UpdateGroup(float dt)

@@ -29,7 +29,7 @@ void Drawable::DrawAll()
     }
     for (Drawable* d : drawables)
     {
-        if (!d->Hidden)
+        if (!d->IsHidden())
         {
             Rectangle r = Render::TranslateToScreenSpace(d->GetPosition());
             d->Draw(r);

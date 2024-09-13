@@ -5,7 +5,7 @@
 #include "raylib.h"
 
 typedef class Slot Slot;
-class Tile : public Draggable, Drawable, Updatable
+class Tile : public Draggable, public Drawable, Updatable
 {
     public:
         char character;
@@ -28,11 +28,10 @@ class Tile : public Draggable, Drawable, Updatable
         void ParentTo(Slot* parent);
         void Update(float dt) override {
             if (!parent)
-                Drawable::Hidden = true;
+                HideDrawing();
             else
-                Drawable::Hidden = false;
+                ShowDrawing();
         };
-
 
         Tile(char c) : Drawable(std::string(""),600)
         {

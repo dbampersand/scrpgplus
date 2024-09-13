@@ -25,8 +25,24 @@ class Drawable
         }
 
         virtual void Draw(Rectangle r);
+        void HideDrawing() { 
+            Hidden = true;
+            HideChildren();
+        }
+        void ShowDrawing() {
+            Hidden = false;
+            ShowChildren();
+        }
+        bool IsHidden()
+        {
+            return Hidden;
+        }
+        virtual void HideChildren() {
 
-        bool Hidden = false;
+        }
+        virtual void ShowChildren() {
+
+        }
 
         ~Drawable()
         {
@@ -50,6 +66,7 @@ class Drawable
         Sprite sprite;
         int order = 0;
         static bool isSorted;
+        bool Hidden = false;
 
 
 };
