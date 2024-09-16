@@ -5,7 +5,9 @@
 class Updatable
 {   
     public:
-        virtual void Update(float dt) = 0;
+        virtual void Update(float dt) {};
+        virtual void LateUpdate(float dt) {};
+
         ~Updatable()
         {
             Updatables.erase(std::remove(Updatables.begin(), Updatables.end(), this), Updatables.end());
@@ -21,5 +23,13 @@ class Updatable
             {
                 u->Update(dt);
             }
-        }
+        };
+        static void LateUpdateAll(float dt)
+        {
+            for (Updatable* u : Updatables)
+            {
+                u->LateUpdate(dt);
+            }
+        };
+
 };

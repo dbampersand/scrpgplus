@@ -6,7 +6,7 @@
 #include "tile.h"
 #include "slot.h"
 
-class Player : GameObject
+class Player : public GameObject
 {
     private:
         int hp;

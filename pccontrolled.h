@@ -106,6 +106,7 @@ class PCControlled : public  Player
 
         }
         PCControlled(std::string path) : Player(path) {
+            HealthBar.shouldDraw = false;
             int startX = 139;
             int startY = 200;
             int padding = 5;

@@ -53,7 +53,17 @@ void Update()
 {
     float dt = GetFrameTime();
 
+    if (IsKeyPressed(KEY_A))
+    {
+        for (Player* g : Player::players)
+        {
+            g->Damage(10);
+        }
+    }
+
     Updatable::UpdateAll(dt);
+    Updatable::LateUpdateAll(dt);
+    
     Clickable::UpdateClickables();    
     Draggable::CheckDraggables();
     //UI::UpdateUI(dt);
