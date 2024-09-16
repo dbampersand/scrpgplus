@@ -16,6 +16,7 @@
 #include "updatable.h"
 #include "scene.h"
 #include <memory>
+#include "dictionary.h"
 
 void handler(int sig) {
   void *array[10];
@@ -44,6 +45,8 @@ void Init()
     GameState::currentScene =  std::make_unique<Scene>("assets/scenes/scene_dungeon.png");
 
     SetTargetFPS(60);
+
+
    // GameState::currentScene->LoadScene("assets/scenes/scene_dungeon.png");
 
 }
@@ -60,6 +63,8 @@ void Update()
             g->Damage(10);
         }
     }
+    std::cout << "\nword: " << Dictionary::CheckWord("one*ro**o**st") << "\n";
+
 
     Updatable::UpdateAll(dt);
     Updatable::LateUpdateAll(dt);
