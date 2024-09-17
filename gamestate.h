@@ -13,7 +13,7 @@ class GameState
         };
         static void SetState(State state);
         static State GetState() { return state; };
-        static std::unique_ptr<Scene> currentScene;
+        static std::shared_ptr<Scene> currentScene;
         static void StartGame();
 
         static int turnNumber;

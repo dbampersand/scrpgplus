@@ -42,7 +42,7 @@ void Init()
     UI::CreateUI();
     InitPath();
 
-    GameState::currentScene =  std::make_unique<Scene>("assets/scenes/scene_dungeon.png");
+    GameState::currentScene =  std::make_shared<Scene>("assets/scenes/scene_dungeon.png");
 
     SetTargetFPS(60);
 
@@ -56,22 +56,12 @@ void Update()
 {
     float dt = GetFrameTime();
 
-    if (IsKeyPressed(KEY_A))
-    {
-        for (Player* g : Player::players)
-        {
-            g->Damage(10);
-        }
-    }
-    std::cout << "\nword: " << Dictionary::CheckWord("one*ro**o**st") << "\n";
-
-
     Updatable::UpdateAll(dt);
-    Updatable::LateUpdateAll(dt);
     
     Clickable::UpdateClickables();    
     Draggable::CheckDraggables();
-    //UI::UpdateUI(dt);
+
+    Updatable::LateUpdateAll(dt);
 
 }
 

@@ -11,6 +11,9 @@ class PCControlled : public  Player
     public:
         static PCControlled CurrentPlayer;
 
+        PCControlled() : Player(""){
+        };
+
         void Update(float dt) override;
 
         static int DefaultBagSize;
@@ -18,10 +21,15 @@ class PCControlled : public  Player
         std::vector<std::shared_ptr<Slot>> PlayerTiles;
         std::vector<std::shared_ptr<Slot>> TilesPlayed;
 
-        std::vector<Tile> bag;
-        std::vector<Tile> discardedBag; 
+        std::vector<std::unique_ptr<Tile>> bag;
+        std::vector<std::unique_ptr<Tile>> discardedBag; 
 
         const static int  _MaxTiles = 9;
+        void PlayHand();
+        float GetMultiplier(std::string hand);
+        std::string GetPlayedHand();
+        void Attack(float multiplier);
+        
         void HideTiles()
         {
             for (std::shared_ptr<Slot> s : PlayerTiles)
@@ -45,21 +53,22 @@ class PCControlled : public  Player
             }
         }
 
-        Tile DrawTile()
+        std::unique_ptr<Tile> DrawTile()
         {
-            Tile drawn = (bag.back());
+            std::unique_ptr<Tile> drawn = std::move(bag.back());
             bag.pop_back();
             return drawn;
         }
-        void AddTilesToBag(std::vector<Tile>* bag, int numToAdd, char character, float multiplier)
+        void AddTilesToBag(std::vector<std::unique_ptr<Tile>>* bag, int numToAdd, char character, float multiplier)
         {
             for (int i = 0; i < numToAdd; i++)
             {
-                Tile t =  Tile(character,multiplier); 
-                bag->push_back((t));
+                std::unique_ptr<DamageTile> t =  std::make_unique<DamageTile>(character,multiplier); 
+                bag->push_back(std::move(t));
             }
         }
-        void ShuffleBag(std::vector<Tile>* bag);
+
+        void ShuffleBag(std::vector<std::unique_ptr<Tile>>* bag);
         void InitBag()
         {
 
@@ -120,20 +129,22 @@ class PCControlled : public  Player
                 int y = startY;
                 std::shared_ptr<Slot> playerTile = std::make_shared<Slot>(x,y);
 
-                playerTile->tile = (DrawTile());
-                playerTile->tile.x = x;
-                playerTile->tile.y = y;
-                playerTile->tile.color = (Color){255,0,0,255};
-                playerTile->tile.parent = playerTile.get();
+                playerTile->tile = std::move(DrawTile());
+                playerTile->tile->x = x;
+                playerTile->tile->y = y;
+                playerTile->tile->color = (Color){255,0,0,255};
+                playerTile->tile->parent = playerTile.get();
                 playerTile->filled = true;
+
 
                 PlayerTiles.push_back((playerTile));
                 
                 std::shared_ptr<Slot> tilePlayed = std::make_shared<Slot>(x,y+Slot::h+padding);
-                tilePlayed->tile = Tile(' ');
-                tilePlayed->tile.Selectable = false;
-                tilePlayed->tile.color = (Color){0,0,0,0};
-                PlayerTiles.push_back((tilePlayed));
+                tilePlayed->tile = std::make_unique<Tile>((' '));
+                tilePlayed->tile->Selectable = false;
+                tilePlayed->tile->color = (Color){0,0,0,0};
+                tilePlayed->tile->parent = tilePlayed.get();
+                TilesPlayed.push_back((tilePlayed));
             }
             HideTiles();
         };    

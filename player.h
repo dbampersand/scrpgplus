@@ -28,6 +28,12 @@ class Player : public GameObject
         void Update(float dt) override {};
 
         static std::vector<Player*> players;
+        static Player* GetEnemy() {
+            if (players.size() > 0)
+                return players[0];
+            else
+                return nullptr;
+        };
 
         static Player* GetRandomEnemy(int tier);
         static void AddPlayer(Player* p);

@@ -4,7 +4,7 @@
 #include "gamestate.h"
 #include "vector.h"
 #include <iostream>
-//std::unique_ptr<Scene> Scene::currentScene;
+//std::shared_ptr<Scene> Scene::currentScene;
 
 Rectangle Scene::GetPosition() { 
     Vector v = GetSize() / 2.0f;

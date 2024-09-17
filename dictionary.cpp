@@ -54,7 +54,7 @@ std::vector<int> Dictionary::GetWildcardPositions(std::string word)
     return positions;
 }
 // recursively checks words if a wildcard is in the given word
-// VERY SLOW when there's a lot of wildcards 
+// VERY SLOW when there's a lot of wildcards (on the order of ~3s with "oneiroscopist" -> one*ro**o**st)
 // TODO: replace with a trie solution
 std::string Dictionary::CheckWord(std::string word)
 {
@@ -69,7 +69,7 @@ std::string Dictionary::CheckWord(std::string word)
     
     for (int j = 0; j < 26; j++)
     {
-        if (TestWord(temp))
+        if (word.find("*") == -1 && TestWord(temp))
             return temp;
 
         std::string s =  CheckWord(temp);

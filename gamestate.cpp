@@ -7,7 +7,7 @@ int GameState::turnNumber = 0;
 std::default_random_engine GameState::rng = std::default_random_engine {};
 
 GameState::State GameState::state;  
-std::unique_ptr<Scene> GameState::currentScene;
+std::shared_ptr<Scene> GameState::currentScene;
 
 void GameState::SetState(State state)
 {
@@ -18,7 +18,7 @@ void GameState::StartGame()
 {
     GameState::SetState(GameState::State::IN_GAME);
     Player::AddPlayer(Player::GetRandomEnemy(0));
-    PCControlled::CurrentPlayer = PCControlled("");
+    PCControlled::CurrentPlayer= PCControlled(""); 
 
     PCControlled::CurrentPlayer.ShowTiles();
 }

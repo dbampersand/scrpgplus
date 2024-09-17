@@ -74,21 +74,7 @@ void UI::StartGameButton()
 }
 void UI::EndTurnButton()
 {
-    std::string word = "";
-    for (std::shared_ptr<Slot> s : PCControlled::CurrentPlayer.TilesPlayed)
-    {
-        if (s->tile.character != ' ')
-            word += s->tile.character;
-    }
-    if (Dictionary::CheckWord(word).size() > 0)
-    {
-        return;
-    }
-
-    std::vector<int> wildcardPositions = Dictionary::GetWildcardPositions(word);
-    if (wildcardPositions.size() > 0)
-    {
-    }
+        PCControlled::CurrentPlayer.PlayHand();
 }
 void UI::CreateMainMenuUI()
 {
