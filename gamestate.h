@@ -11,17 +11,23 @@ class GameState
             IN_MENU,
             IN_GAME
         };
+        enum PlayerTurnType {
+            PC_PLAYER,
+            AI_PLAYER
+        };
         static void SetState(State state);
         static State GetState() { return state; };
         static std::shared_ptr<Scene> currentScene;
         static void StartGame();
 
-        static int turnNumber;
+        static PlayerTurnType player;
         static void TakeTurn();
 
         static void SeedRNG();
 
         static std::default_random_engine rng;
+
+        static int CurrentTurn;
 
         
     private:

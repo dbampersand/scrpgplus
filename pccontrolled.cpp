@@ -44,10 +44,35 @@ void PCControlled::Attack(float multiplier)
         s->tile->ApplyEffect(Player::GetEnemy(),this,multiplier);
     }
 }
+void PCControlled::ClearHand()
+{
+    auto removeFunc = [](std::shared_ptr<Slot> t){ return t->tile->character != ' ';};
+    for (int i = 0; i < TilesPlayed.size(); i++)
+    {
+        if (TilesPlayed[i]->tile->character != ' ')
+        {
+            //discardedBag.push_back(std::move(TilesPlayed[i]->tile));
+            for (int j = 0; j < PlayerTiles.size(); j++)
+            {
+                if (PlayerTiles[j]->tile->character == ' ')
+                {
+                   // std::swap(TilesPlayed[i]->tile, PlayerTiles[j]->tile);
+                }
+            }
+            //tilesPlayed[i]->tile = ;
+            //i--;
+        }
+    }
+    //discardedBag.push_back(std::unique_ptr<Tile>(t->tile));
+
+    //TilesPlayed.erase();
+
+}
 void PCControlled::PlayHand()
 {
     std::string word = GetPlayedHand();
     std::string played = Dictionary::CheckWord(word);
+    ClearHand();
     //invalid hand - not a word
     if (played.size() == 0)
     {

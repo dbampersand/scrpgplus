@@ -1,6 +1,5 @@
 #include "render.h"
 #include "sprite.h"
-#include <iostream>
 #include "UI.h"
 #include "raylib.h"
 

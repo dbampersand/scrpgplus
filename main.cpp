@@ -1,4 +1,3 @@
-#include <iostream>
 
 #include "player.h"
 #include "gamestate.h"
@@ -17,6 +16,8 @@
 #include "scene.h"
 #include <memory>
 #include "dictionary.h"
+#include "Timer.h"
+#include <iostream>
 
 void handler(int sig) {
   void *array[10];
@@ -45,7 +46,6 @@ void Init()
     GameState::currentScene =  std::make_shared<Scene>("assets/scenes/scene_dungeon.png");
 
     SetTargetFPS(60);
-
 
    // GameState::currentScene->LoadScene("assets/scenes/scene_dungeon.png");
 

@@ -2,12 +2,14 @@
 #include "UI.h"
 #include "player.h"
 #include "pccontrolled.h"
+#include "Timer.h"
 
-int GameState::turnNumber = 0;
 std::default_random_engine GameState::rng = std::default_random_engine {};
 
 GameState::State GameState::state;  
 std::shared_ptr<Scene> GameState::currentScene;
+GameState::PlayerTurnType GameState::player = PC_PLAYER;
+int GameState::CurrentTurn = 0;
 
 void GameState::SetState(State state)
 {
@@ -24,11 +26,28 @@ void GameState::StartGame()
 }
 void GameState::TakeTurn()
 {
-    turnNumber++;
-    if (turnNumber >= Player::players.size())
-    {
-        turnNumber = 0;
+    UI::EnableEndTurnButton(false);
+
+    if (GameState::player == PC_PLAYER)
+    { 
+        auto func = []() -> void {
+            GameState::player = PC_PLAYER;
+            UI::EnableEndTurnButton(true);
+        };
+        
+        Timer::CreateTimer(func, 0.5f);
+        GameState::player = AI_PLAYER;
+        PCControlled::CurrentPlayer.TakeTurn(Player::players[0]);
+        
     }
+    else
+    {
+        GameState::player = PC_PLAYER;
+        Player::players[0]->TakeTurn(&PCControlled::CurrentPlayer);
+
+    }
+
+
 }
 void GameState::SeedRNG()
 {

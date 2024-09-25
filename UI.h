@@ -18,6 +18,7 @@ class UI
         static std::unordered_map<GameState::State, std::vector<std::string>> gameStateUI;
 
         static std::vector<UIGroup*> activeGroups;
+        static std::shared_ptr<Button> _endTurnButton;
 
     public:
 
@@ -29,7 +30,7 @@ class UI
         static void SetGroupActive(std::string group);
         static void SetGroupInactive(std::string group);
         static UIGroup* GetGroup(std::string name);
-       
+
         enum TextFormatting
         {
             ALIGN_LEFT,
@@ -49,5 +50,6 @@ class UI
         static void CreateMainMenuUI();
         static void CreateGameUI();
 
+        static void EnableEndTurnButton(bool enable);
 };
 

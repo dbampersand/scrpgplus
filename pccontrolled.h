@@ -26,6 +26,8 @@ class PCControlled : public  Player
 
         const static int  _MaxTiles = 9;
         void PlayHand();
+        void ClearHand();
+
         float GetMultiplier(std::string hand);
         std::string GetPlayedHand();
         void Attack(float multiplier);
@@ -148,4 +150,8 @@ class PCControlled : public  Player
             }
             HideTiles();
         };    
+        void TakeTurn(Player* other) override
+        {
+            PlayHand();
+        }
 };

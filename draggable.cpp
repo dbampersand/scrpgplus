@@ -3,7 +3,6 @@
 #include "raylib.h"
 #include "render.h"
 
-#include <iostream>
 
 std::vector<Draggable*> Draggable::AllDraggables;
 std::vector<DragTarget*> DragTarget::DragTargets;
@@ -35,7 +34,6 @@ void Draggable::CheckDraggables()
             continue;
         //if (dr && dr->IsHidden())
           //  continue;
-        Rectangle r = d->GetPosition();
         if (IsMouseButtonPressed(0) && CheckCollisionPointRec(Render::GetMousePos(), d->GetPosition()))
         {
             if (d->Selectable)

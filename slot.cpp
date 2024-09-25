@@ -1,7 +1,6 @@
 #include "slot.h"
 #include "raylib.h"
 #include "tile.h"
-#include <iostream>
 #include "pccontrolled.h"
 
 int Slot::w = 18; 
@@ -14,6 +13,10 @@ Rectangle Slot::GetPosition()
 void Slot::Draw(Rectangle r)
 {
     DrawRectangle(r.x,r.y,r.width,r.height,WHITE);
+}
+void SwapSlots(Slot* s1, Slot* s2)
+{
+    
 }
 void Slot::OnDrag(Draggable* dr)
 {

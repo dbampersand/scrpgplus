@@ -1,6 +1,5 @@
 #include "UI.h"
 #include "button.h"
-#include <iostream>
 #include <algorithm>
 #include "gamestate.h"
 #include "pccontrolled.h"
@@ -9,6 +8,7 @@
 std::unordered_map<std::string, UIGroup> UI::uiGroups;
 std::vector<UIGroup*> UI::activeGroups;
 std::unordered_map<GameState::State, std::vector<std::string>> UI::gameStateUI;
+std::shared_ptr<Button> UI::_endTurnButton;
 
 
 void UI::SetGroupsActive(GameState::State state)
@@ -74,7 +74,7 @@ void UI::StartGameButton()
 }
 void UI::EndTurnButton()
 {
-        PCControlled::CurrentPlayer.PlayHand();
+    GameState::TakeTurn();
 }
 void UI::CreateMainMenuUI()
 {
@@ -90,10 +90,10 @@ void UI::CreateMainMenuUI()
 void UI::CreateGameUI()
 {
     UIGroup u = UIGroup("InGame");
-    std::shared_ptr<Button> b = std::make_shared<Button>(Render::GetBasisWidth()/2.0f,Render::GetBasisHeight() - 20,160,25,UI::EndTurnButton);
+    _endTurnButton = std::make_shared<Button>(Render::GetBasisWidth()/2.0f,Render::GetBasisHeight() - 20,160,25,UI::EndTurnButton);
     
-    b->SetText("End turn");
-    u.AddElement<Button>(b);
+    _endTurnButton->SetText("End turn");
+    u.AddElement<Button>(_endTurnButton);
 
     UI::AddGroup(u);
     UI::RegisterUIToGameState(GameState::State::IN_GAME, "InGame");
@@ -181,4 +181,11 @@ void UI::RegisterUIToGameState(GameState::State stateToAdd,  std::string name)
         str.push_back(name);
         UI::gameStateUI.insert({stateToAdd,str});
     }
+}
+void UI::EnableEndTurnButton(bool enable)
+{
+    if (enable)
+        _endTurnButton->Enable();
+    else
+        _endTurnButton->Disable();
 }

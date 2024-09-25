@@ -3,7 +3,6 @@
 #include "render.h"
 #include "gamestate.h"
 #include "vector.h"
-#include <iostream>
 //std::shared_ptr<Scene> Scene::currentScene;
 
 Rectangle Scene::GetPosition() { 

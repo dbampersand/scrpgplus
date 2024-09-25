@@ -3,7 +3,6 @@
 #include "raylib.h"
 #include "drawable.h"
 #include "updatable.h"
-#include <iostream>
 #include "render.h"
 
 class Clickable 
@@ -68,6 +67,15 @@ class UIElement : public Drawable, public Clickable, public Updatable
     public:
         virtual void Clicked() override {};
         virtual void Released() override {};
+    
+        void Disable()
+        {
+            IsClickable = false;
+        }
+        void Enable()
+        {
+            IsClickable = true;
+        }
 
         void Update(float dt) override {
         };

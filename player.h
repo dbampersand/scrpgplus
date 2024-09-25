@@ -45,6 +45,15 @@ class Player : public GameObject
             return maxHP;
         }
 
+        virtual void AITurn(Player* enemyPlayer)
+        {
+
+        }
+        virtual void TakeTurn(Player* enemyPlayer) {
+            AITurn(enemyPlayer);
+        };
+
+
 
 };
 

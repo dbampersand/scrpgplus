@@ -2,7 +2,6 @@
 #include "sprite.h"
 #include "raylib.h"
 #include <string>
-#include <iostream>
 #include "render.h"
 
 std::vector<Drawable*> Drawable::drawables;

@@ -4,7 +4,6 @@
 #include "updatable.h"
 #include "healthbar.h"
 #include "tween.h"
-#include <iostream>
 
 class GameObject : public Drawable, public Updatable
 {
