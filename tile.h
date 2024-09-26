@@ -37,10 +37,19 @@ class Tile : public Draggable, public Drawable, Updatable
         void ParentTo(Slot* parent);
         void Update(float dt) override {
             if (!parent)
+            {
                 HideDrawing();
+            }
             else
+            {
                 ShowDrawing();
+            }
         };
+
+        bool CanBeDragged() override {
+            return !Drawable::IsHidden();
+        };
+
 
         Tile(char c) : Drawable(std::string(""),600)
         {

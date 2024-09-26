@@ -44,6 +44,23 @@ void PCControlled::Attack(float multiplier)
         s->tile->ApplyEffect(Player::GetEnemy(),this,multiplier);
     }
 }
+void PCControlled::DrawToMax()
+{
+    for (std::shared_ptr<Slot> slot : PlayerTiles)
+    {
+        if (slot->tile == nullptr || slot->tile->character == ' ')
+        {
+            slot->tile = std::move(DrawTile());
+            slot->tile->x = slot->x;
+            slot->tile->y = slot->y;
+            slot->tile->color = (Color){255,0,0,255};
+            slot->tile->parent = slot.get();
+            slot->filled = true;
+            slot->ShowDrawing();
+
+        }
+    }
+}
 void PCControlled::ClearHand()
 {
     auto removeFunc = [](std::shared_ptr<Slot> t){ return t->tile->character != ' ';};
@@ -51,22 +68,18 @@ void PCControlled::ClearHand()
     {
         if (TilesPlayed[i]->tile->character != ' ')
         {
-            //discardedBag.push_back(std::move(TilesPlayed[i]->tile));
-            for (int j = 0; j < PlayerTiles.size(); j++)
-            {
-                if (PlayerTiles[j]->tile->character == ' ')
-                {
-                   // std::swap(TilesPlayed[i]->tile, PlayerTiles[j]->tile);
-                }
-            }
-            //tilesPlayed[i]->tile = ;
-            //i--;
+            std::unique_ptr<Tile> tile = std::move(TilesPlayed[i]->tile);
+            tile->parent = nullptr;
+            TilesPlayed[i]->tile = std::make_unique<Tile>((' '));
+            TilesPlayed[i]->tile->parent = TilesPlayed[i].get();
+            TilesPlayed[i]->tile->Selectable = false;
+            TilesPlayed[i]->tile->color = (Color){0,0,0,0};
+
+            discardedBag.push_back(std::move(tile));
+            i--;
         }
     }
-    //discardedBag.push_back(std::unique_ptr<Tile>(t->tile));
-
-    //TilesPlayed.erase();
-
+    DrawToMax();
 }
 void PCControlled::PlayHand()
 {

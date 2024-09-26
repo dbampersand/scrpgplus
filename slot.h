@@ -34,4 +34,5 @@ class Slot : public Drawable, DragTarget
         {
             tile->ShowDrawing();
         }
+        void SwapSlots(Slot* s1, Slot* s2);
 }; 

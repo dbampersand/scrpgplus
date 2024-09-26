@@ -14,9 +14,11 @@ void Slot::Draw(Rectangle r)
 {
     DrawRectangle(r.x,r.y,r.width,r.height,WHITE);
 }
-void SwapSlots(Slot* s1, Slot* s2)
+void Slot::SwapSlots(Slot* s1, Slot* s2)
 {
-    
+    std::swap(s1->tile,s2->tile);
+    s1->tile->parent = s1;
+    s2->tile->parent = s2;
 }
 void Slot::OnDrag(Draggable* dr)
 {
@@ -33,14 +35,16 @@ void Slot::OnDrag(Draggable* dr)
         Tile* t = (Tile*)dr;
         Tile* t2 = this->tile.get();
 
-        Slot* previousSlot = t->parent;
+        /*Slot* previousSlot = t->parent;
         Slot* currentSlot = this;
 
         //swap and update parent
         std::swap(t->parent->tile,this->tile);
 
         t2->parent = previousSlot;
-        t->parent = currentSlot;
+        t->parent = currentSlot;*/
+
+        SwapSlots(t->parent,this);
 
 
         filled = true;

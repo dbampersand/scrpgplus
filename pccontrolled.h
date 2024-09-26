@@ -31,16 +31,20 @@ class PCControlled : public  Player
         float GetMultiplier(std::string hand);
         std::string GetPlayedHand();
         void Attack(float multiplier);
-        
         void HideTiles()
         {
             for (std::shared_ptr<Slot> s : PlayerTiles)
             {
                 s->HideDrawing();
+                if (s->tile)
+                    s->tile->HideDrawing();
             }
             for (std::shared_ptr<Slot> s : TilesPlayed)
             {
                 s->HideDrawing();
+                if (s->tile)
+                    s->tile->HideDrawing();
+
             }
         }
         void ShowTiles()
@@ -48,10 +52,15 @@ class PCControlled : public  Player
             for (std::shared_ptr<Slot> s : PlayerTiles)
             {
                 s->ShowDrawing();
+                if (s->tile)
+                    s->tile->ShowDrawing();
             }
             for (std::shared_ptr<Slot> s : TilesPlayed)
             {
                 s->ShowDrawing();
+                if (s->tile)
+                    s->tile->ShowDrawing();
+
             }
         }
 
@@ -66,6 +75,7 @@ class PCControlled : public  Player
             for (int i = 0; i < numToAdd; i++)
             {
                 std::unique_ptr<DamageTile> t =  std::make_unique<DamageTile>(character,multiplier); 
+                t->HideDrawing();
                 bag->push_back(std::move(t));
             }
         }
@@ -154,4 +164,6 @@ class PCControlled : public  Player
         {
             PlayHand();
         }
+        void DrawToMax();
+
 };

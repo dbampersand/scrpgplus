@@ -32,8 +32,8 @@ void Draggable::CheckDraggables()
         Drawable* dr = (Drawable*)d;
         if (!dr)
             continue;
-        //if (dr && dr->IsHidden())
-          //  continue;
+        if (!d->CanBeDragged())
+            continue;
         if (IsMouseButtonPressed(0) && CheckCollisionPointRec(Render::GetMousePos(), d->GetPosition()))
         {
             if (d->Selectable)
