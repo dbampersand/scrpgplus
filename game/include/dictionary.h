@@ -5,8 +5,11 @@
 #include <set>
 #include <unordered_set>
 #include <iostream>
-#define _AlphabetCharacters 26
+#include <thread>
+#include "updatable.h"
 
+#define _AlphabetCharacters 26
+#define _NumThreads 4
 class TrieNode
 {
 public:
@@ -27,7 +30,7 @@ public:
     }
 };
 
-class Dictionary
+class Dictionary : Updatable
 {
 public:
     static Dictionary _Dictionary;
@@ -38,6 +41,14 @@ public:
     static int NumWildcards(std::string word);
 
     static void LoadDictionary();
+
+    inline static std::thread threads[_NumThreads];
+    static void WaitForLoading();
+    inline static std::thread LoadThread;
+    static void ClearThreads()
+    {
+        WaitForLoading();
+    }
     static void AddWord(std::string word)
     {
         TrieNode* currentNode = &FirstNode;
@@ -50,7 +61,6 @@ public:
             {
                 //currentNode->Children[arrayIndex] = std::make_unique<TrieNode>();
                 currentNode->Children[arrayIndex] = std::make_unique<TrieNode>();
-
             }
             currentNode = currentNode->Children[arrayIndex].get();
         }
@@ -59,10 +69,12 @@ public:
 
     static bool CheckWord(std::string word)
     {
+        WaitForLoading();
         return CheckWord(word, &FirstNode, 0);
     }
 private:
     static std::string WordListPath;
+    static void ParseWords(std::vector<std::string> words);
 
     static bool CheckWord(std::string word, TrieNode* startAt, int depth)
     {

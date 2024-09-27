@@ -30,6 +30,7 @@
   backtrace_symbols_fd(array, size, STDERR_FILENO);
   exit(1);
 }*/
+
 void Init()
 {
     //signal(SIGSEGV, handler);
@@ -48,20 +49,17 @@ void Init()
 
 
 
-    Dictionary::LoadDictionary();
-    std::cout << (Dictionary::CheckWord("test") ? "true" : "false") << "\n\n";
-    std::cout << (Dictionary::CheckWord("t*ea*i*e") ? "true" : "false") << "\n\n";
-
-    std::cout << (Dictionary::CheckWord("me") ? "true" : "false") << "\n\n";
-    std::cout << (Dictionary::CheckWord("likegdsgsdg") ? "true" : "false") << "\n\n";
-    std::cout << (Dictionary::CheckWord("appledsgsdgsd") ? "true" : "false") << "\n\n";
+    Dictionary::LoadThread = std::thread(Dictionary::LoadDictionary);
     
 
    // GameState::currentScene->LoadScene("assets/scenes/scene_dungeon.png");
 
 }
 
-
+void EndCleanup()
+{
+    Dictionary::ClearThreads();
+}
 void Update()
 {
 
@@ -72,7 +70,7 @@ void Update()
 
     auto t1 = high_resolution_clock::now();
         //(Trie::TestWord("t*ea*i*e") ? "true" : "false");
-        (Dictionary::CheckWord("one*ro**o**st") > 0 ? "true" : "false");
+     //   (Dictionary::CheckWord("one*ro**o**st") > 0 ? "true" : "false");
 
     auto t2 = high_resolution_clock::now();
 
@@ -93,7 +91,6 @@ void Update()
     Draggable::CheckDraggables(dt);
 
     Updatable::LateUpdateAll(dt);
-
 }
 
 void Draw()
@@ -127,5 +124,6 @@ int main()
             shouldExit = true;
         fflush(stdout);
     }
+    EndCleanup();
     CloseWindow();
 }
