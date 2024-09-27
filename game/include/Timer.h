@@ -18,33 +18,11 @@ class Timer : Updatable
     static std::vector<std::shared_ptr<Timer>> Timers;
 
     
-    static void CreateTimer(std::function<void()> toCall, float Duration)
-    {
-        std::shared_ptr<Timer> timer = Create(toCall,Duration);//Create(toCall,Duration);
-        Timers.push_back(std::move(timer));
-    }
-    void Update(float dt) override
-    {
-        UpdateTimer(dt);
-    } 
-    void UpdateTimer(float dt)
-    {
-        timer -= dt;
-        if (timer <= 0)
-        {
-            func();
-
-            auto isThis = [this](std::shared_ptr<Timer> timer) { return timer.get() == this; };
-            Timers.erase(std::remove_if(Timers.begin(), Timers.end(), isThis));
-        }
-    }
-
+    static void CreateTimer(std::function<void()> toCall, float Duration);
+    void Update(float dt);
+    void UpdateTimer(float dt);
     private:
-    Timer(std::function<void()> toCall, float Duration){
-        func = toCall;
-        totalDuration = Duration;
-        timer = totalDuration;
-    }
+        Timer(std::function<void()> toCall, float Duration);
 
     struct MakeSharedEnabler;   
 

@@ -16,23 +16,12 @@ class Slot : public Drawable, DragTarget
         int x; int y; 
         static int w; static int h;
         void AddTile(Tile* t);
-        Slot(int X, int Y) : Drawable(std::string(""),200) {
-            x = X; y = Y;
-            tile = NULL;
-        };
-        Slot() : Drawable(std::string(""),200) {
-
-        };
-        ~Slot(){};
+        Slot(int X, int Y);
+        Slot();
+        ~Slot() = default;
         void OnDrag(Draggable* d) override;
 
-        void HideChildren() override
-        {
-            tile->HideDrawing();
-        }
-        void ShowChildren() override
-        {
-            tile->ShowDrawing();
-        }
+        void HideChildren();
+        void ShowChildren();
         static void SwapSlots(Slot* s1, Slot* s2);
 }; 

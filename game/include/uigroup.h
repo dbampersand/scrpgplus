@@ -10,7 +10,6 @@ class UIGroup
     public:
         template <typename T> void AddElement(std::shared_ptr<T> b)
         {
-            //elements.push_back(std::make_shared<T>(b));
             elements.push_back(b);
         }
         void Show();

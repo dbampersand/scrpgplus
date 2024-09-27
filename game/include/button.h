@@ -9,23 +9,14 @@ class Button : public UIElement
     public:
 
 
-        void SetText(std::string str) {
-            this->text = str;
-        };
+        void SetText(std::string str);
         void Draw(Rectangle r) override;
-        Button(int X, int Y, int W, int H, void (*Callback)()) : UIElement(X,Y,W,H){
-            callback = Callback;
-        };
-        ~Button(){
-            
-        };
+        Button(int X, int Y, int W, int H, void (*Callback)());
+        ~Button() = default;
 
         void Update(float dt)  override {
         };
 
-
-        static void pr() {
-         };
 
     private:
         Color foreground = Color{255,255,255,255};

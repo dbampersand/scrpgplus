@@ -13,49 +13,15 @@ class Clickable
         virtual Rectangle GetPosition() = 0;
 
 
-        bool MousedOver(Rectangle r) {
-            return CheckCollisionPointRec(Render::GetMousePos(),r);
-        };
+        bool MousedOver(Rectangle r);
+
         bool clicked;
         bool IsClickable = true;
 
-        Clickable()
-        {
-            Clickables.push_back(this);
-        }
-        ~Clickable()
-        {
-            if (Clickables.size() > 0)
-                Clickables.erase(std::remove(Clickables.begin(), Clickables.end(), this), Clickables.end());
-        }
+        Clickable();
+        ~Clickable();
 
-        static void UpdateClickables()
-        {
-            for(Clickable* c : Clickables)
-            {
-                if (c->IsClickable)
-                {
-                    if (c->MousedOver(c->GetPosition()))
-                    {
-                        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-                        {
-                            c->Clicked();
-                            c->clicked = true;
-                        }
-                        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
-                        {
-                            c->Released();
-                            c->clicked = false;
-                        }
-                    }
-                }
-                if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
-                {
-                    c->clicked = false;
-                }
-                
-            }
-        }
+        static void UpdateClickables();
 
         static std::vector<Clickable*> Clickables;
         
@@ -69,32 +35,17 @@ class UIElement : public Drawable, public Clickable, public Updatable
         virtual void Clicked() override {};
         virtual void Released() override {};
     
-        void Disable()
-        {
-            IsClickable = false;
-        }
-        void Enable()
-        {
-            IsClickable = true;
-        }
+        void Disable();
+        void Enable();
 
         void Update(float dt) override {
         };
 
-        Rectangle GetPosition() override { 
-            return Rectangle {(float)x,(float)y,(float)w,(float)h};
-        }
-
+        Rectangle GetPosition() override;
         virtual void Draw(Rectangle r) override {
-
         };
 
-        UIElement(int X, int Y, int W, int H) : Drawable("",300) {
-            x = X - W/2.0f;  
-            y = Y - H/2.0f;
-            w = W;
-            h = H;
-        };
+        UIElement(int X, int Y, int W, int H);
         virtual ~UIElement() = default;
 
         int x;

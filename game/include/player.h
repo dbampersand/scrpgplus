@@ -18,42 +18,25 @@ class Player : public GameObject
 
         std::string name;
 
-        Player(std::string sprite) : GameObject(sprite) {
-            x = Render::GetBasisWidth()/2.0f;
-            y = Render::GetBasisHeight()/2.0f;
-        };
-        virtual ~Player() {
-        };
+        Player(std::string sprite);
+        virtual ~Player() = default;
 
         void Update(float dt) override {};
 
         static std::vector<Player*> players;
-        static Player* GetEnemy() {
-            if (players.size() > 0)
-                return players[0];
-            else
-                return nullptr;
-        };
+        static Player* GetEnemy();
 
         static Player* GetRandomEnemy(int tier);
         static void AddPlayer(Player* p);
 
-        int GetHP() {
-            return hp;
-        }
-        int GetMaxHP() {
-            return maxHP;
-        }
+        int GetHP();
+        int GetMaxHP();
 
         virtual void AITurn(Player* enemyPlayer)
         {
-
         }
         virtual void TakeTurn(Player* enemyPlayer) {
             AITurn(enemyPlayer);
         };
-
-
-
 };
 

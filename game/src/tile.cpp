@@ -63,3 +63,19 @@ void Tile::DragClick()
 
 
 };
+
+Tile::Tile(char c) : Drawable(std::string(""), 600)
+{
+    character = c;
+    mutiplier = 1;
+};
+Tile::Tile(char c, float mult) : Drawable(std::string(""), 600)
+{
+    character = c;
+    mutiplier = mult;
+};
+
+Tile::Tile() : Drawable(std::string(""), 600) {
+    mutiplier = 1;
+};
+

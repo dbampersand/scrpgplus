@@ -8,34 +8,18 @@ class Drawable
 {
     public:
     
-        void SetOrder(int ord) { 
-            isSorted = false;
-            order = ord; 
-        }
-            int GetOrder() {
-            return order;
-        }; 
-        static bool IsSorted()
-        { return isSorted; }
+        void SetOrder(int ord);
+        int GetOrder();
+
+        static bool IsSorted();
 
         virtual Rectangle GetPosition() = 0;
-        void AddRenderOrder(int amt) {
-            SetOrder(order + amt);
-        }
+        void AddRenderOrder(int amt);
 
         virtual void Draw(Rectangle r);
-        void HideDrawing() { 
-            Hidden = true;
-            HideChildren();
-        }
-        void ShowDrawing() {
-            Hidden = false;
-            ShowChildren();
-        }
-        bool IsHidden()
-        {
-            return Hidden;
-        }
+        void HideDrawing();
+        void ShowDrawing();
+        bool IsHidden();
         virtual void HideChildren() {
 
         }
@@ -43,24 +27,11 @@ class Drawable
 
         }
 
-        ~Drawable()
-        {
-            //if element 'this' exists inside drawables, remove it
-            if (drawables.size() > 0  && std::find(drawables.begin(), drawables.end(), this) != drawables.end())
-                drawables.erase(std::remove(drawables.begin(), drawables.end(), this), drawables.end());
-        }
-        Drawable(std::string path, int index) {
-            SetTexture(path);
-            drawables.push_back(this);
-            isSorted = false;
-            SetOrder(index);
-        };
+        ~Drawable();
+        Drawable(std::string path, int index);
         
         void SetTexture(std::string path);
-        Vector2 GetSize() { 
-            return sprite.GetTexSize();
-        };
-
+        Vector2 GetSize();
         static void DrawAll();
         static std::vector<Drawable*> drawables;
     private:

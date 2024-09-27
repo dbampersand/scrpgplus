@@ -31,7 +31,7 @@ class Tile : public Draggable, public Drawable, Updatable
         void AddRenderOrder(int amt) override {
             Drawable::AddRenderOrder(amt);
         };
-        //NOTE: turn this class to abstract later by =0 on this
+        //NOTE: turn this class to abstract later by = 0 on this
         virtual void ApplyEffect(GameObject* target, GameObject* parent, float multiplier) {};
 
         void ParentTo(Slot* parent);
@@ -51,21 +51,10 @@ class Tile : public Draggable, public Drawable, Updatable
         };
         void DragClick() override;
 
-        Tile(char c) : Drawable(std::string(""),600)
-        {
-            character = c;
-            mutiplier = 1;
-        };
-        Tile(char c, float mult) : Drawable(std::string(""),600)
-        {
-            character = c;
-            mutiplier = mult;
-        };
-
-        Tile() : Drawable(std::string(""),600) {
-            mutiplier = 1;
-        };   
-        ~Tile() {};
+        Tile(char c);
+        Tile(char c, float mult);
+        Tile();
+        ~Tile() = default;
         
 };
 

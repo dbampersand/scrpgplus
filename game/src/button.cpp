@@ -3,6 +3,14 @@
 #include "uigroup.h"
 #include "UI.h"
 
+
+void Button::SetText(std::string str) {
+    this->text = str;
+};
+Button::Button(int X, int Y, int W, int H, void (*Callback)()) : UIElement(X, Y, W, H) {
+    callback = Callback;
+};
+
 void Button::Draw(Rectangle r)
 {
     Button* b = (Button*)this;

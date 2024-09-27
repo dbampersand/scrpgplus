@@ -7,6 +7,15 @@
 std::vector<Draggable*> Draggable::AllDraggables;
 std::vector<DragTarget*> DragTarget::DragTargets;
 
+
+Draggable::Draggable()
+{
+    AllDraggables.push_back(this);
+};
+Draggable::~Draggable() {
+    Draggable::AllDraggables.erase(std::remove(AllDraggables.begin(), AllDraggables.end(), this), AllDraggables.end());
+};
+
 void Draggable::Drag() 
 {
     
@@ -96,3 +105,13 @@ void Draggable::CheckDraggables(float dt)
         }
     }
 }
+
+
+
+DragTarget::DragTarget()
+{
+    DragTargets.push_back(this);
+}
+DragTarget::~DragTarget() {
+    DragTarget::DragTargets.erase(std::remove(DragTargets.begin(), DragTargets.end(), this), DragTargets.end());
+};

@@ -12,13 +12,8 @@ class Draggable
 
     bool IsDragged = false;
 
-    Draggable()
-    {
-        AllDraggables.push_back(this);
-    };
-    ~Draggable(){
-        Draggable::AllDraggables.erase(std::remove(AllDraggables.begin(), AllDraggables.end(), this), AllDraggables.end());
-    };
+    Draggable();
+    ~Draggable();
     void DragCheck();
 
     virtual void MoveObject(float x, float y) = 0;
@@ -49,14 +44,8 @@ class DragTarget
         virtual void OnDrag(Draggable* dr) {};
         virtual Rectangle GetPosition() = 0;
 
-        DragTarget()
-        {
-            DragTargets.push_back(this);
-        }
-        ~DragTarget(){
-            DragTarget::DragTargets.erase(std::remove(DragTargets.begin(), DragTargets.end(), this), DragTargets.end());
-        };
-
+        DragTarget();
+        ~DragTarget();
         static std::vector<DragTarget*> DragTargets;
 
 };

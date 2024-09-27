@@ -27,3 +27,21 @@ void Player::AddPlayer(Player* p)
 {
     players.push_back(p);
 }
+Player::Player(std::string sprite) : GameObject(sprite) {
+    x = Render::GetBasisWidth() / 2.0f;
+    y = Render::GetBasisHeight() / 2.0f;
+};
+Player* Player::GetEnemy() {
+    if (players.size() > 0)
+        return players[0];
+    else
+        return nullptr;
+};
+int Player::GetHP() {
+    return hp;
+}
+int Player::GetMaxHP() {
+    return maxHP;
+}
+
+

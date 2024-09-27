@@ -63,3 +63,18 @@ void Slot::OnDrag(Draggable* dr)
         t2->MoveObject(position2.x,position2.y);
     }
 }
+Slot::Slot(int X, int Y) : Drawable(std::string(""), 200) {
+    x = X; y = Y;
+    tile = NULL;
+};
+Slot::Slot() : Drawable(std::string(""), 200) {
+
+};
+void Slot::HideChildren() 
+{
+    tile->HideDrawing();
+}
+void Slot::ShowChildren() 
+{
+    tile->ShowDrawing();
+}
