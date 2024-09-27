@@ -46,17 +46,16 @@ void Init()
 
     SetTargetFPS(60);
 
-    Dictionary::LoadDict(Dictionary::WordListPath);
 
 
-    /*Dictionary::LoadDict(Dictionary::WordListPath);
-    std::cout << (Trie::TestWord("test") ? "true" : "false") << "\n\n";
-    std::cout << (Trie::TestWord("t*ea*i*e") ? "true" : "false") << "\n\n";
+    Dictionary::LoadDictionary();
+    std::cout << (Dictionary::CheckWord("test") ? "true" : "false") << "\n\n";
+    std::cout << (Dictionary::CheckWord("t*ea*i*e") ? "true" : "false") << "\n\n";
 
-    std::cout << (Trie::TestWord("me") ? "true" : "false") << "\n\n";
-    std::cout << (Trie::TestWord("likegdsgsdg") ? "true" : "false") << "\n\n";
-    std::cout << (Trie::TestWord("appledsgsdgsd") ? "true" : "false") << "\n\n";
-    */
+    std::cout << (Dictionary::CheckWord("me") ? "true" : "false") << "\n\n";
+    std::cout << (Dictionary::CheckWord("likegdsgsdg") ? "true" : "false") << "\n\n";
+    std::cout << (Dictionary::CheckWord("appledsgsdgsd") ? "true" : "false") << "\n\n";
+    
 
    // GameState::currentScene->LoadScene("assets/scenes/scene_dungeon.png");
 
@@ -73,7 +72,7 @@ void Update()
 
     auto t1 = high_resolution_clock::now();
         //(Trie::TestWord("t*ea*i*e") ? "true" : "false");
-        (Trie::CheckWord("one*ro**o**st") > 0 ? "true" : "false");
+        (Dictionary::CheckWord("one*ro**o**st") > 0 ? "true" : "false");
 
     auto t2 = high_resolution_clock::now();
 

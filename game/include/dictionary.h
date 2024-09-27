@@ -5,46 +5,74 @@
 #include <set>
 #include <unordered_set>
 #include <iostream>
+#define _AlphabetCharacters 26
+
 class TrieNode
 {
 public:
-
-    std::unordered_map<char, TrieNode> Children;
+    std::unique_ptr<TrieNode> Children[_AlphabetCharacters];
     bool isEnd;
 
-    TrieNode(char c)
+    static char ToArrayIndex(char c)
     {
+        return c - 97;
     }
-    ~TrieNode() = default;
 
-
+    TrieNode()
+    {
+        for (int i = 0; i < _AlphabetCharacters; i++)
+        {
+            Children[i] = nullptr;
+        }
+    }
 };
-class Trie
+
+class Dictionary
 {
 public:
-    static Trie Dictionary;
-    inline static TrieNode FirstNode = TrieNode('a');
+    static Dictionary _Dictionary;
+    inline static TrieNode FirstNode = TrieNode();
+    static std::unordered_set<std::string> dict;
+    static bool TestWord(std::string word);
+
+    static int NumWildcards(std::string word);
+
+    static void LoadDictionary();
     static void AddWord(std::string word)
     {
         TrieNode* currentNode = &FirstNode;
         for (char c : word)
         {
-            if (currentNode->Children.find(c) == currentNode->Children.end())
+            if (!isalpha(c) || !islower(c))
+                return;
+            char arrayIndex = TrieNode::ToArrayIndex(c);
+            if (!currentNode->Children[arrayIndex])
             {
-                TrieNode newNode = TrieNode(c);
-                currentNode->Children.insert( { c,newNode });
+                //currentNode->Children[arrayIndex] = std::make_unique<TrieNode>();
+                currentNode->Children[arrayIndex] = std::make_unique<TrieNode>();
+
             }
-            currentNode = &currentNode->Children.at(c);
+            currentNode = currentNode->Children[arrayIndex].get();
         }
         currentNode->isEnd = true;
     }
+
     static bool CheckWord(std::string word)
     {
-        TrieNode* currentNode = &FirstNode;
-        
-        for (int i = 0; i < word.size(); i++)
+        return CheckWord(word, &FirstNode, 0);
+    }
+private:
+    static std::string WordListPath;
+
+    static bool CheckWord(std::string word, TrieNode* startAt, int depth)
+    {
+        TrieNode* currentNode = startAt;
+
+        for (int i = depth; i < word.size(); i++)
         {
             char c = word[i];
+            char arrayIndex = TrieNode::ToArrayIndex(c);
+
             if (word[i] == '*')
             {
                 for (int j = 0; j < 26; j++)
@@ -52,62 +80,26 @@ public:
                     char toTest = 'a' + j;
                     std::string newWord = word;
                     newWord[i] = toTest;
-                    if (CheckWord(newWord))
+                    int newArrayIndex = TrieNode::ToArrayIndex(toTest);
+                    if (CheckWord(newWord, currentNode, i))
                         return true;
                 }
             }
-
-            else if (currentNode->Children.find(c) == currentNode->Children.end())
-            {
-                return false;
+            else
+            { 
+                if (currentNode->Children[arrayIndex] == nullptr)
+                {
+                    return false;
+                }
+                currentNode = currentNode->Children[arrayIndex].get();
+                if (i == word.size() - 2)
+                {
+                    return (currentNode->isEnd);
+                }
             }
-            if (currentNode->Children.find(c) == currentNode->Children.end())
-                return false;
-            currentNode = &currentNode->Children.at(c);
-            if (i == word.size() - 1)
-            {
-                return (currentNode->isEnd);
-            }
-
         }
-        return false;
-        /*start:
-        for (TrieNode child : currentNode->Children)
-        {
-            if (word[currentWordIndex] == child.NodeCharacter)
-            {
-                if (currentWordIndex == word.size() - 1)
-                {
-                    return true;
-                }
-                currentNode = &child;
-                goto start;
-            }
-            if (word[currentWordIndex] == '*')
-            {
-                for (int i = 0; i < 27; i++)
-                {
-                    char toTest = 'a' + i;
-                    std::string newWord = word;
-                    newWord[currentWordIndex] = toTest;
-                    TestWord(newWord);
-                }
-            }
-        }*/
+
         return false;
 
     }
-};
-
-class Dictionary
-{
-    static std::unordered_set<std::string> dict;
-    static bool TestWord(std::string word);
-
-    public:
-        static std::string WordListPath;
-        static void LoadDict(std::string path);
-        static int NumWildcards(std::string word);
-        static std::vector<int> GetWildcardPositions(std::string word);
-        static std::string CheckWord(std::string word);
 };

@@ -233,14 +233,14 @@ void PCControlled::ClearHand()
 void PCControlled::PlayHand()
 {
     std::string word = GetPlayedHand();
-    std::string played = Dictionary::CheckWord(word);
+
     //invalid hand - not a word
-    if (played.size() == 0)
+    if (!Dictionary::CheckWord(word))
     {
         ClearHand();
         return;
     }
-    float multiplier = GetMultiplier(played);
+    float multiplier = GetMultiplier(word);
     Attack(multiplier);
     ClearHand();
 

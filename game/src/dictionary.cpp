@@ -6,26 +6,22 @@
 std::unordered_set<std::string> Dictionary::dict;
 std::string Dictionary::WordListPath = "assets/words/words.txt";
 
-void Dictionary::LoadDict(std::string path)
+void Dictionary::LoadDictionary()
 {
-    std::ifstream stream(path);
+    std::ifstream stream(WordListPath);
     std::string line;
     if (stream.is_open())
     {
         while (getline(stream,line))
         {
-            dict.insert(line);
-            Trie::Dictionary.AddWord(line);
+            //dict.insert(line);
+            Dictionary::AddWord(line);
         }
     }
     else
     {
-        std::cout << "Could not open " << path;
+        std::cout << "Could not open " << WordListPath;
     }
-}
-bool Dictionary::TestWord(std::string word)
-{
-    return (dict.count(word) > 0);
 }
 int Dictionary::NumWildcards(std::string word)
 {
@@ -37,45 +33,3 @@ int Dictionary::NumWildcards(std::string word)
     }
     return numWildcards;
 }
-
-std::vector<int> Dictionary::GetWildcardPositions(std::string word)
-{
-    std::vector<int> positions;
-    for (int i = 0; i < word.length(); i++)
-    {
-        if (word[i] == '*')
-            positions.push_back(i);
-    }
-
-    return positions;
-}
-// recursively checks words if a wildcard is in the given word
-// VERY SLOW when there's a lot of wildcards (on the order of ~3s with "oneiroscopist" -> one*ro**o**st)
-// TODO: replace with a trie solution
-std::string Dictionary::CheckWord(std::string word)
-{
-
-    int firstWildcardPosition = word.find("*");
-    // if we have no wildcards, just run TestWord
-    if (firstWildcardPosition == -1)
-        return TestWord(word) == true ? word : "";
-    std::string temp = word;
-
-    // initialise * to 'a' so we can iterate over the entire alphabet by incrementing 
-    temp[firstWildcardPosition] = 'a';
-    
-    for (int j = 0; j < 26; j++)
-    {
-        if (word.find("*") == -1 && TestWord(temp))
-            return temp;
-
-        std::string s =  CheckWord(temp);
-        // if we have a match 
-        if (s.size() > 0)
-            return s;
-        temp[firstWildcardPosition]++;
-    }
-    // no match
-    return "";
-}
-
