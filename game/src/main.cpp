@@ -16,6 +16,7 @@
 #include "dictionary.h"
 #include "Timer.h"
 #include <iostream>
+#include <chrono>
 
 /*void handler(int sig) {
   void *array[10];
@@ -45,6 +46,18 @@ void Init()
 
     SetTargetFPS(60);
 
+    Dictionary::LoadDict(Dictionary::WordListPath);
+
+
+    /*Dictionary::LoadDict(Dictionary::WordListPath);
+    std::cout << (Trie::TestWord("test") ? "true" : "false") << "\n\n";
+    std::cout << (Trie::TestWord("t*ea*i*e") ? "true" : "false") << "\n\n";
+
+    std::cout << (Trie::TestWord("me") ? "true" : "false") << "\n\n";
+    std::cout << (Trie::TestWord("likegdsgsdg") ? "true" : "false") << "\n\n";
+    std::cout << (Trie::TestWord("appledsgsdgsd") ? "true" : "false") << "\n\n";
+    */
+
    // GameState::currentScene->LoadScene("assets/scenes/scene_dungeon.png");
 
 }
@@ -52,6 +65,27 @@ void Init()
 
 void Update()
 {
+
+    using std::chrono::high_resolution_clock;
+    using std::chrono::duration_cast;
+    using std::chrono::duration;
+    using std::chrono::milliseconds;
+
+    auto t1 = high_resolution_clock::now();
+        //(Trie::TestWord("t*ea*i*e") ? "true" : "false");
+        (Trie::CheckWord("one*ro**o**st") > 0 ? "true" : "false");
+
+    auto t2 = high_resolution_clock::now();
+
+    /* Getting number of milliseconds as an integer. */
+    auto ms_int = duration_cast<milliseconds>(t2 - t1);
+
+    /* Getting number of milliseconds as a double. */
+    duration<double, std::milli> ms_double = t2 - t1;
+
+    std::cout << ms_int.count() << "ms\n";
+    std::cout << ms_double.count() << "ms\n";
+
     float dt = GetFrameTime();
 
     Updatable::UpdateAll(dt);

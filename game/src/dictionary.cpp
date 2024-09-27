@@ -15,20 +15,16 @@ void Dictionary::LoadDict(std::string path)
         while (getline(stream,line))
         {
             dict.insert(line);
+            Trie::Dictionary.AddWord(line);
         }
     }
     else
     {
         std::cout << "Could not open " << path;
     }
-
 }
 bool Dictionary::TestWord(std::string word)
 {
-    if (dict.size() == 0)
-        LoadDict(WordListPath);
-    if (word.size() == 0)
-        return false;
     return (dict.count(word) > 0);
 }
 int Dictionary::NumWildcards(std::string word)
@@ -58,6 +54,7 @@ std::vector<int> Dictionary::GetWildcardPositions(std::string word)
 // TODO: replace with a trie solution
 std::string Dictionary::CheckWord(std::string word)
 {
+
     int firstWildcardPosition = word.find("*");
     // if we have no wildcards, just run TestWord
     if (firstWildcardPosition == -1)
