@@ -29,12 +29,12 @@ Rectangle Tile::GetDefaultPosition()
 }
 void Tile::DragClick() 
 {
-    for (std::shared_ptr<Slot> topRow : PCControlled::CurrentPlayer.PlayerTiles)
+    for (std::shared_ptr<Slot> topRow : PCControlled::CurrentPlayer->PlayerTiles)
     {
         if (this == topRow->tile.get())
         {
             //current on the top row - move to the first free slot on the bottom row
-            for (std::shared_ptr<Slot> bottomRow : PCControlled::CurrentPlayer.TilesPlayed)
+            for (std::shared_ptr<Slot> bottomRow : PCControlled::CurrentPlayer->TilesPlayed)
             {
                 if (bottomRow->tile && bottomRow->tile->character == ' ')
                 {
@@ -45,12 +45,12 @@ void Tile::DragClick()
         }
     }
     //check bottom row -> top row
-    for (std::shared_ptr<Slot> bottomRow : PCControlled::CurrentPlayer.TilesPlayed)
+    for (std::shared_ptr<Slot> bottomRow : PCControlled::CurrentPlayer->TilesPlayed)
     {
         if (this == bottomRow->tile.get())
         {
             //current on the bottom row - move to the first free slot on the top row
-            for (std::shared_ptr<Slot> topRow : PCControlled::CurrentPlayer.PlayerTiles)
+            for (std::shared_ptr<Slot> topRow : PCControlled::CurrentPlayer->PlayerTiles)
             {
                 if (topRow->tile && topRow->tile->character == ' ')
                 {

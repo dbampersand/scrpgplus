@@ -6,17 +6,17 @@ class Updatable
 {   
     public:
 
-        static std::vector<Updatable*> Updatables;
-        static std::vector<Updatable*> ToRemove;
+        inline static std::vector<Updatable*> Updatables;
+        inline static std::vector<Updatable*> ToRemove;
 
         virtual void Update(float dt) {};
         virtual void LateUpdate(float dt) {};
 
-        ~Updatable();
          Updatable();
+         ~Updatable();
 
 
-         static void UpdateAll(float dt);
+        static void UpdateAll(float dt);
         static void LateUpdateAll(float dt);
 
 };

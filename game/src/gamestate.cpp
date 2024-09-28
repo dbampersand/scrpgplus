@@ -20,9 +20,10 @@ void GameState::StartGame()
 {
     GameState::SetState(GameState::State::IN_GAME);
     Player::AddPlayer(Player::GetRandomEnemy(0));
-    PCControlled::CurrentPlayer= PCControlled(""); 
+    PCControlled::CurrentPlayer = nullptr;
+    PCControlled::CurrentPlayer = std::make_unique<PCControlled>(""); 
 
-    PCControlled::CurrentPlayer.ShowTiles();
+    PCControlled::CurrentPlayer->ShowTiles();
 }
 void GameState::TakeTurn()
 {
@@ -37,13 +38,13 @@ void GameState::TakeTurn()
         
         Timer::CreateTimer(func, 0.5f);
         GameState::player = AI_PLAYER;
-        PCControlled::CurrentPlayer.TakeTurn(Player::players[0]);
+        PCControlled::CurrentPlayer->TakeTurn(Player::players[0]);
         
     }
     else
     {
         GameState::player = PC_PLAYER;
-        Player::players[0]->TakeTurn(&PCControlled::CurrentPlayer);
+        Player::players[0]->TakeTurn(PCControlled::CurrentPlayer.get());
 
     }
 

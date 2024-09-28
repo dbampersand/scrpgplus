@@ -34,7 +34,7 @@
 void Init()
 {
     //signal(SIGSEGV, handler);
-    InitWindow(Render::GetBasisWidth()*2,Render::GetBasisHeight()*2,"scrpg");
+    InitWindow(Render::GetBasisWidth()*4,Render::GetBasisHeight()*4,"scrpg");
     
     GameState::SeedRNG();
     
@@ -46,8 +46,6 @@ void Init()
     GameState::currentScene =  std::make_shared<Scene>("assets/scenes/scene_dungeon.png");
 
     SetTargetFPS(60);
-
-
 
     Dictionary::LoadThread = std::thread(Dictionary::LoadDictionary);
     
@@ -62,27 +60,6 @@ void EndCleanup()
 }
 void Update()
 {
-
-    using std::chrono::high_resolution_clock;
-    using std::chrono::duration_cast;
-    using std::chrono::duration;
-    using std::chrono::milliseconds;
-
-    auto t1 = high_resolution_clock::now();
-        //(Trie::TestWord("t*ea*i*e") ? "true" : "false");
-     //   (Dictionary::CheckWord("one*ro**o**st") > 0 ? "true" : "false");
-
-    auto t2 = high_resolution_clock::now();
-
-    /* Getting number of milliseconds as an integer. */
-    auto ms_int = duration_cast<milliseconds>(t2 - t1);
-
-    /* Getting number of milliseconds as a double. */
-    duration<double, std::milli> ms_double = t2 - t1;
-
-    std::cout << ms_int.count() << "ms\n";
-    std::cout << ms_double.count() << "ms\n";
-
     float dt = GetFrameTime();
 
     Updatable::UpdateAll(dt);

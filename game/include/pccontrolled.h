@@ -7,13 +7,15 @@
 #include <unordered_map>
 #include <forward_list>
 
-class PCControlled : public  Player
+class PCControlled : public Player
 {
-    public:
-        static PCControlled CurrentPlayer;
-        PCControlled& operator=(PCControlled&& other) = default;
-        ~PCControlled() = default;
-        PCControlled() : Player(""){
+public:
+    inline static std::unique_ptr<PCControlled> CurrentPlayer;
+    //PCControlled& operator=(PCControlled&& other) = default;
+
+        PCControlled(std::string path);
+
+        PCControlled() : Player("") {
         };
 
         void Update(float dt) override;
@@ -41,9 +43,8 @@ class PCControlled : public  Player
 
         void ShuffleBag(std::vector<std::unique_ptr<Tile>>* bag);
         void InitBag();
-        PCControlled(std::string path);
     
         void TakeTurn(Player* other) override;
         void DrawToMax();
-
+        Rectangle GetHealthBarRectangle() override;
 };

@@ -40,12 +40,10 @@ void Dictionary::LoadDictionary()
     {
         while (getline(stream,line))
         {
-            //dict.insert(line);
             //convert ascii 97-132 [a-z] to 0-25
             char firstChar = TrieNode::ToArrayIndex(tolower(line[0]));
             int pool = firstChar % _NumThreads;
             lines[pool].push_back(line);
-            //Dictionary::AddWord(line);
         }
     }
     else

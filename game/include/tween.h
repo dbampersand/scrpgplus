@@ -20,7 +20,7 @@ class Tween : Updatable
     T (*easingFunc)(T, T, float);
 
     bool shouldResetWhenChanged = true;
-    Tween(T* Property, T (*EasingFunc)(T, T, float), float Duration)
+    Tween(T* Property, T (*EasingFunc)(T, T, float), float Duration) : Updatable()
     {
         easingFunc = EasingFunc;
 

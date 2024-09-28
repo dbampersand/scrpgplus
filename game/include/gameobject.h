@@ -18,4 +18,6 @@ class GameObject : public Drawable, public Updatable
         void Update(float dt) override;
         void Draw(Rectangle r) override;
         Rectangle GetPosition() override;
+        virtual Rectangle GetHealthBarRectangle();
+
 };

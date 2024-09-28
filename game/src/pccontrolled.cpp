@@ -4,11 +4,11 @@
 #include "gamestate.h"
 #include "dictionary.h"
 
-PCControlled PCControlled::CurrentPlayer = PCControlled();
 int PCControlled::DefaultBagSize = 100;
 
 void PCControlled::Update(float dt)
 {
+    GameObject::Update(dt);
 }
 
 void PCControlled::HideTiles()
@@ -122,7 +122,6 @@ void PCControlled::InitBag()
 }
 
 PCControlled::PCControlled(std::string path) : Player(path) {
-    HealthBar.shouldDraw = false;
     int startX = 139;
     int startY = 200;
     int padding = 5;
@@ -167,7 +166,7 @@ void PCControlled::ShuffleBag(std::vector<std::unique_ptr<Tile>>* bag)
 float PCControlled::GetMultiplier(std::string hand)
 {
     float totalCharacters = 0;
-    for (std::shared_ptr<Slot> s : PCControlled::CurrentPlayer.TilesPlayed)
+    for (std::shared_ptr<Slot> s : PCControlled::CurrentPlayer->TilesPlayed)
     {
         if (s->tile->character != ' ')
         {
@@ -179,7 +178,7 @@ float PCControlled::GetMultiplier(std::string hand)
 std::string PCControlled::GetPlayedHand()
 {
     std::string word = "";
-    for (std::shared_ptr<Slot> s : PCControlled::CurrentPlayer.TilesPlayed)
+    for (std::shared_ptr<Slot> s : PCControlled::CurrentPlayer->TilesPlayed)
     {
         if (s->tile->character != ' ')
             word += s->tile->character;
@@ -188,7 +187,7 @@ std::string PCControlled::GetPlayedHand()
 }
 void PCControlled::Attack(float multiplier)
 {
-    for (std::shared_ptr<Slot> s : PCControlled::CurrentPlayer.TilesPlayed)
+    for (std::shared_ptr<Slot> s : PCControlled::CurrentPlayer->TilesPlayed)
     {
         s->tile->ApplyEffect(Player::GetEnemy(),this,multiplier);
     }
@@ -243,6 +242,20 @@ void PCControlled::PlayHand()
     float multiplier = GetMultiplier(word);
     Attack(multiplier);
     ClearHand();
+}
+Rectangle PCControlled::GetHealthBarRectangle()
+{
+    if (PlayerTiles.size() > 0)
+    {
+        std::shared_ptr<Slot> left = PlayerTiles[0];
+        std::shared_ptr<Slot> right = PlayerTiles[PlayerTiles.size() - 1];
 
 
+        Rectangle r = left->GetPosition();
+        r.y -= 15;
+        r.height = 10;
+        r.width = (right->GetPosition().x + right->GetPosition().width) - PlayerTiles[0]->GetPosition().x;
+        return r;
+    }
+    return Rectangle{ 0,0,0,0 };
 }

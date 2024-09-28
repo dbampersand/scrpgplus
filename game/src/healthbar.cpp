@@ -1,5 +1,6 @@
 #include "healthbar.h"
-
+#include "render.h"
+#include "gameobject.h"
 void HealthBar::DrawHealthBar(Rectangle r)
 {
     DrawRectangleRounded(r, 0.25, 10, BLACK);
@@ -13,4 +14,8 @@ void HealthBar::DrawHealthBar(Rectangle r)
 
     DrawRectangleRounded(health, 0.25, 10, RED);
 
+};
+
+Rectangle HealthBar::GetPosition()  {
+    return Parent->GetHealthBarRectangle();
 };
