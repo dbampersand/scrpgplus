@@ -3,18 +3,21 @@
 #include "gameobject.h"
 #include <map>
 #include "render.h"
-#include "tile.h"
-#include "slot.h"
 
 class Player : public GameObject
 {
 private:
-    int hp;
-    int maxHP;
+    int hp = 100;
+    int maxHP = 100;
     bool AiControlled;
+    int Shield;
+    HealthBar HealthBar;
+
 public:
     void SetMaxHP(int hp, bool fill);
-    void Heal(int HP);
+    void AddShield(int shield);
+    void ClearShield();
+
 
     std::string name;
 
@@ -31,6 +34,9 @@ public:
 
     int GetHP();
     int GetMaxHP();
+    void Heal(float amt);
+    void Damage(float amt);
+
 
     virtual void AITurn(int turnOrder, Player* enemyPlayer)
     {

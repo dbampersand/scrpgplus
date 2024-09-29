@@ -8,12 +8,6 @@ Player* Player::GetRandomEnemy(int tier)
 {
     return (Player*)(new Gazer());
 }
-void Player::Heal(int HP)
-{
-    hp += HP;
-    if (hp > maxHP)
-        hp = maxHP;
-}
 void Player::SetMaxHP(int hp, bool fill)
 {
     this->maxHP = hp;
@@ -22,7 +16,14 @@ void Player::SetMaxHP(int hp, bool fill)
         Heal(hp);
     }
 }
-
+void Player::AddShield(int shield)
+{
+    this->Shield += shield;
+}
+void Player::ClearShield()
+{
+    this->Shield = 0;
+}
 void Player::AddPlayer(Player* p)
 {
     players.push_back(p);
@@ -30,6 +31,10 @@ void Player::AddPlayer(Player* p)
 Player::Player(std::string sprite) : GameObject(sprite) {
     x = Render::GetBasisWidth() / 2.0f;
     y = Render::GetBasisHeight() / 2.0f;
+    HealthBar.Parent = this;
+
+    Heal(maxHP);
+
 };
 Player* Player::GetEnemy() {
     if (players.size() > 0)
@@ -45,3 +50,17 @@ int Player::GetMaxHP() {
 }
 
 
+void Player::Heal(float amt)
+{
+    hp += amt;
+    if (hp > maxHP)
+        hp = maxHP;
+    HealthBar.UpdateHP(hp, maxHP);
+}
+void Player::Damage(float amt)
+{
+    hp -= amt;
+    if (hp < 0)
+        hp = 0;
+    HealthBar.UpdateHP(hp, maxHP);
+};

@@ -3,7 +3,7 @@
 #include "drawable.h"
 #include "draggable.h"
 #include "raylib.h"
-#include "gameobject.h"
+#include "player.h"
 typedef class Slot Slot;
 
 class Tile : public Draggable, public Drawable, Updatable
@@ -33,7 +33,7 @@ class Tile : public Draggable, public Drawable, Updatable
             Drawable::AddRenderOrder(amt);
         };
         //NOTE: turn this class to abstract later by = 0 on this
-        virtual void ApplyEffect(GameObject* target, GameObject* parent, float multiplier) {};
+        virtual void ApplyEffect(Player* target, Player* parent, float multiplier) {};
 
         void ParentTo(Slot* parent);
         void Update(float dt) override {
@@ -87,7 +87,7 @@ class DamageTile : public Tile
         tileType = Damage;
         color = Color{ 200,0,60,255 };
     };
-    void ApplyEffect(GameObject* target, GameObject* parent, float multiplier) override {
+    void ApplyEffect(Player* target, Player* parent, float multiplier) override {
         target->Damage(mutiplier);
     };
 };
@@ -100,7 +100,7 @@ public:
         color = Color{ 93,200,44,255 };
     };
 
-    void ApplyEffect(GameObject* target, GameObject* parent, float multiplier) override {
+    void ApplyEffect(Player* target, Player* parent, float multiplier) override {
         parent->Heal(mutiplier);
     };
 
