@@ -2,7 +2,7 @@
 
 #include "raylib.h"
 #include "sprite.h"
-
+#include <map>
 class Render
 {
     public:
@@ -23,6 +23,11 @@ class Render
         static Vector2 GetScreenCenter();
         static void Draw(float dt);
         static Vector2 GetMousePos();
+
+        static void DrawText(std::string text, std::string fontPath, int size, Rectangle screenSpaceRect, Color color, Sprite::SPRITE_ALIGN align);
+
+        //string->font map so we can lazy load any fonts and store them just by path
+        inline static std::map<std::string, std::map<int,Font>> fonts;
     private:
         //static void LoadSprite(std::string path);
 

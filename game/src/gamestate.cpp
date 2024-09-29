@@ -39,16 +39,13 @@ void GameState::TakeTurn()
         Timer::CreateTimer(func, 0.5f);
         GameState::player = AI_PLAYER;
         PCControlled::CurrentPlayer->TakeTurn(Player::players[0]);
-        
+
+        auto aiTurnFunc = []() -> void {
+            GameState::player = PC_PLAYER;
+            Player::players[0]->TakeTurn(PCControlled::CurrentPlayer.get());
+            };
+        Timer::CreateTimer(aiTurnFunc, 0.25f);
     }
-    else
-    {
-        GameState::player = PC_PLAYER;
-        Player::players[0]->TakeTurn(PCControlled::CurrentPlayer.get());
-
-    }
-
-
 }
 void GameState::SeedRNG()
 {

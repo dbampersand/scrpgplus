@@ -21,7 +21,6 @@ void Button::Draw(Rectangle r)
         c.g /= 2;
         c.b /= 2;
     }
-
     DrawRectangle(r.x,r.y,r.width,r.height,background);
     DrawRectangle(r.x+1,r.y+1,r.width-2,r.height-2,c);
 
@@ -36,6 +35,7 @@ void Button::Clicked()
     {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
+            this->DisableShadow();
             clicked = true;
         }
     }
@@ -43,10 +43,15 @@ void Button::Clicked()
 
 void Button::Released()
 { 
+    this->EnableShadow();
 
     if (clicked && MousedOver(this->GetPosition()) && callback != nullptr) 
     {
         callback();
     }
     clicked = false;
+}
+void Button::Unclicked()
+{
+    this->EnableShadow();
 }

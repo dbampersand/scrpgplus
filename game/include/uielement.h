@@ -10,6 +10,8 @@ class Clickable
     public:
         virtual void Clicked() = 0;
         virtual void Released() = 0;
+        virtual void Unclicked() {};
+
         virtual Rectangle GetPosition() = 0;
 
 
@@ -34,6 +36,8 @@ class UIElement : public Drawable, public Clickable, public Updatable
     public:
         virtual void Clicked() override {};
         virtual void Released() override {};
+        //'Unclicked' is when the player clicks a uielement, but then moves their mouse off and releases
+        virtual void Unclicked() override {};
     
         void Disable();
         void Enable();

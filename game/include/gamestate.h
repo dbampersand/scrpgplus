@@ -24,6 +24,12 @@ class GameState
         static void TakeTurn();
 
         static void SeedRNG();
+        template <typename T> static
+        T RandRange(T lower, T upper)
+        {
+            std::uniform_real_distribution<> dist{ lower, upper };
+            return (T)dist(rng);
+        }
 
         static std::default_random_engine rng;
 

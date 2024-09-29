@@ -66,11 +66,32 @@ std::unique_ptr<Tile> PCControlled::DrawTile()
     return drawn;
 }
 
-void PCControlled::AddTilesToBag(std::vector<std::unique_ptr<Tile>>* bag, int numToAdd, char character, float multiplier)
+void PCControlled::AddTilesToBag(std::vector<std::unique_ptr<Tile>>* bag, int numToAdd, char character, float multiplier, float chanceOfDamage, float chanceOfHeal, float chanceOfShield)
 {
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < numToAdd; i++)
     {
-        std::unique_ptr<DamageTile> t = std::make_unique<DamageTile>(character, multiplier);
+        std::unique_ptr<Tile> t;
+
+        float total = chanceOfDamage + chanceOfHeal + chanceOfShield;
+        float rand = GameState::RandRange<float>(0, total);
+        //damage
+        if (rand >= 0 && rand <= chanceOfDamage)
+        {
+            t = std::make_unique<DamageTile>(character, multiplier);
+        }
+        //heal
+        else if (rand >= chanceOfDamage && rand <= chanceOfDamage + chanceOfHeal)
+        {
+            t = std::make_unique<HealTile>(character, multiplier);
+        }
+        //shield
+        else if (rand >= chanceOfDamage + chanceOfHeal && rand <= chanceOfDamage + chanceOfHeal + chanceOfShield)
+        {
+            t = std::make_unique<ShieldTile>(character, multiplier);
+        }
+        else {
+            t = std::make_unique<DamageTile>(character, multiplier);
+        }
         t->HideDrawing();
         bag->push_back(std::move(t));
     }
@@ -83,41 +104,45 @@ void PCControlled::InitBag()
     PlayerTiles.clear();
     TilesPlayed.clear();
 
-    AddTilesToBag(&bag, 12, 'e', 1);
+    float damageTileChance = 0.7f;
+    float healTileChance = 0.2f;
+    float shieldTileChance = 0.1f;
 
-    AddTilesToBag(&bag, 9, 'a', 1);
-    AddTilesToBag(&bag, 9, 'i', 1);
+    AddTilesToBag(&bag, 12, 'e', 1, damageTileChance, healTileChance, shieldTileChance);
 
-    AddTilesToBag(&bag, 8, 'o', 1);
+    AddTilesToBag(&bag, 9, 'a', 1, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 9, 'i', 1, damageTileChance, healTileChance, shieldTileChance);
 
-    AddTilesToBag(&bag, 6, 'n', 1);
-    AddTilesToBag(&bag, 6, 'r', 1);
-    AddTilesToBag(&bag, 6, 't', 1);
+    AddTilesToBag(&bag, 8, 'o', 1, damageTileChance, healTileChance, shieldTileChance);
 
-    AddTilesToBag(&bag, 4, 'l', 1);
-    AddTilesToBag(&bag, 4, 's', 1);
-    AddTilesToBag(&bag, 4, 'u', 1);
-    AddTilesToBag(&bag, 4, 'd', 2);
+    AddTilesToBag(&bag, 6, 'n', 1, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 6, 'r', 1, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 6, 't', 1, damageTileChance, healTileChance, shieldTileChance);
 
-    AddTilesToBag(&bag, 3, 'g', 2);
+    AddTilesToBag(&bag, 4, 'l', 1, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 4, 's', 1, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 4, 'u', 1, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 4, 'd', 2, damageTileChance, healTileChance, shieldTileChance);
 
-    AddTilesToBag(&bag, 2, 'b', 3);
-    AddTilesToBag(&bag, 2, 'c', 3);
-    AddTilesToBag(&bag, 2, 'm', 3);
-    AddTilesToBag(&bag, 2, 'p', 3);
-    AddTilesToBag(&bag, 2, 'f', 4);
-    AddTilesToBag(&bag, 2, 'h', 4);
-    AddTilesToBag(&bag, 2, 'v', 4);
-    AddTilesToBag(&bag, 2, 'w', 4);
-    AddTilesToBag(&bag, 2, 'y', 4);
+    AddTilesToBag(&bag, 3, 'g', 2, damageTileChance, healTileChance, shieldTileChance);
 
-    AddTilesToBag(&bag, 1, 'k', 5);
-    AddTilesToBag(&bag, 1, 'j', 8);
-    AddTilesToBag(&bag, 1, 'x', 8);
-    AddTilesToBag(&bag, 1, 'q', 10);
-    AddTilesToBag(&bag, 1, 'z', 10);
+    AddTilesToBag(&bag, 2, 'b', 3, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 2, 'c', 3, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 2, 'm', 3, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 2, 'p', 3, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 2, 'f', 4, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 2, 'h', 4, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 2, 'v', 4, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 2, 'w', 4, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 2, 'y', 4, damageTileChance, healTileChance, shieldTileChance);
 
-    AddTilesToBag(&bag, 2, '*', 0);
+    AddTilesToBag(&bag, 1, 'k', 5, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 1, 'j', 8, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 1, 'x', 8, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 1, 'q', 10, damageTileChance, healTileChance, shieldTileChance);
+    AddTilesToBag(&bag, 1, 'z', 10, damageTileChance, healTileChance, shieldTileChance);
+
+    AddTilesToBag(&bag, 2, '*', 0, damageTileChance, healTileChance, shieldTileChance);
 
 }
 
@@ -138,7 +163,6 @@ PCControlled::PCControlled(std::string path) : Player(path) {
         playerTile->tile = std::move(DrawTile());
         playerTile->tile->x = x;
         playerTile->tile->y = y;
-        playerTile->tile->color = Color{ 255,0,0,255 };
         playerTile->tile->parent = playerTile.get();
         playerTile->filled = true;
 
@@ -201,11 +225,9 @@ void PCControlled::DrawToMax()
             slot->tile = std::move(DrawTile());
             slot->tile->x = slot->x;
             slot->tile->y = slot->y;
-            slot->tile->color = Color{255,0,0,255};
             slot->tile->parent = slot.get();
             slot->filled = true;
             slot->ShowDrawing();
-
         }
     }
 }
@@ -222,6 +244,7 @@ void PCControlled::ClearHand()
             TilesPlayed[i]->tile->parent = TilesPlayed[i].get();
             TilesPlayed[i]->tile->Selectable = false;
             TilesPlayed[i]->tile->color = Color{0,0,0,0};
+            TilesPlayed[i]->tile->HideDrawing();
 
             discardedBag.push_back(std::move(tile));
             i--;

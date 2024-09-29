@@ -51,8 +51,10 @@ void Draggable::CheckDraggables(float dt)
 
                 d->IsDragged = true;
                 d->Offset = Vector2{Render::GetMousePos().x-d->GetPosition().x, Render::GetMousePos().y-d->GetPosition().y};
-                if (dr)
+                if (dr) {
                     dr->AddRenderOrder(d->RenderOrderAdd);
+                    dr->EnableShadow();
+                }
             }
         }
         if (d->IsDragged && IsMouseButtonReleased(0))
@@ -63,8 +65,10 @@ void Draggable::CheckDraggables(float dt)
                 d->IsDragged = false;
 
                 if (dr)
+                {
                     dr->AddRenderOrder(-d->RenderOrderAdd);
-
+                    dr->DisableShadow();
+                }
                 continue;
             }
 
@@ -76,8 +80,10 @@ void Draggable::CheckDraggables(float dt)
                     dt->OnDrag(d);  
 
                     if (dr)
+                    {
                         dr->AddRenderOrder(-d->RenderOrderAdd);
-
+                        dr->DisableShadow();
+                    }
                     break;
                 }
             }
@@ -86,7 +92,11 @@ void Draggable::CheckDraggables(float dt)
         {
             d->IsDragged = false;
             if (dr)
+            {
                 dr->AddRenderOrder(-d->RenderOrderAdd);
+                dr->DisableShadow();
+            }
+
             if (d->TimeHasBeenDraggedFor <= Draggable::ClickTime)
             {
                 d->DragClick();

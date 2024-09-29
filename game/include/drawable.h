@@ -4,10 +4,18 @@
 #include <vector>
 #include "raylib.h"
     
+
+#if defined(PLATFORM_DESKTOP)
+    #define GLSL_VERSION            330
+#else   // PLATFORM_ANDROID, PLATFORM_WEB
+    #define GLSL_VERSION            100
+#endif
+
 class Drawable
 {
+
     public:
-    
+        
         void SetOrder(int ord);
         int GetOrder();
 
@@ -17,6 +25,7 @@ class Drawable
         void AddRenderOrder(int amt);
 
         virtual void Draw(Rectangle r);
+        virtual void DrawShadow(Rectangle r);
         void HideDrawing();
         void ShowDrawing();
         bool IsHidden();
@@ -34,11 +43,26 @@ class Drawable
         Vector2 GetSize();
         static void DrawAll();
         static std::vector<Drawable*> drawables;
+        static inline float LightAngle = 160;
+        static inline float lightIntensity = 1.0f;
+        static inline Shader ShadowShader;
+        void DisableShadow() {
+            ShadowDoesDraw = false;
+        };
+        void EnableShadow()
+        {
+            ShadowDoesDraw = true;
+        }
+        bool ShadowEnabled()
+        {
+            return ShadowDoesDraw;
+        }
     private:
         Sprite sprite;
         int order = 0;
         static bool isSorted;
         bool Hidden = false;
+        bool ShadowDoesDraw = true;
 
 
 };

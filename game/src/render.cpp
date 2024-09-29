@@ -2,7 +2,7 @@
 #include "sprite.h"
 #include "UI.h"
 #include "raylib.h"
-
+#include <iostream>
 
 /*Sprite* Render::GetSprite(std::string path)
 {
@@ -80,4 +80,49 @@ Vector2 Render::GetMousePos()
     v = TranslateToWorldSpace(v);
 
     return Vector2{ v.x,v.y };
+}
+
+void Render::DrawText(std::string text, std::string fontPath, int size, Rectangle screenSpaceRect, Color color, Sprite::SPRITE_ALIGN align)
+{
+    size *= GetScreenSizeScale().x;
+    if (fonts.find(fontPath) == fonts.end())
+    {
+        std::map <int, Font> fontList;
+        fonts.insert({ fontPath, fontList });
+    }
+    std::map <int, Font> fontList = fonts.at(fontPath);
+    if (fontList.find(size) == fontList.end())
+    {
+        int codepoints;
+        fonts.at(fontPath).insert({ size, LoadFontEx(fontPath.c_str(),size,0,0) });
+        SetTextureFilter(fonts.at(fontPath).at(size).texture, TEXTURE_FILTER_BILINEAR);
+    }
+
+    Font f = fonts.at(fontPath).at(size);
+    if (IsFontReady(f))
+    {
+        Vector2 measured = MeasureTextEx(f, text.c_str(), size, 1);
+
+        if (align == Sprite::SPRITE_ALIGN::LEFT)
+        {
+            screenSpaceRect.y = screenSpaceRect.y + screenSpaceRect.height / 2.0f - measured.y / 2.0f;
+            DrawTextEx(f, text.c_str(), Vector2{ screenSpaceRect.x,screenSpaceRect.y }, size, 1, color);
+        }
+        if (align == Sprite::SPRITE_ALIGN::CENTER)
+        {
+            screenSpaceRect.x = screenSpaceRect.x + screenSpaceRect.width/2.0f - measured.x / 2.0f;
+            screenSpaceRect.y = screenSpaceRect.y + screenSpaceRect.height/2.0f - measured.y / 2.0f;
+
+            DrawTextEx(f, text.c_str(), Vector2{ screenSpaceRect.x,screenSpaceRect.y }, size, 1, color);
+        }
+        if (align == Sprite::SPRITE_ALIGN::RIGHT)
+        {
+            screenSpaceRect.x = screenSpaceRect.x + screenSpaceRect.width - measured.x;
+            screenSpaceRect.y = screenSpaceRect.y + screenSpaceRect.height / 2.0f - measured.y / 2.0f;
+
+
+            DrawTextEx(f, text.c_str(), Vector2{ screenSpaceRect.x,screenSpaceRect.y }, size, 1, color);
+        }
+    }
+
 }

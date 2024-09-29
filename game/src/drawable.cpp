@@ -6,6 +6,7 @@
 #include <algorithm>
 
 std::vector<Drawable*> Drawable::drawables;
+
 bool Drawable::isSorted;
 
 void Drawable::SetOrder(int ord) {
@@ -73,12 +74,30 @@ void Drawable::DrawAll()
         if (!d->IsHidden())
         {
             Rectangle r = Render::TranslateToScreenSpace(d->GetPosition());
+            if (d->ShadowEnabled())
+            d->DrawShadow(r);
             d->Draw(r);
         }
         else
         {
-            
+               
         }
     }
+}
+void Drawable::DrawShadow(Rectangle r)
+{
+    if (IsShaderReady(ShadowShader))
+    {
+        r.x += 10;
+        r.y += 10;
+        BeginShaderMode(ShadowShader);
+        Draw(r);
+        EndShaderMode();
+    }
+    else
+    {
+        ShadowShader = LoadShader(0, "assets/shaders/shadow.fs");
+    }
+
 }
 

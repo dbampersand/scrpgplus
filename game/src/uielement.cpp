@@ -48,6 +48,7 @@ void Clickable::UpdateClickables()
         if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
         {
             c->clicked = false;
+            c->Unclicked();
         }
 
     }

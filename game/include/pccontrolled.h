@@ -39,7 +39,7 @@ public:
         void ShowTiles();
         void FillDrawBag();
         std::unique_ptr<Tile> DrawTile();
-        void AddTilesToBag(std::vector<std::unique_ptr<Tile>>* bag, int numToAdd, char character, float multiplier);
+        void AddTilesToBag(std::vector<std::unique_ptr<Tile>>* bag, int numToAdd, char character, float multiplier, float chanceOfDamage, float chanceOfHeal, float chanceOfShield);
 
         void ShuffleBag(std::vector<std::unique_ptr<Tile>>* bag);
         void InitBag();
