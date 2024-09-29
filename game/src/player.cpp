@@ -19,10 +19,12 @@ void Player::SetMaxHP(int hp, bool fill)
 void Player::AddShield(int shield)
 {
     this->Shield += shield;
+    HealthBar.UpdateHP(hp, maxHP, Shield);
 }
 void Player::ClearShield()
 {
     this->Shield = 0;
+    HealthBar.UpdateHP(hp, maxHP, Shield);
 }
 void Player::AddPlayer(Player* p)
 {
@@ -33,8 +35,9 @@ Player::Player(std::string sprite) : GameObject(sprite) {
     y = Render::GetBasisHeight() / 2.0f;
     HealthBar.Parent = this;
 
+    ClearShield();
     Heal(maxHP);
-
+    //AddShield(200);
 };
 Player* Player::GetEnemy() {
     if (players.size() > 0)
@@ -49,18 +52,24 @@ int Player::GetMaxHP() {
     return maxHP;
 }
 
-
 void Player::Heal(float amt)
 {
     hp += amt;
     if (hp > maxHP)
         hp = maxHP;
-    HealthBar.UpdateHP(hp, maxHP);
+    HealthBar.UpdateHP(hp, maxHP, Shield);
 }
 void Player::Damage(float amt)
 {
-    hp -= amt;
+    float leftover = 0;
+    Shield -= amt;
+    if (Shield < 0)
+    {
+        leftover = -Shield;
+        Shield = 0;
+    }
+    hp -= leftover;
     if (hp < 0)
         hp = 0;
-    HealthBar.UpdateHP(hp, maxHP);
+    HealthBar.UpdateHP(hp, maxHP, Shield);
 };

@@ -151,6 +151,8 @@ PCControlled::PCControlled(std::string path) : Player(path) {
     int startY = 200;
     int padding = 5;
 
+    AiControlled = false;
+
     InitBag();
     ShuffleBag(&bag);
 

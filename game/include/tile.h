@@ -113,5 +113,8 @@ public:
         tileType = Shield;
         color = Color{ 235,194,73,255 };
     };
+    void ApplyEffect(Player* target, Player* parent, float multiplier) override {
+        parent->AddShield(mutiplier);
+    };
 
 };

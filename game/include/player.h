@@ -9,10 +9,10 @@ class Player : public GameObject
 private:
     int hp = 100;
     int maxHP = 100;
-    bool AiControlled;
     int Shield;
     HealthBar HealthBar;
-
+protected:
+    bool AiControlled;
 public:
     void SetMaxHP(int hp, bool fill);
     void AddShield(int shield);

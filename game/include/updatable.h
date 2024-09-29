@@ -19,4 +19,7 @@ class Updatable
         static void UpdateAll(float dt);
         static void LateUpdateAll(float dt);
 
+        static void RemoveFromUpdatables();
+
+
 };
