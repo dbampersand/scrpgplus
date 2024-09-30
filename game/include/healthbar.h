@@ -19,7 +19,7 @@ class HealthBar : Drawable
         float Shield = 0;
         float padding = 4;
         Tween<float> HealthBarTween = Tween<float>(&HP,Tween<float>::EaseOutQuad, 0.25f);
-        Tween<float> ShieldBarTween = Tween<float>(&Shield, Tween<float>::EaseOutQuad, 0.25f);
+        Tween<float> ShieldBarTween = Tween<float>(&Shield, Tween<float>::EaseOutQuad, 0.1f);
 
         Rectangle position;
         void UpdateHP(float newHP, float maxHP, float shield)

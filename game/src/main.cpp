@@ -18,7 +18,8 @@
 #include <iostream>
 #include <chrono>
 #include "draggable.h"
-
+#include "particle.h"
+#include "colours.h"
 /*void handler(int sig) {
   void *array[10];
   size_t size;
@@ -61,9 +62,11 @@ void EndCleanup()
 }
 void Update()
 {
+
     float dt = GetFrameTime();
 
     Updatable::UpdateAll(dt);
+    Particle::UpdateAllParticles(dt);
     
     Clickable::UpdateClickables();    
     Draggable::CheckDraggables(dt);
@@ -76,7 +79,7 @@ void Draw()
     float dt = GetFrameTime();
 
     BeginDrawing();
-    ClearBackground(BLACK);
+    ClearBackground(Colours::UIGray);
     
     //Render::Draw(dt);
     Drawable::DrawAll();

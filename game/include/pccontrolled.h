@@ -28,7 +28,7 @@ public:
         std::vector<std::unique_ptr<Tile>> bag;
         std::vector<std::unique_ptr<Tile>> discardedBag; 
 
-        const static int  _MaxTiles = 9;
+        const static int  _MaxTiles = 12;
         void PlayHand();
         void ClearHand();
 

@@ -1,5 +1,6 @@
 #include "player.h"
 #include "enemies.h"
+#include "particle.h"
 
 std::vector<Player*> Player::players;
 
@@ -72,4 +73,9 @@ void Player::Damage(float amt)
     if (hp < 0)
         hp = 0;
     HealthBar.UpdateHP(hp, maxHP, Shield);
+    Attacked(amt);
 };
+void Player::Attacked(float damage)
+{
+    CreateAttackedParticles(damage);
+}

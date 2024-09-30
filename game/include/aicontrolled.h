@@ -1,5 +1,7 @@
 #pragma once
 #include "player.h"
+#include "gamestate.h"
+#include "particle.h"
 
 class AIControlled : public Player
 {
@@ -9,4 +11,16 @@ public:
 
 	virtual void AITurn(int turnOrder, Player* enemyPlayer) = 0;
 	int turnOrder;
+
+	void CreateAttackedParticles(float damage)
+	{
+		Rectangle r = GetPosition();
+		
+		Vector2 v = Vector2{ r.x + r.width/2, r.y + r.height/2 };
+
+		for (int i = 0; i  < damage*8; i++)
+		{
+			Particle::CreateParticle(v, GameState::RandRange<float>(0, 360), Color{ 255,0,0,255 }, 3.0f, 2.0f, GameState::RandRange<float>(0,200), 1000, Particle::BasicUpdate);
+		}
+	}
 };

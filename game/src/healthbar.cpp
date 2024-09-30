@@ -2,9 +2,11 @@
 #include "render.h"
 #include "gameobject.h"
 #include <iostream>
+#include "colours.h"
+
 void HealthBar::DrawHealthBar(Rectangle r)
 {
-    DrawRectangleRounded(r, 0.25, 10, BLACK);
+    DrawRectangleRounded(r, 0.25, 10, Colours::UIGray);
 
     //clamp to between 0-1
     float hpVal = std::max(0.0f,std::min(1.0f, HP));
@@ -24,8 +26,8 @@ void HealthBar::DrawHealthBar(Rectangle r)
     shield.x += (padding / 2.0f) + health.width - shield.width;
     shield.y += padding / 2.0f;
 
-    DrawRectangleRounded(health, 0.25, 10, RED);
-    DrawRectangleRounded(shield, 0.25, 10, YELLOW);
+    DrawRectangleRounded(health, 0.25, 10, Colours::Damage);
+    DrawRectangleRounded(shield, 0.25, 10, Colours::Shield);
 };
 
 Rectangle HealthBar::GetPosition()  {

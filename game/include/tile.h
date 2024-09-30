@@ -4,6 +4,7 @@
 #include "draggable.h"
 #include "raylib.h"
 #include "player.h"
+#include "colours.h"
 typedef class Slot Slot;
 
 class Tile : public Draggable, public Drawable, Updatable
@@ -85,7 +86,7 @@ class DamageTile : public Tile
     DamageTile(char c, float mult) : Tile(c, mult)
     {
         tileType = Damage;
-        color = Color{ 200,0,60,255 };
+        color = Colours::Damage;
     };
     void ApplyEffect(Player* target, Player* parent, float multiplier) override {
         target->Damage(mutiplier);
@@ -97,7 +98,7 @@ public:
     HealTile(char c, float mult) : Tile(c, mult)
     {
         tileType = Heal;
-        color = Color{ 93,200,44,255 };
+        color = Colours::Heal;
     };
 
     void ApplyEffect(Player* target, Player* parent, float multiplier) override {
@@ -111,7 +112,7 @@ public:
     ShieldTile(char c, float mult) : Tile(c, mult)
     {
         tileType = Shield;
-        color = Color{ 235,194,73,255 };
+        color = Colours::Shield;
     };
     void ApplyEffect(Player* target, Player* parent, float multiplier) override {
         parent->AddShield(mutiplier);

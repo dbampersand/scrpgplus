@@ -3,6 +3,7 @@
 #include <random>
 #include "gamestate.h"
 #include "dictionary.h"
+#include "particle.h"
 
 int PCControlled::DefaultBagSize = 100;
 
@@ -147,9 +148,11 @@ void PCControlled::InitBag()
 }
 
 PCControlled::PCControlled(std::string path) : Player(path) {
-    int startX = 139;
-    int startY = 200;
     int padding = 5;
+
+    //int startX = 139;
+    int startX = Render::GetBasisWidth()/2.0f - ((Slot::w * _MaxTiles/2.0f) + (padding * _MaxTiles/2.0f) - padding/2.0f);
+    int startY = 200;
 
     AiControlled = false;
 
@@ -267,6 +270,7 @@ void PCControlled::PlayHand()
     float multiplier = GetMultiplier(word);
     Attack(multiplier);
     ClearHand();
+
 }
 Rectangle PCControlled::GetHealthBarRectangle()
 {

@@ -37,6 +37,10 @@ public:
     void Heal(float amt);
     void Damage(float amt);
 
+    void Attacked(float damage);
+    virtual void CreateAttackedParticles(float damage) {};
+
+
 
     virtual void AITurn(int turnOrder, Player* enemyPlayer)
     {
