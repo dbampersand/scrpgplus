@@ -39,10 +39,14 @@ void GameState::TakeTurn()
         Timer::CreateTimer(func, 0.5f);
         GameState::player = AI_PLAYER;
         PCControlled::CurrentPlayer->TakeTurn(Player::players[0]);
+        Player::players[0]->SetTint(Player::players[0]->GetNotActiveTint());
+        Player::players[0]->SetTint(Color{ 255,255,255,255 });
+
 
         auto aiTurnFunc = []() -> void {
             GameState::player = PC_PLAYER;
             Player::players[0]->TakeTurn(PCControlled::CurrentPlayer.get());
+            Player::players[0]->SetTint(Player::players[0]->GetNotActiveTint());
             };
         Timer::CreateTimer(aiTurnFunc, 0.25f);
     }

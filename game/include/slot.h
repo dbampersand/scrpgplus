@@ -12,7 +12,7 @@ class Slot : public Drawable, DragTarget
         bool filled = false;
 
         Rectangle GetPosition() override;
-        void Draw(Rectangle r) override;
+        void Draw(Rectangle r, Color tint) override;
         int x; int y; 
         static int w; static int h;
         void AddTile(Tile* t);

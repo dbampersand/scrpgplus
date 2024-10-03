@@ -10,7 +10,7 @@ class Button : public UIElement
 
 
         void SetText(std::string str);
-        void Draw(Rectangle r) override;
+        void Draw(Rectangle r, Color tint) override;
         Button(int X, int Y, int W, int H, void (*Callback)());
         ~Button() = default;
 

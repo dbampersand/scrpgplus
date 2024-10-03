@@ -14,8 +14,8 @@ Rectangle GameObject::GetHealthBarRectangle()
     r.height = 20;
     return r;
 }
-void GameObject::Draw(Rectangle r)  {
-    Drawable::Draw(r);
+void GameObject::Draw(Rectangle r, Color tint)  {
+    Drawable::Draw(r,tint);
 };
 Rectangle GameObject::GetPosition()  {
     Vector2 size = GetSize();

@@ -10,9 +10,9 @@ Rectangle Slot::GetPosition()
 {
     return Rectangle{(float)x,(float)y,(float)w,(float)h};
 }
-void Slot::Draw(Rectangle r)
+void Slot::Draw(Rectangle r, Color tint)
 {
-    DrawRectangle(r.x,r.y,r.width,r.height,WHITE);
+    DrawRectangle(r.x,r.y,r.width,r.height,tint);
 }
 void Slot::SwapSlots(Slot* s1, Slot* s2)
 {

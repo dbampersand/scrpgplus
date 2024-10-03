@@ -51,9 +51,9 @@ Vector2 Drawable::GetSize() {
     return sprite.GetTexSize();
 };
 
-void Drawable::Draw(Rectangle r)
+void Drawable::Draw(Rectangle r, Color tint)
 {
-    sprite.Draw(r.x,r.y,r.width,r.height,WHITE);
+    sprite.Draw(r.x,r.y,r.width,r.height,tint);
 }
 void Drawable::SetTexture(std::string path) {
     sprite = Sprite(path);
@@ -73,10 +73,11 @@ void Drawable::DrawAll()
     {
         if (!d->IsHidden())
         {
+            d->sprite.UpdateAnimator(0.01f);
             Rectangle r = Render::TranslateToScreenSpace(d->GetPosition());
             if (d->ShadowEnabled())
             d->DrawShadow(r);
-            d->Draw(r);
+            d->Draw(r,d->Tint);
         }
         else
         {
@@ -91,7 +92,7 @@ void Drawable::DrawShadow(Rectangle r)
         r.x += 10;
         r.y += 10;
         BeginShaderMode(ShadowShader);
-        Draw(r);
+        Draw(r, Color{ 255,255,255,255 });
         EndShaderMode();
     }
     else

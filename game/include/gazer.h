@@ -6,7 +6,7 @@
 class Gazer : public AIControlled
 {
     public:
-        Gazer() : AIControlled(std::string("assets/enemies/gazer.png"))
+        Gazer() : AIControlled(std::string("assets/enemies/gazer.aseprite"))
         {   
             name = "Gazer";
             SetMaxHP(100,true);

@@ -9,7 +9,7 @@ void Tile::MoveObject(float x, float y)
     this->y = y;
 }
 
-void Tile::Draw(Rectangle r)
+void Tile::Draw(Rectangle r, Color tint)
 {
     if (!IsFontReady(CharacterFont) || !IsFontReady(MultiplierFont))
     {

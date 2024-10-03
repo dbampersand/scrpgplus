@@ -31,7 +31,7 @@ public:
 	{
 		return Rectangle{ position.x, position.y, radius, radius };
 	}
-	void Draw(Rectangle r) override
+	void Draw(Rectangle r, Color tint) override
 	{
 		DrawCircle(r.x, r.y, r.width, color);
 	}

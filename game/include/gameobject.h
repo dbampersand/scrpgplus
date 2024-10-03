@@ -11,7 +11,7 @@ class GameObject : public Drawable, public Updatable
         float x; float y;
         GameObject(std::string path);
         void Update(float dt) override;
-        void Draw(Rectangle r) override;
+        void Draw(Rectangle r, Color tint) override;
         Rectangle GetPosition() override;
         virtual Rectangle GetHealthBarRectangle();
 

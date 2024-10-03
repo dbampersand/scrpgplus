@@ -24,7 +24,7 @@ class Drawable
         virtual Rectangle GetPosition() = 0;
         void AddRenderOrder(int amt);
 
-        virtual void Draw(Rectangle r);
+        virtual void Draw(Rectangle r, Color tint);
         virtual void DrawShadow(Rectangle r);
         void HideDrawing();
         void ShowDrawing();
@@ -57,12 +57,17 @@ class Drawable
         {
             return ShadowDoesDraw;
         }
+        void SetTint(Color tint)
+        {
+            Tint = tint;
+        }
     private:
         Sprite sprite;
         int order = 0;
         static bool isSorted;
         bool Hidden = false;
         bool ShadowDoesDraw = true;
+        Color Tint = Color{ 255,255,255,255 };
 
 
 };

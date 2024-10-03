@@ -11,7 +11,7 @@ Button::Button(int X, int Y, int W, int H, void (*Callback)()) : UIElement(X, Y,
     callback = Callback;
 };
 
-void Button::Draw(Rectangle r)
+void Button::Draw(Rectangle r, Color tint)
 {
     Button* b = (Button*)this;
     Color c = foreground;

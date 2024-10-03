@@ -46,7 +46,7 @@ class UIElement : public Drawable, public Clickable, public Updatable
         };
 
         Rectangle GetPosition() override;
-        virtual void Draw(Rectangle r) override {
+        virtual void Draw(Rectangle r, Color tint) override {
         };
 
         UIElement(int X, int Y, int W, int H);

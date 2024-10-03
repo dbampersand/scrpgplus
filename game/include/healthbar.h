@@ -28,7 +28,7 @@ class HealthBar : Drawable
             Shield = shield / (maxHP);
         }
         void DrawHealthBar(Rectangle r);
-        void Draw(Rectangle r) {
+        void Draw(Rectangle r, Color tint) {
             DrawHealthBar(r);
         }
         Rectangle GetPosition() override;

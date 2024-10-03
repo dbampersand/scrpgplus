@@ -24,7 +24,7 @@ class Tile : public Draggable, public Drawable, Updatable
 
 
         float x; float y; float w; float h;
-        void Draw(Rectangle r) override;
+        void Draw(Rectangle r, Color tint) override;
 
         //Draggable virtuals
         void MoveObject(float x, float y) override;

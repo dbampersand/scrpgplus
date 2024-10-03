@@ -1,6 +1,7 @@
 #include "player.h"
 #include "enemies.h"
 #include "particle.h"
+#include "gamestate.h"
 
 std::vector<Player*> Player::players;
 
@@ -78,4 +79,12 @@ void Player::Damage(float amt)
 void Player::Attacked(float damage)
 {
     CreateAttackedParticles(damage);
+}
+bool Player::IsThisPlayersTurn()
+{
+    if (AiControlled && GameState::player == GameState::PlayerTurnType::AI_PLAYER)
+        return true;
+    if (!AiControlled && GameState::player == GameState::PlayerTurnType::PC_PLAYER)
+        return true;
+    return false;
 }

@@ -11,12 +11,18 @@ private:
     int maxHP = 100;
     int Shield;
     HealthBar HealthBar;
+    Color NotActiveTint = Color{ 128,128,128,255 };
 protected:
     bool AiControlled;
 public:
     void SetMaxHP(int hp, bool fill);
     void AddShield(int shield);
     void ClearShield();
+
+    Color GetNotActiveTint()
+    {
+        return NotActiveTint;
+    };
 
 
     std::string name;
@@ -39,6 +45,8 @@ public:
 
     void Attacked(float damage);
     virtual void CreateAttackedParticles(float damage) {};
+
+    bool IsThisPlayersTurn();
 
 
 
