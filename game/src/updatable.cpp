@@ -4,9 +4,9 @@
 Updatable::~Updatable()
 {
     //if 'this' exists inside of Updatables, add it to the list to remove it later
-    if (Updatables.size() > 0 && std::find(Updatables.begin(), Updatables.end(), this) != Updatables.end())
-        ToRemove.push_back(this);
-     // std::erase(Updatables, this);
+   // if (Updatables.size() > 0 && std::find(Updatables.begin(), Updatables.end(), this) != Updatables.end())
+        //ToRemove.push_back(this);
+      std::erase(Updatables, this);
 }
 Updatable::Updatable() {
     if (Updatables.size() == 0)
@@ -17,7 +17,7 @@ void Updatable::RemoveFromUpdatables()
 {
     for (Updatable* u : ToRemove)
     {
-        Updatables.erase(std::remove(Updatables.begin(), Updatables.end(), u));
+       // Updatables.erase(std::remove(Updatables.begin(), Updatables.end(), u));
     }
     ToRemove.clear();
 }

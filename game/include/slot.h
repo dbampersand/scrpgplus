@@ -8,7 +8,7 @@ typedef class Tile Tile;
 class Slot : public Drawable, DragTarget
 { 
     public:
-        std::unique_ptr<Tile> tile;
+        std::unique_ptr<Tile> tile = nullptr;
         bool filled = false;
 
         Rectangle GetPosition() override;

@@ -65,16 +65,26 @@ void Slot::OnDrag(Draggable* dr)
 }
 Slot::Slot(int X, int Y) : Drawable(std::string(""), 200) {
     x = X; y = Y;
-    tile = NULL;
+
+    tile = std::make_unique<Tile>((' '));
+    tile->Selectable = false;
+    tile->color = Color{ 0,0,0,0 };
+    tile->parent = (this);
+
 };
 Slot::Slot() : Drawable(std::string(""), 200) {
-
+    tile = std::make_unique<Tile>((' '));
+    tile->Selectable = false;
+    tile->color = Color{ 0,0,0,0 };
+    tile->parent = (this);
 };
 void Slot::HideChildren() 
 {
-    tile->HideDrawing();
+    if (tile)
+        tile->HideDrawing();
 }
 void Slot::ShowChildren() 
 {
-    tile->ShowDrawing();
+    if (tile)
+        tile->ShowDrawing();
 }

@@ -28,10 +28,10 @@ void Animator::PlayAnimation(std::string tag)
             Timer = 0;
             CurrentlyPlaying = a;
             CurrentlyPlayingIndex = 0;
-            UpdateAnimatorSprite();
         }
-
     }
+    UpdateAnimatorSprite();
+
 }
 void Animator::UpdateAnimatorSprite()
 {
@@ -59,9 +59,7 @@ void Animator::UpdateAnimator(float dt)
         CurrentlyPlaying = GetIdle();
         Timer = 0;
         UpdateAnimatorSprite();
-
     }
-
 }
 std::string Animator::GetTexName(std::string tag)
 {
@@ -119,8 +117,6 @@ void Sprite::Draw(int x, int y, int w, int h, Color tint)
 {
     Rectangle r = Rectangle{(float)x,(float)y,(float)w,(float)h};
     tex = Sprite::AddLoadedSprite(TexName);
-    //DrawTextureV(Sprite::AddLoadedSprite(tex),v.ToRLVector2(),tint);
-    //Texture2D* t = Sprite::AddLoadedSprite(tex);
     DrawTexturePro(*tex,Rectangle{0,0,(float)tex->width,(float)tex->height},r,Vector2{0,0},0,tint);
 }
 bool Sprite::SpriteExists(std::string path)
@@ -178,9 +174,12 @@ Texture2D* Sprite::AddLoadedSprite(std::string path)
         LoadedAseFiles.push_back(path);
         cute_aseprite_free(ase);
 
-        PlayAnimation("attack");
-
-
+        PlayAnimation("idle");
+    }
+    else if (IsAse(path) && IsAseLoaded(path))
+    {
+        Filename = path;
+        PlayAnimation("idle");
     }
     else if (!SpriteExists(path))
     {

@@ -175,11 +175,11 @@ PCControlled::PCControlled(std::string path) : Player(path) {
         PlayerTiles.push_back((playerTile));
 
         std::shared_ptr<Slot> tilePlayed = std::make_shared<Slot>(x, y + Slot::h + padding);
-        tilePlayed->tile = std::make_unique<Tile>((' '));
+        /*tilePlayed->tile = std::make_unique<Tile>((' '));
         tilePlayed->tile->Selectable = false;
         tilePlayed->tile->color = Color{ 0,0,0,0 };
         tilePlayed->tile->parent = tilePlayed.get();
-        TilesPlayed.push_back((tilePlayed));
+        */TilesPlayed.push_back((tilePlayed));
     }
     HideTiles();
 };

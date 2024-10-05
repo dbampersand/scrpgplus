@@ -20,6 +20,7 @@
 #include "draggable.h"
 #include "particle.h"
 #include "colours.h"
+#include "board.h"
 /*void handler(int sig) {
   void *array[10];
   size_t size;

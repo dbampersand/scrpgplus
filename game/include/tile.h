@@ -58,9 +58,6 @@ class Tile : public Draggable, public Drawable, Updatable
         }
         void SetFont(std::string characterFontPath, float characterSize, std::string multiplierFontPath, float multiplierSize)
         {
-            CharacterFont = LoadFont(characterFontPath.c_str());
-            MultiplierFont = LoadFont(multiplierFontPath.c_str());
-
         }
         Tile(char c);
         Tile(char c, float mult);
