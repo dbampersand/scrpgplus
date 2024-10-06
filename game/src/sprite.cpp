@@ -9,10 +9,6 @@ std::unordered_map<std::string, Texture2D> Sprite::sprites;
 std::unordered_map<std::string, std::vector<Animation>> Sprite::LoadedAnimations;
 std::vector<std::string> Sprite::LoadedAseFiles;
 
-int Animator::GetIndex(int x, int y, int w, int h)
-{
-    return (x * w) + y;
-}
 
 void Animator::PlayAnimation(std::string tag)
 {
@@ -61,14 +57,8 @@ void Animator::UpdateAnimator(float dt)
         UpdateAnimatorSprite();
     }
 }
-std::string Animator::GetTexName(std::string tag)
-{
-    std::string full = Filename + "_" + tag;
-    return full;
-}
 std::string Animator::GetTagFilename(std::string fileName, std::string tag)
 {
-    
     return fileName + "/" + tag;
 }
 void Animator::AddFrame(std::string fileName, std::string tag, int time, ase_color_t* data, int w, int h)
@@ -105,9 +95,9 @@ void Animator::AddFrame(std::string fileName, std::string tag, int time, ase_col
     a.FrameTime = time / 1000.0f;
     Sprite::LoadedAnimations.at(GetTagFilename(Filename,tag)).push_back(a);
 }
-void Sprite::AddSpriteToList(Texture2D tex, std::string name)
+void Sprite::AddSpriteToList(Texture2D tex, std::string path)
 {
-    sprites.insert({ name,tex });
+    sprites.insert({ path,tex });
 }
 void Sprite::SetSprite(Texture2D* Textu)
 {

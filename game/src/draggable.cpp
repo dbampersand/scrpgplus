@@ -24,19 +24,6 @@ void Draggable::Drag()
     
 }
 
-void Draggable::DragCheck()
-{
-    if (IsDragged && IsMouseButtonReleased(0))
-    {
-        for (DragTarget* dt : DragTarget::DragTargets)
-        {
-            if (CheckCollisionPointRec(Render::GetMousePos(), dt->GetPosition()))
-            {
-                //dt->OnDrag(this);
-            }
-        }
-    }
-}
 bool DragTarget::SortFunc(DragTarget* d1, DragTarget* d2)
 {
     return (d1->GetDrawingOrder() < d2->GetDrawingOrder());

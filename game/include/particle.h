@@ -6,82 +6,29 @@
 #include <memory>
 #include <functional>
 #define _USE_MATH_DEFINES
-
 #include <math.h>
+
 #define MAX_PARTICLES 1024
-class Particle : Drawable
+
+//class is final as using inheritance would mean we have to store a Particle as a pointer and lose locality
+class Particle final : Drawable
 {
 public:
-	Vector2 position;
-	Vector2 velocity;
-	Color color;
-	float lifetime;
-	float radius;
-	bool alive;
 
 
-	inline static float _GRAVITY = 980.0f;
 
-	void (*Update)(Particle* p, float dt);
+	static void CreateParticle(Vector2 Position, float Angle, Color col, float Lifetime, float Radius, float initialSpeed, int DrawOrder, void (*update)(Particle* p, float dt));
+	static void UpdateAllParticles(float dt);
 
-	static Particle particles[MAX_PARTICLES];
-	inline static int _PARTICLES_CURRENT = 0;
+	//Base update function, custom functions to be added here and then passed as the update argument in the constructor
+	static void BasicUpdate(Particle* p, float dt);
 
-	Rectangle GetPosition() override
-	{
-		return Rectangle{ position.x, position.y, radius, radius };
-	}
-	void Draw(Rectangle r, Color tint) override
-	{
-		DrawCircle((int)r.x, (int)r.y, r.width, color);
-	}
-	static void CreateParticle(Vector2 Position, float Angle, Color col, float Lifetime, float Radius, float initialSpeed, int DrawOrder, void (*update)(Particle* p, float dt))
-	{
-		Particle p = Particle(Position, Angle, col, Lifetime,Radius, initialSpeed, DrawOrder, update);
-		particles[_PARTICLES_CURRENT] = p;
-			_PARTICLES_CURRENT++;
+	//Converts degrees to radians
+	static float DegreesToRadians(float deg);
 
-		if (_PARTICLES_CURRENT >= MAX_PARTICLES)
-			_PARTICLES_CURRENT = 0;
+	Rectangle GetPosition() override;
+	void Draw(Rectangle r, Color tint) override;
 
-	}
-	static void UpdateAllParticles(float dt)
-	{
-		for (int i = 0; i < MAX_PARTICLES; i++)
-		{
-			Particle* p = &particles[i];
-			if (p->alive && p->Update)
-				p->Update(p, dt);
-		}
-	}
-	static void BasicUpdate(Particle* p, float dt)
-	{
-		p->position.x += p->velocity.x * dt;
-		p->position.y += p->velocity.y * dt;
-
-		p->velocity.y += _GRAVITY * dt;
-		p->lifetime -= dt;
-
-		if (p->lifetime <= 0)
-		{
-			p->Drawable::HideDrawing();
-			p->alive = false;
-		}
-	}
-	float DegreesToRadians(float deg) {
-		return deg * DEG2RAD;
-	}
-	Particle() : Drawable("", 0)
-	{
-		position = Vector2{ 0,0 };
-		velocity = Vector2{ 0,0 };
-		color = Color{ 0,0,0,0 };
-		lifetime = 0;
-		radius = 0;
-		alive = false;
-		Update = nullptr;
-		Drawable::HideDrawing();
-	}
 private:
 	Particle(Vector2 Position, float Angle, Color col, float Lifetime, float Radius, float initialSpeed, int DrawOrder, void (*update)(Particle* p, float dt)) : Drawable("",DrawOrder)
 	{
@@ -97,8 +44,37 @@ private:
 
 		alive = true;
 		radius = Radius;
-		Drawable::ShowDrawing();
 
+		Drawable::ShowDrawing();
 	}
+	Particle() : Drawable("", 0)
+	{
+		position = Vector2{ 0,0 };
+		velocity = Vector2{ 0,0 };
+		color = Color{ 0,0,0,0 };
+		lifetime = 0;
+		radius = 0;
+		alive = false;
+		Update = BasicUpdate;
+		Drawable::HideDrawing();
+	}
+
+	//Circular queue of particles
+	static Particle particles[MAX_PARTICLES];
+
+	//Current creation position in the circular queue - added to when a particle is created, and set to 0 when it reaches MAX_PARTICLES
+	inline static int _PARTICLES_CURRENT = 0;
+
+	Vector2 position;
+	Vector2 velocity;
+	Color color;
+	float lifetime;
+	float radius;
+	bool alive;
+
+	inline static float _GRAVITY = 980.0f;
+
+	//Function pointer to the update function the Particle should use
+	void (*Update)(Particle* p, float dt);
 
 };

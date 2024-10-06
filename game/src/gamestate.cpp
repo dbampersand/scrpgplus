@@ -9,7 +9,6 @@ std::default_random_engine GameState::rng = std::default_random_engine {};
 GameState::State GameState::state;  
 std::shared_ptr<Scene> GameState::currentScene;
 GameState::PlayerTurnType GameState::player = PC_PLAYER;
-int GameState::CurrentTurn = 0;
 
 void GameState::SetState(State state)
 {

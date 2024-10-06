@@ -12,5 +12,4 @@ class Scene : public Drawable
         }
 
         Rectangle GetPosition() override;
-        //static std::shared_ptr<Scene> currentScene;
 };

@@ -15,15 +15,20 @@ class GameState
             PC_PLAYER,
             AI_PLAYER
         };
+        //Sets the current gamestate
         static void SetState(State state);
+        //Returns the current gamestate
         static State GetState() { return state; };
-        static std::shared_ptr<Scene> currentScene;
+        
+        //Starts the game - creates the players and board
         static void StartGame();
 
-        static PlayerTurnType player;
+        //End the current turn and changes to the other player
         static void TakeTurn();
 
+        //Initialise the random number generator
         static void SeedRNG();
+        //Returns a random number between lower and upper in a given type
         template <typename T> static
         T RandRange(T lower, T upper)
         {
@@ -31,11 +36,19 @@ class GameState
             return (T)dist(rng);
         }
 
-        static std::default_random_engine rng;
+        //returns the RNG engine
+        static std::default_random_engine* GetRNG()
+        {
+            return &rng;
+        }
 
-        static int CurrentTurn;
-
+        static std::shared_ptr<Scene> currentScene;
+        //Who is currently taking their turn
+        static PlayerTurnType player;
         
     private:
        static State state;  
+       static std::default_random_engine rng;
+
+
 };

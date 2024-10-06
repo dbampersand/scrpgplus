@@ -6,17 +6,20 @@ class Updatable
 {   
     public:
 
-        inline static std::vector<Updatable*> Updatables;
-
-        virtual void Update(float dt) {};
-        virtual void LateUpdate(float dt) {};
-
          Updatable();
          ~Updatable();
 
+        //To be overridden, called every frame before Draw
+        virtual void Update(float dt) {};
+        //To be overridden, called every frame after Draw
+        virtual void LateUpdate(float dt) {};
 
+        //Updates every Updatable, called before Draw
         static void UpdateAll(float dt);
+        //Updates every Updatable, called after Draw
         static void LateUpdateAll(float dt);
 
+private:
+    inline static std::vector<Updatable*> Updatables;
 
 };

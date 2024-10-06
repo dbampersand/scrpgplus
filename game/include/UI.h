@@ -22,34 +22,49 @@ class UI
 
     public:
 
-
-        static void RegisterUIToGameState(GameState::State, std::string);
-
-        static void ClearActiveGroups();
-        static void AddGroup(UIGroup u);
-        static void SetGroupActive(std::string group);
-        static void SetGroupInactive(std::string group);
-        static UIGroup* GetGroup(std::string name);
-
         enum TextFormatting
         {
             ALIGN_LEFT,
             ALIGN_CENTER,
             ALIGN_RIGHT
         };
-        
-        static void DrawUI();
-        static void UpdateUI(float dt);
-        static void CreateUI();
-        static void DrawText(Font f, const char* c, float x, float y, int fontSize, Color col, TextFormatting format);
-        static void SetGroupsActive(GameState::State state);
 
+
+        //Registers a UIGroup name to a given gamestate, to be automatically shown when the gamestate is changed to
+        static void RegisterUIToGameState(GameState::State, std::string);
+
+        //Clears all currently active groups
+        static void ClearActiveGroups();
+        //Adds a UIGroup to uiGroups so we can later get it by name
+        static void AddGroup(UIGroup u);
+        //Sets the group active so that it will be shown
+        static void SetGroupActive(std::string group);
+        //Sets the group inactive so that it will be hidden
+        static void SetGroupInactive(std::string group);
+        //Gets the group by name
+        static UIGroup* GetGroup(std::string name);
+
+        //Initialisation function, creates the UI
+        static void CreateUI();
+
+        //The event function for when the start game button is clicked
         static void StartGameButton();
+        //The event function for when the end turn button is clicked
         static void EndTurnButton();
 
-        static void CreateMainMenuUI();
-        static void CreateGameUI();
-
+        //Enables/disables the end turn button
         static void EnableEndTurnButton(bool enable);
+
+        //Sets a group active based on the gamestate
+        static void SetGroupsActive(GameState::State state);
+
+private:
+
+    //Initialisation function, creates the main menu UI
+    static void CreateMainMenuUI();
+    //Initialisation function, creates the game  UI
+    static void CreateGameUI();
+
+
 };
 

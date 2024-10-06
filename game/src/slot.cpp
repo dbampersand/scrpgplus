@@ -52,8 +52,6 @@ void Slot::OnDrag(Draggable* dr)
         SwapSlots(t->parent,this);
 
 
-        filled = true;
-
         Rectangle position = t->GetDefaultPosition();
         Rectangle position2 = t2->GetDefaultPosition();
 

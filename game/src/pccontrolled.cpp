@@ -5,7 +5,6 @@
 #include "dictionary.h"
 #include "particle.h"
 #include "board.h"
-int PCControlled::DefaultBagSize = 100;
 
 void PCControlled::Update(float dt)
 {
@@ -168,7 +167,6 @@ PCControlled::PCControlled(std::string path) : Player(path) {
         playerTile->tile = std::move(DrawTile());
         playerTile->tile->y = y;
         playerTile->tile->parent = playerTile.get();
-        playerTile->filled = true;
 
         PlayerTiles.push_back((playerTile));
 
@@ -203,7 +201,7 @@ void PCControlled::TakeTurn(Player* other)
 
 void PCControlled::ShuffleBag(std::vector<std::unique_ptr<Tile>>* bag)
 {
-    std::shuffle(std::begin(*bag), std::end(*bag), GameState::rng);
+    std::shuffle(std::begin(*bag), std::end(*bag), *GameState::GetRNG());
 }
 float PCControlled::GetMultiplier(std::string hand)
 {
@@ -244,7 +242,6 @@ void PCControlled::DrawToMax()
             slot->tile->x = (float)slot->x;
             slot->tile->y = (float)slot->y;
             slot->tile->parent = slot.get();
-            slot->filled = true;
             slot->ShowDrawing();
         }
     }

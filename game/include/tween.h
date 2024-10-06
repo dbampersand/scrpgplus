@@ -18,8 +18,13 @@ class Tween : Updatable
     T* property;
 
     T (*easingFunc)(T, T, float);
-
+    
+    //if the Tween should reset its OldValue while tweening or not
+    //if set to false, then this will visibly jump when the value is changed during tweening
     bool shouldResetWhenChanged = true;
+
+    //Creates a tween given a property, an easing function and the duration for it to occur over
+    //See Lerp/EaseOutQuad for creating an EasingFunc
     Tween(T* Property, T (*EasingFunc)(T, T, float), float Duration) : Updatable()
     {
         easingFunc = EasingFunc;
@@ -33,15 +38,17 @@ class Tween : Updatable
         duration = Duration;
     }   
 
+    //Linearly interpolates between from and to 
     static T Lerp(T from, T to, float percent)
     {
         return from + (to - from) * percent;
     }
+    //Quadratic ease out between from and to
     static T EaseOutQuad(T from, T to, float percent)
     {
         return from + ((to - from)) * (1 - (1 - percent) * (1 - percent));
     }
-
+    //Makes tween from Oldvalue and NewValue
     void MakeTween(T OldValue, T NewValue)
     {
         if (shouldResetWhenChanged)

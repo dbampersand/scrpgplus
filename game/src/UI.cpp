@@ -40,34 +40,8 @@ UIGroup* UI::GetGroup(std::string name)
     }
     return nullptr;
 }
-void UI::DrawUI()
-{
-    for(std::unordered_map<GameState::State, std::vector<std::string>>::iterator it = UI::gameStateUI.begin(); it != UI::gameStateUI.end(); it++)
-    {
-        if (GameState::GetState() == it->first)
-        {
-            for (std::string s : it->second)
-            {
-                UIGroup* u = GetGroup(s);
-                if (u != nullptr)
-                    u->DrawGroup();
-            }
-        }
-    }
-    for(UIGroup* g : activeGroups)
-    {
-        g->DrawGroup();
-    }
 
-}
-void UI::UpdateUI(float dt)
-{
-    for(std::unordered_map<std::string, UIGroup>::iterator it = UI::uiGroups.begin(); it != UI::uiGroups.end(); it++)
-    {
-       // UIGroup g = it->second;
-       // g.UpdateGroup(dt);
-    }
-}
+
 void UI::StartGameButton()
 {
     GameState::StartGame();
@@ -103,16 +77,6 @@ void UI::CreateUI()
 {
     UI::CreateMainMenuUI();
     UI::CreateGameUI();
-}
-void UI::DrawText(Font f, const char* c, float x, float y, int fontSize, Color col, UI::TextFormatting format)
-{
-    if (format == ALIGN_CENTER)
-    {
-        Vector2 measured = MeasureTextEx(f,c,fontSize,fontSize);
-        x -= measured.x/2.0f;
-        y -= measured.y/2.0f;
-    }
-    DrawTextEx(f,c,Vector2{(float)x,(float)y},fontSize,fontSize,col);
 }
 void UI::AddGroup(UIGroup u)
 {

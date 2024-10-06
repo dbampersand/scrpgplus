@@ -69,9 +69,6 @@ Vector2 Render::GetScreenCenter()
 {
     return Vector2{GetBasisWidth()/2.0f,GetBasisHeight()/2.0f};
 }
- void Render::Draw(float dt)
-{
-}
 Vector2 Render::GetMousePos()
 {
     Vector2 mouse = GetMousePosition();

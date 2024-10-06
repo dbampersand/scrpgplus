@@ -27,7 +27,7 @@ void Button::Draw(Rectangle r, Color tint)
     DrawRectangle(r.x+1,r.y+1,r.width-2,r.height-2,c);
 
     if (!text.empty())
-        UI::DrawText(GetFontDefault(),text.c_str(),r.x+r.width/2.0f,r.y+r.height/2.0f,10,background,UI::ALIGN_CENTER);
+        Render::DrawText(text.c_str(), "assets/fonts/PlayfairDisplay/PlayfairDisplay-Bold.ttf", 12, Rectangle{ r.x + r.width / 2.0f,r.y + r.height / 2.0f,10 }, background, Sprite::SPRITE_ALIGN::CENTER);
 }
 
 void Button::Clicked()

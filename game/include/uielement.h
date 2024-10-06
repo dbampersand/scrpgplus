@@ -8,43 +8,43 @@
 class Clickable 
 {
     public:
-        virtual void Clicked() = 0;
-        virtual void Released() = 0;
-        virtual void Unclicked() {};
-
-        virtual Rectangle GetPosition() = 0;
-
-
+        //Returns true if the Clickable is moused over
         bool MousedOver(Rectangle r);
 
-        bool clicked;
-        bool IsClickable = true;
 
         Clickable();
         ~Clickable();
 
+        //Updates all clickables
         static void UpdateClickables();
 
-        static std::vector<Clickable*> Clickables;
+        bool clicked;
+        bool IsClickable = true;
+
+        //To be overridden, called when the object is clicked on
+        virtual void Clicked() = 0;
+        //To be overridden, called when the object is clicked and then released
+        virtual void Released() = 0;
+        //To be overridden, called when the object has been clicked on, then the mouse moved off it's rectangle, and then released
+        virtual void Unclicked() {};
+
+        //To be overridden, returns the position in world space
+        virtual Rectangle GetPosition() = 0;
+
+private:
+
+    static std::vector<Clickable*> Clickables;
+
 };
 class UIElement : public Drawable, public Clickable, public Updatable
 {
 
     public:
-        virtual void Clicked() override {};
-        virtual void Released() override {};
-        //'Unclicked' is when the player clicks a uielement, but then moves their mouse off and releases
-        virtual void Unclicked() override {};
-    
+        
+        //Disables the UI element
         void Disable();
+        //Enables the UI element
         void Enable();
-
-        void Update(float dt) override {
-        };
-
-        Rectangle GetPosition() override;
-        virtual void Draw(Rectangle r, Color tint) override {
-        };
 
         UIElement(float X, float Y, float W, float H);
         virtual ~UIElement() = default;
@@ -54,7 +54,20 @@ class UIElement : public Drawable, public Clickable, public Updatable
         float w;
         float h;
 
-        void Update();
+        //To be overridden, called when the object is clicked on
+        virtual void Clicked() override {};
+        //To be overridden, called when the object is clicked and then released
+        virtual void Released() override {};
+        //To be overridden, called when the object has been clicked on, then the mouse moved off it's rectangle, and then released
+        virtual void Unclicked() override {};
+
+        Rectangle GetPosition() override;
+
+        void Update(float dt) override {
+        };
+        virtual void Draw(Rectangle r, Color tint) override {
+        };
+
 
     private:
 
