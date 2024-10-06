@@ -4,6 +4,9 @@
 #include "gamestate.h"
 #include "pccontrolled.h"
 #include "dictionary.h"
+#include "button.h"
+
+#include <iostream>
 
 std::unordered_map<std::string, UIGroup> UI::uiGroups;
 std::vector<UIGroup*> UI::activeGroups;
@@ -152,4 +155,9 @@ void UI::EnableEndTurnButton(bool enable)
         _endTurnButton->Enable();
     else
         _endTurnButton->Disable();
+}
+
+void UI::ConsolePrint(std::string str)
+{
+    std::cout << str;
 }

@@ -3,19 +3,12 @@
 
 #include "drawable.h"
 
-#include <memory>
-#include <functional>
-#define _USE_MATH_DEFINES
-#include <math.h>
-
 #define MAX_PARTICLES 1024
 
 //class is final as using inheritance would mean we have to store a Particle as a pointer and lose locality
 class Particle final : Drawable
 {
 public:
-
-
 
 	static void CreateParticle(Vector2 Position, float Angle, Color col, float Lifetime, float Radius, float initialSpeed, int DrawOrder, void (*update)(Particle* p, float dt));
 	static void UpdateAllParticles(float dt);
@@ -30,34 +23,8 @@ public:
 	void Draw(Rectangle r, Color tint) override;
 
 private:
-	Particle(Vector2 Position, float Angle, Color col, float Lifetime, float Radius, float initialSpeed, int DrawOrder, void (*update)(Particle* p, float dt)) : Drawable("",DrawOrder)
-	{
-		position = Position;
-		float rad = DegreesToRadians(Angle);
-
-		velocity.x = cos(rad) * initialSpeed;
-		velocity.y = sin(rad) * initialSpeed;
-
-		color = col;
-		lifetime = Lifetime;
-		Update = update;
-
-		alive = true;
-		radius = Radius;
-
-		Drawable::ShowDrawing();
-	}
-	Particle() : Drawable("", 0)
-	{
-		position = Vector2{ 0,0 };
-		velocity = Vector2{ 0,0 };
-		color = Color{ 0,0,0,0 };
-		lifetime = 0;
-		radius = 0;
-		alive = false;
-		Update = BasicUpdate;
-		Drawable::HideDrawing();
-	}
+	Particle(Vector2 Position, float Angle, Color col, float Lifetime, float Radius, float initialSpeed, int DrawOrder, void (*update)(Particle* p, float dt));
+	Particle();
 
 	//Circular queue of particles
 	static Particle particles[MAX_PARTICLES];

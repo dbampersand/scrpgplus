@@ -1,8 +1,11 @@
 #pragma once
 
 #include "sprite.h"
-#include <vector>
+
 #include "raylib.h"
+
+#include <vector>
+
     
 
 #if defined(PLATFORM_DESKTOP)

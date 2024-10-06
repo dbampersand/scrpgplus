@@ -1,6 +1,5 @@
 #pragma once
 
-#include "sprite.h"
 #include "drawable.h"
 
 class Scene : public Drawable

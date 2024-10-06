@@ -3,7 +3,6 @@
 #include "drawable.h"
 #include "updatable.h"
 #include "healthbar.h"
-#include "tween.h"
 
 class GameObject : public Drawable, public Updatable
 {

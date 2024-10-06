@@ -1,7 +1,7 @@
 
 #include "dictionary.h"
-#include <iostream>
 #include <fstream>
+#include "UI.h"
 
 std::string Dictionary::WordListPath = "assets/words/words.txt";
 #define CEIL(x,y) (((x) + (y) - 1) / (y))
@@ -48,7 +48,7 @@ void Dictionary::LoadDictionary()
     }
     else
     {
-        std::cout << "Could not open " << WordListPath;
+        UI::ConsolePrint("Could not open " + WordListPath);
     }
 
     for (int i = 0; i < _NumThreads; i++)

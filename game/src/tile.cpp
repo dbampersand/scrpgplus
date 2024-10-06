@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include "pccontrolled.h"
 #include <string>
+#include "player.h"
 void Tile::MoveObject(float x, float y)
 {
     this->x = x;
@@ -115,3 +116,35 @@ Tile::Tile() : Drawable(std::string(""), 600) {
     color = Color{ 100,0,100 };
 };
 
+/* Tile types */
+
+//Damage tile:
+DamageTile::DamageTile(char c, float mult) : Tile(c, mult)
+{
+    tileType = Damage;
+    color = Colours::Damage;
+};
+void DamageTile::ApplyEffect(Player* target, Player* parent, float multiplier) {
+    target->Damage(mutiplier);
+};
+
+//Heal tile:
+HealTile::HealTile(char c, float mult) : Tile(c, mult)
+{
+    tileType = Heal;
+    color = Colours::Heal;
+};
+void HealTile::ApplyEffect(Player* target, Player* parent, float multiplier) {
+    parent->Heal(mutiplier);
+};
+
+
+//Shield tile::
+ShieldTile::ShieldTile(char c, float mult) : Tile(c, mult)
+{
+    tileType = Shield;
+    color = Colours::Shield;
+};
+void ShieldTile::ApplyEffect(Player* target, Player* parent, float multiplier) {
+    parent->AddShield((int)mutiplier);
+};

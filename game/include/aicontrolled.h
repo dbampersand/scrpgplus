@@ -1,8 +1,6 @@
 #pragma once
 #include "player.h"
-#include "gamestate.h"
-#include "particle.h"
-#include "colours.h"
+
 class AIControlled : public Player
 {
 public:

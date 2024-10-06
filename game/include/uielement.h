@@ -3,7 +3,6 @@
 #include "raylib.h"
 #include "drawable.h"
 #include "updatable.h"
-#include "render.h"
 
 class Clickable 
 {

@@ -1,9 +1,6 @@
 #pragma once
 
-#include "draggable.h"
-#include "drawable.h"
 #include "slot.h"
-#include "render.h"
 
 #define _BOARD_TILE_COUNT_X 20
 #define _BOARD_TILE_COUNT_Y 15
@@ -31,8 +28,6 @@ public:
 	std::vector<std::shared_ptr<Slot>> PlayerSlots;
 
 
-
 	void Show();
 	void Hide();
-
 };

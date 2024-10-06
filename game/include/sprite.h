@@ -1,10 +1,11 @@
 #pragma once
 
 #include "raylib.h"
-#include <string>
-#include "loadable.h"
-#include <unordered_map>
+
 #include "external/cute_aseprite.h"
+
+#include <string>
+#include <unordered_map>
 
 #define _IDLE "idle"
 

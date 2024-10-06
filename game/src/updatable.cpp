@@ -1,5 +1,4 @@
 #include "updatable.h"
-#include <iostream>
 
 Updatable::~Updatable()
 {

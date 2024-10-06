@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include "updatable.h"
 
 template <typename T>

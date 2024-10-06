@@ -1,7 +1,6 @@
 #include "healthbar.h"
 #include "render.h"
 #include "gameobject.h"
-#include <iostream>
 #include "colours.h"
 
 void HealthBar::DrawHealthBar(Rectangle r)

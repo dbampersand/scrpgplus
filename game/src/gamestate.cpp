@@ -3,7 +3,9 @@
 #include "player.h"
 #include "pccontrolled.h"
 #include "Timer.h"
+
 #include <chrono>
+
 std::default_random_engine GameState::rng = std::default_random_engine {};
 
 GameState::State GameState::state;  

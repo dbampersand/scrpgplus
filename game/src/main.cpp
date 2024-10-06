@@ -15,7 +15,6 @@
 #include <memory>
 #include "dictionary.h"
 #include "Timer.h"
-#include <iostream>
 #include <chrono>
 #include "draggable.h"
 #include "particle.h"

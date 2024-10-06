@@ -1,8 +1,8 @@
 #pragma once
 
 #include "drawable.h"
-#include "updatable.h"
 #include "tween.h"  
+
 typedef class GameObject GameObject;
 class HealthBar : Drawable
 {

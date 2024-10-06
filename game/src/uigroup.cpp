@@ -5,6 +5,7 @@
 #include "button.h"
 #include "gamestate.h"
 #include "UI.h"
+#include "button.h"
 
 void UIGroup::Show()
 {

@@ -2,10 +2,12 @@
 
 #include "drawable.h"
 #include "draggable.h"
-#include "raylib.h"
-#include "player.h"
 #include "colours.h"
+
+#include "raylib.h"
+
 typedef class Slot Slot;
+typedef class Player Player;
 
 class Tile : public Draggable, public Drawable, Updatable
 {
@@ -88,39 +90,20 @@ private:
 class DamageTile : public Tile
 {
     public:
-    DamageTile(char c, float mult) : Tile(c, mult)
-    {
-        tileType = Damage;
-        color = Colours::Damage;
-    };
-    void ApplyEffect(Player* target, Player* parent, float multiplier) override {
-        target->Damage(mutiplier);
-    };
+        DamageTile(char c, float mult);
+        void ApplyEffect(Player* target, Player* parent, float multiplier);
 };
 class HealTile : public Tile
 {
 public:
-    HealTile(char c, float mult) : Tile(c, mult)
-    {
-        tileType = Heal;
-        color = Colours::Heal;
-    };
+    HealTile(char c, float mult);
 
-    void ApplyEffect(Player* target, Player* parent, float multiplier) override {
-        parent->Heal(mutiplier);
-    };
+    void ApplyEffect(Player* target, Player* parent, float multiplier);
 
 };
 class ShieldTile : public Tile
 {
 public:
-    ShieldTile(char c, float mult) : Tile(c, mult)
-    {
-        tileType = Shield;
-        color = Colours::Shield;
-    };
-    void ApplyEffect(Player* target, Player* parent, float multiplier) override {
-        parent->AddShield((int)mutiplier);
-    };
-
+    ShieldTile(char c, float mult);
+    void ApplyEffect(Player* target, Player* parent, float multiplier);
 };

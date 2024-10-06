@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include "sprite.h"
 #include <map>
+
 class Render
 {
     public:
@@ -43,6 +44,4 @@ class Render
         //string->font map so we can lazy load any fonts and store them just by path
         //the second value is a map of font size to font so we just need to store a given font in a single size once
         inline static std::map<std::string, std::map<int, Font>> fonts;
-
-
 };

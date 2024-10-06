@@ -1,10 +1,9 @@
 #pragma once
 
+#include "updatable.h"
+
 #include <functional>
 #include <memory>
-#include "updatable.h"
-#include <string>
-#include <algorithm>
 
 class Timer : Updatable
 {

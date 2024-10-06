@@ -2,7 +2,6 @@
 #include "sprite.h"
 #include "UI.h"
 #include "raylib.h"
-#include <iostream>
 
 /*Sprite* Render::GetSprite(std::string path)
 {

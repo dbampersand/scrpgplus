@@ -2,6 +2,7 @@
 
 #include "scene.h"
 #include "player.h"
+
 #include <random>
 
 class GameState

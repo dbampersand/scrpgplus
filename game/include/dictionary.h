@@ -2,14 +2,12 @@
 #include "updatable.h"
 
 #include <string>
-#include <unordered_map>
-#include <set>
 #include <unordered_set>
-#include <iostream>
 #include <thread>
 
 #define _AlphabetCharacters 26
 #define _NumThreads 4
+
 class TrieNode
 {
 public:

@@ -4,7 +4,6 @@
 #include "render.h"
 
 #include <algorithm>
-#include <iostream>
 
 std::vector<Draggable*> Draggable::AllDraggables;
 std::vector<DragTarget*> DragTarget::DragTargets;

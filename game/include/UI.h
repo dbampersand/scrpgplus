@@ -1,13 +1,9 @@
 #pragma once
 
-#include "raylib.h"
-
 #include "gamestate.h"
 #include "uigroup.h"
 
 #include <unordered_map>
-#include <map>
-#include <string>
 
 class UI
 {
@@ -57,6 +53,8 @@ class UI
 
         //Sets a group active based on the gamestate
         static void SetGroupsActive(GameState::State state);
+
+        static void ConsolePrint(std::string str);
 
 private:
 

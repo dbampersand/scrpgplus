@@ -1,6 +1,7 @@
 #include "sprite.h"
 #include "render.h"
-#include <iostream>
+#include "UI.h"
+
 #include <algorithm>
 #define CUTE_ASEPRITE_IMPLEMENTATION
 #include "external/cute_aseprite.h"
@@ -141,7 +142,7 @@ Texture2D* Sprite::AddLoadedSprite(std::string path)
 
     if (!FileExists(path.c_str()))
     {
-        std::cout << "File not found: " << path << "\n";
+        UI::ConsolePrint("File not found: " + path + "\n");
         fflush(stdout);
         return &sprites[""];
     }

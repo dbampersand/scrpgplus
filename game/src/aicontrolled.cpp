@@ -1,4 +1,7 @@
 #include "aicontrolled.h"
+#include "particle.h"
+#include "gamestate.h"
+#include "colours.h"
 
 AIControlled::AIControlled(std::string sprite) : Player(sprite)
 {

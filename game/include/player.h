@@ -1,7 +1,6 @@
 #pragma once
 
 #include "gameobject.h"
-#include <map>
 #include "render.h"
 
 class Player : public GameObject
@@ -27,7 +26,6 @@ public:
     void Attacked(float damage);
     //To be overridden with custom logic for creating 'blood' particles when a Player is attacked
     virtual void CreateAttackedParticles(float damage) {};
-
 
 
     //Gets the player opposite this player, i.e. the human player if this is the AI player, or the AI player if this is the human
