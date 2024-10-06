@@ -20,8 +20,18 @@ class Slot : public Drawable, DragTarget
         Slot();
         ~Slot() = default;
         void OnDrag(Draggable* d) override;
+        bool IsHidden() override {
+            return Drawable::IsHidden();
+        };
+        int GetDrawingOrder() override
+        {
+            return Drawable::GetOrder();
+        }
 
         void HideChildren();
         void ShowChildren();
+
+        static void HorizontalCenterTiles(std::vector<std::shared_ptr<Slot>>* slots, int padding);
+
         static void SwapSlots(Slot* s1, Slot* s2);
 }; 

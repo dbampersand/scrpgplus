@@ -14,7 +14,7 @@ class TrieNode
 {
 public:
     std::unique_ptr<TrieNode> Children[_AlphabetCharacters];
-    bool isEnd;
+    bool isEnd = false;
 
     static char ToArrayIndex(char c)
     {
@@ -23,10 +23,6 @@ public:
 
     TrieNode()
     {
-        for (int i = 0; i < _AlphabetCharacters; i++)
-        {
-            Children[i] = nullptr;
-        }
     }
 };
 

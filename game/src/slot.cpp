@@ -73,6 +73,7 @@ Slot::Slot(int X, int Y) : Drawable(std::string(""), 200) {
 
 };
 Slot::Slot() : Drawable(std::string(""), 200) {
+    x = 0; y = 0;
     tile = std::make_unique<Tile>((' '));
     tile->Selectable = false;
     tile->color = Color{ 0,0,0,0 };
@@ -87,4 +88,16 @@ void Slot::ShowChildren()
 {
     if (tile)
         tile->ShowDrawing();
+}
+void Slot::HorizontalCenterTiles(std::vector<std::shared_ptr<Slot>>* slots, int padding)
+{
+    int startX = Render::GetBasisWidth() / 2.0f - ((Slot::w * slots->size() / 2.0f) + (padding * slots->size() / 2.0f) - padding / 2.0f);
+
+    for (int i = 0; i < slots->size(); i++)
+    {
+        int x = startX + (Slot::w * i) + (padding * i);
+        (*slots)[i]->x = x;
+        if ((*slots)[i]->tile)
+            (*slots)[i]->tile->x = x;
+    }
 }

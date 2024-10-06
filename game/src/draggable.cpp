@@ -3,6 +3,8 @@
 #include "raylib.h"
 #include "render.h"
 
+#include <algorithm>
+#include <iostream>
 
 std::vector<Draggable*> Draggable::AllDraggables;
 std::vector<DragTarget*> DragTarget::DragTargets;
@@ -13,7 +15,8 @@ Draggable::Draggable()
     AllDraggables.push_back(this);
 };
 Draggable::~Draggable() {
-    Draggable::AllDraggables.erase(std::remove(AllDraggables.begin(), AllDraggables.end(), this), AllDraggables.end());
+    if (std::find(AllDraggables.begin(), AllDraggables.end(), this) != AllDraggables.end())
+        std::erase(AllDraggables, this);
 };
 
 void Draggable::Drag() 
@@ -34,8 +37,28 @@ void Draggable::DragCheck()
         }
     }
 }
+bool DragTarget::SortFunc(DragTarget* d1, DragTarget* d2)
+{
+    return (d1->GetDrawingOrder() < d2->GetDrawingOrder());
+}
+bool Draggable::SortFunc(Draggable* d1, Draggable* d2)
+{
+    return (d1->GetDrawingOrder() < d2->GetDrawingOrder());
+}
+void Draggable::SortDraggables()
+{
+    if (!std::is_sorted(AllDraggables.begin(), AllDraggables.end(), Draggable::SortFunc))
+        std::sort(AllDraggables.begin(), AllDraggables.end(), Draggable::SortFunc);
+}
+void DragTarget::SortDragTargets()
+{
+    if (!std::is_sorted(DragTargets.begin(), DragTargets.end(), DragTarget::SortFunc))
+        std::sort(DragTargets.begin(), DragTargets.end(), DragTarget::SortFunc);
+}
 void Draggable::CheckDraggables(float dt)
 {
+    Draggable::SortDraggables();
+    DragTarget::SortDragTargets();
     for (Draggable* d : AllDraggables)
     {
         Drawable* dr = (Drawable*)d;
@@ -43,6 +66,9 @@ void Draggable::CheckDraggables(float dt)
             continue;
         if (!d->CanBeDragged())
             continue;
+        if (dr->IsHidden())
+            continue;
+
         if (IsMouseButtonPressed(0) && CheckCollisionPointRec(Render::GetMousePos(), d->GetPosition()))
         {
             if (d->Selectable)
@@ -74,6 +100,8 @@ void Draggable::CheckDraggables(float dt)
 
             for (DragTarget* dt : DragTarget::DragTargets)
             {
+                if (dt->IsHidden())
+                    continue;
                 if (CheckCollisionPointRec(Render::GetMousePos(), dt->GetPosition()))
                 {
                     d->IsDragged = false;
@@ -122,6 +150,8 @@ DragTarget::DragTarget()
 {
     DragTargets.push_back(this);
 }
-DragTarget::~DragTarget() {
-    DragTarget::DragTargets.erase(std::remove(DragTargets.begin(), DragTargets.end(), this), DragTargets.end());
+DragTarget::~DragTarget() 
+{
+    if (std::find(DragTargets.begin(), DragTargets.end(), this) != DragTargets.end())
+        DragTarget::DragTargets.erase(std::remove(DragTargets.begin(), DragTargets.end(), this), DragTargets.end());
 };

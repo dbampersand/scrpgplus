@@ -32,6 +32,10 @@ public:
         void PlayHand();
         void ClearHand();
 
+        void Win();
+        void Lose();
+
+
         float GetMultiplier(std::string hand);
         std::string GetPlayedHand();
         void Attack(float multiplier);

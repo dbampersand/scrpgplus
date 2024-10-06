@@ -206,4 +206,5 @@ void Sprite::GenerateNullSprite()
     Image i = GenImageColor(1,1,Color{0,0,0,0});
     Texture2D t = LoadTextureFromImage(i);
     sprites.insert({"",t});
+    UnloadImage(i);
 }

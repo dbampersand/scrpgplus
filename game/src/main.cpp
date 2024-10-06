@@ -108,4 +108,7 @@ int main()
     }
     EndCleanup();
     CloseWindow();
+
+    //note: call to exit() here as otherwise destructors are called in an arbitrary order and can crash just before it exits (although the destructors in this case are safe with a find) 
+    exit(0);
 }

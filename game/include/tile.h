@@ -59,6 +59,13 @@ class Tile : public Draggable, public Drawable, Updatable
         void SetFont(std::string characterFontPath, float characterSize, std::string multiplierFontPath, float multiplierSize)
         {
         }
+
+        int GetDrawingOrder() override
+        {
+            return Drawable::GetOrder();
+        }
+
+
         Tile(char c);
         Tile(char c, float mult);
         Tile();

@@ -4,7 +4,7 @@
 #include "gamestate.h"
 #include "dictionary.h"
 #include "particle.h"
-
+#include "board.h"
 int PCControlled::DefaultBagSize = 100;
 
 void PCControlled::Update(float dt)
@@ -25,7 +25,6 @@ void PCControlled::HideTiles()
         s->HideDrawing();
         if (s->tile)
             s->tile->HideDrawing();
-
     }
 }
 
@@ -159,33 +158,51 @@ PCControlled::PCControlled(std::string path) : Player(path) {
     InitBag();
     ShuffleBag(&bag);
 
+    Board::board = std::make_unique<Board>();
+
     for (int i = 0; i < _MaxTiles; i++)
     {
-        int x = startX + (Slot::w * i) + (padding * i);
         int y = startY;
-        std::shared_ptr<Slot> playerTile = std::make_shared<Slot>(x, y);
+        std::shared_ptr<Slot> playerTile = std::make_shared<Slot>(0, y);
 
         playerTile->tile = std::move(DrawTile());
-        playerTile->tile->x = x;
         playerTile->tile->y = y;
         playerTile->tile->parent = playerTile.get();
         playerTile->filled = true;
 
-
         PlayerTiles.push_back((playerTile));
 
-        std::shared_ptr<Slot> tilePlayed = std::make_shared<Slot>(x, y + Slot::h + padding);
+        std::shared_ptr<Slot> tilePlayed = std::make_shared<Slot>(0, y + Slot::h + padding);
         /*tilePlayed->tile = std::make_unique<Tile>((' '));
         tilePlayed->tile->Selectable = false;
         tilePlayed->tile->color = Color{ 0,0,0,0 };
         tilePlayed->tile->parent = tilePlayed.get();
         */TilesPlayed.push_back((tilePlayed));
     }
+    Slot::HorizontalCenterTiles(&PlayerTiles,padding);
+    Slot::HorizontalCenterTiles(&TilesPlayed,padding);
+    
     HideTiles();
 };
+void PCControlled::Win()
+{
+    Board::board->Show();
+    HideTiles();
+}
+void PCControlled::Lose()
+{
+    Player::HideDrawing();
+    HideTiles();
+}
+
 void PCControlled::TakeTurn(Player* other)
 {
     PlayHand();
+
+    if (other->GetHP() <= 0)
+    {
+        Win();
+    }
 }
 
 void PCControlled::ShuffleBag(std::vector<std::unique_ptr<Tile>>* bag)
@@ -270,7 +287,6 @@ void PCControlled::PlayHand()
     float multiplier = GetMultiplier(word);
     Attack(multiplier);
     ClearHand();
-
 }
 Rectangle PCControlled::GetHealthBarRectangle()
 {
@@ -288,3 +304,4 @@ Rectangle PCControlled::GetHealthBarRectangle()
     }
     return Rectangle{ 0,0,0,0 };
 }
+

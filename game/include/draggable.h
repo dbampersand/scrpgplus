@@ -36,16 +36,32 @@ class Draggable
     virtual void DragClick() = 0;
 
     virtual bool CanBeDragged() = 0;
+    virtual int GetDrawingOrder() = 0;
+
+    static void SortDraggables();
+    static bool SortFunc(Draggable* d1, Draggable* d2);
+
 };
 
 class DragTarget
 {
+    private:
     public:
         virtual void OnDrag(Draggable* dr) {};
         virtual Rectangle GetPosition() = 0;
 
         DragTarget();
         ~DragTarget();
+
+        static void SortDragTargets();
+
+
+        virtual bool IsHidden() = 0;
+
+        virtual int GetDrawingOrder() = 0;
+        static bool SortFunc(DragTarget* d1, DragTarget* d2);
+
+
         static std::vector<DragTarget*> DragTargets;
 
 };
