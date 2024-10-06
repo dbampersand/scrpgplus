@@ -150,8 +150,8 @@ PCControlled::PCControlled(std::string path) : Player(path) {
     int padding = 5;
 
     //int startX = 139;
-    int startX = Render::GetBasisWidth()/2.0f - ((Slot::w * _MaxTiles/2.0f) + (padding * _MaxTiles/2.0f) - padding/2.0f);
-    int startY = 200;
+    float startX = Render::GetBasisWidth()/2.0f - ((Slot::GetDefaultWidth() * _MaxTiles/2.0f) + (padding * _MaxTiles/2.0f) - padding/2.0f);
+    float startY = 200;
 
     AiControlled = false;
 
@@ -162,8 +162,8 @@ PCControlled::PCControlled(std::string path) : Player(path) {
 
     for (int i = 0; i < _MaxTiles; i++)
     {
-        int y = startY;
-        std::shared_ptr<Slot> playerTile = std::make_shared<Slot>(0, y);
+        float y = startY;
+        std::shared_ptr<Slot> playerTile = std::make_shared<Slot>(0.0f, y);
 
         playerTile->tile = std::move(DrawTile());
         playerTile->tile->y = y;
@@ -172,15 +172,11 @@ PCControlled::PCControlled(std::string path) : Player(path) {
 
         PlayerTiles.push_back((playerTile));
 
-        std::shared_ptr<Slot> tilePlayed = std::make_shared<Slot>(0, y + Slot::h + padding);
-        /*tilePlayed->tile = std::make_unique<Tile>((' '));
-        tilePlayed->tile->Selectable = false;
-        tilePlayed->tile->color = Color{ 0,0,0,0 };
-        tilePlayed->tile->parent = tilePlayed.get();
-        */TilesPlayed.push_back((tilePlayed));
+        std::shared_ptr<Slot> tilePlayed = std::make_shared<Slot>(0.0f, y + Slot::GetDefaultHeight() + padding);
+        TilesPlayed.push_back((tilePlayed));
     }
-    Slot::HorizontalCenterTiles(&PlayerTiles,padding);
-    Slot::HorizontalCenterTiles(&TilesPlayed,padding);
+    Slot::HorizontalCenterTiles(&PlayerTiles,(float)padding);
+    Slot::HorizontalCenterTiles(&TilesPlayed,(float)padding);
     
     HideTiles();
 };
@@ -245,8 +241,8 @@ void PCControlled::DrawToMax()
         if (slot->tile == nullptr || slot->tile->character == ' ')
         {
             slot->tile = std::move(DrawTile());
-            slot->tile->x = slot->x;
-            slot->tile->y = slot->y;
+            slot->tile->x = (float)slot->x;
+            slot->tile->y = (float)slot->y;
             slot->tile->parent = slot.get();
             slot->filled = true;
             slot->ShowDrawing();

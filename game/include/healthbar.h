@@ -9,6 +9,7 @@ class HealthBar : Drawable
     public:
         HealthBar() : Drawable("", 600)
         {
+            Parent = nullptr;
             HP = 0;
             Shield = 0;
             position = Rectangle{ 0,0,0,0 };

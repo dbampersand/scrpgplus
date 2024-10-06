@@ -67,7 +67,7 @@ Rectangle UIElement::GetPosition()  {
     return Rectangle{ (float)x,(float)y,(float)w,(float)h };
 }
 
-UIElement::UIElement(int X, int Y, int W, int H) : Drawable("", 300) {
+UIElement::UIElement(float X, float Y, float W, float H) : Drawable("", 300) {
     x = X - W / 2.0f;
     y = Y - H / 2.0f;
     w = W;

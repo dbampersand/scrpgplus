@@ -12,6 +12,7 @@ class Tile : public Draggable, public Drawable, Updatable
     public:
         enum TileType
         {
+            NullTile,
             Damage,
             Heal,
             Shield
@@ -119,7 +120,7 @@ public:
         color = Colours::Shield;
     };
     void ApplyEffect(Player* target, Player* parent, float multiplier) override {
-        parent->AddShield(mutiplier);
+        parent->AddShield((int)mutiplier);
     };
 
 };

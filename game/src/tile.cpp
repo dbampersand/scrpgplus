@@ -15,7 +15,7 @@ void Tile::Draw(Rectangle r, Color tint)
     {
         SetFont(CharacterFontPath, CharacterSize,  MultiplierFontPath, MultiplierSize);
     }
-    DrawRectangle(r.x,r.y,r.width,r.height,color);
+    DrawRectangle((int)r.x,(int)r.y,(int)r.width,(int)r.height,color);
 
     Rectangle multiplierRect = r;
     multiplierRect.x += CharacterSize / 2.0f;
@@ -35,14 +35,18 @@ void Tile::Draw(Rectangle r, Color tint)
 }
 Rectangle Tile::GetPosition()
 {
-    return Rectangle{x,y,(float)Slot::w,(float)Slot::h};
+    Vector2 size = { 0,0 };
+    if (parent)
+        size = Vector2{ parent->w, parent->h };
+
+    return Rectangle{x,y,size.x,size.y};
 }
 
 Rectangle Tile::GetDefaultPosition() 
 {
     if (parent)
     {
-        return Rectangle{(float)parent->x,(float)parent->y,(float)Slot::w,(float)Slot::h};
+        return Rectangle{(float)parent->x,(float)parent->y,parent->w,parent->h};
     }
     else return GetPosition();
 }
@@ -85,19 +89,29 @@ void Tile::DragClick()
 
 Tile::Tile(char c) : Drawable(std::string(""), 600)
 {
+    tileType = TileType::NullTile;
+    x = 0; y = 0; w = 0; h = 0;
     character = c;
     mutiplier = 1;
     DisableShadow();
+    color = Color{ 100,0,100 };
 };
 Tile::Tile(char c, float mult) : Drawable(std::string(""), 600)
 {
+    tileType = TileType::NullTile;
+    x = 0; y = 0; w = 0; h = 0;
     character = c;
     mutiplier = mult;
     DisableShadow();
+    color = Color{ 100,0,100 };
 };
 
 Tile::Tile() : Drawable(std::string(""), 600) {
+    tileType = TileType::NullTile;
+    x = 0; y = 0; w = 0; h = 0;
     mutiplier = 0;
     DisableShadow();
+    character = 0;
+    color = Color{ 100,0,100 };
 };
 

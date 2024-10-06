@@ -104,7 +104,7 @@ void UI::CreateUI()
     UI::CreateMainMenuUI();
     UI::CreateGameUI();
 }
-void UI::DrawText(Font f, const char* c, int x, int y, int fontSize, Color col, UI::TextFormatting format)
+void UI::DrawText(Font f, const char* c, float x, float y, int fontSize, Color col, UI::TextFormatting format)
 {
     if (format == ALIGN_CENTER)
     {

@@ -26,9 +26,6 @@ class Clickable
         static void UpdateClickables();
 
         static std::vector<Clickable*> Clickables;
-        
-
-
 };
 class UIElement : public Drawable, public Clickable, public Updatable
 {
@@ -49,13 +46,13 @@ class UIElement : public Drawable, public Clickable, public Updatable
         virtual void Draw(Rectangle r, Color tint) override {
         };
 
-        UIElement(int X, int Y, int W, int H);
+        UIElement(float X, float Y, float W, float H);
         virtual ~UIElement() = default;
 
-        int x;
-        int y;
-        int w;
-        int h;
+        float x;
+        float y;
+        float w;
+        float h;
 
         void Update();
 

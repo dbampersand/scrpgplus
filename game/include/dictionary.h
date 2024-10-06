@@ -13,7 +13,9 @@
 class TrieNode
 {
 public:
+    //all child nodes
     std::unique_ptr<TrieNode> Children[_AlphabetCharacters];
+    // the node is an end point - i.e. it is a word
     bool isEnd = false;
 
     static char ToArrayIndex(char c)
@@ -29,85 +31,49 @@ public:
 class Dictionary : Updatable
 {
 public:
-    static Dictionary _Dictionary;
-    inline static TrieNode FirstNode = TrieNode();
-    static std::unordered_set<std::string> dict;
-    static bool TestWord(std::string word);
-
+   
+    //Count number of wildcards in a word
     static int NumWildcards(std::string word);
 
+
+    //Waits for threads to finish 
+    static void WaitForLoading();
+
+    //Destroy old threads
+    static void ClearThreads();
+
+    //Check if word exists in dictionary
+    static bool CheckWord(std::string word);
+
+    //Initialises dictionary loading
+    static void InitDictionary();
+
+private:
+    //First node of trie
+    inline static TrieNode FirstNode = TrieNode();
+   
+    //path for the word list txt file
+    static std::string WordListPath;
+
+    //Threads for building trie
+    inline static std::thread threads[_NumThreads];
+
+    //Thread for async loading
+    inline static std::thread LoadThread;
+
+    static Dictionary _Dictionary;
+    static std::unordered_set<std::string> dict;
+
+
+    //Load dictionary into RAM and build trie
     static void LoadDictionary();
 
-    inline static std::thread threads[_NumThreads];
-    static void WaitForLoading();
-    inline static std::thread LoadThread;
-    static void ClearThreads()
-    {
-        WaitForLoading();
-    }
-    static void AddWord(std::string word)
-    {
-        TrieNode* currentNode = &FirstNode;
-        for (char c : word)
-        {
-            if (!isalpha(c) || !islower(c))
-                return;
-            char arrayIndex = TrieNode::ToArrayIndex(c);
-            if (!currentNode->Children[arrayIndex])
-            {
-                //currentNode->Children[arrayIndex] = std::make_unique<TrieNode>();
-                currentNode->Children[arrayIndex] = std::make_unique<TrieNode>();
-            }
-            currentNode = currentNode->Children[arrayIndex].get();
-        }
-        currentNode->isEnd = true;
-    }
-
-    static bool CheckWord(std::string word)
-    {
-        WaitForLoading();
-        return CheckWord(word, &FirstNode, 0);
-    }
-private:
-    static std::string WordListPath;
     static void ParseWords(std::vector<std::string> words);
+    //reentrant version of CheckWord so that we can parse wildcards starting at the depth of the wildcard
+    static bool CheckWord(std::string word, TrieNode* startAt, int depth);
+    //Add word to dictionary trie
+    static void AddWord(std::string word);
 
-    static bool CheckWord(std::string word, TrieNode* startAt, int depth)
-    {
-        TrieNode* currentNode = startAt;
 
-        for (int i = depth; i < word.size(); i++)
-        {
-            char c = word[i];
-            char arrayIndex = TrieNode::ToArrayIndex(c);
 
-            if (word[i] == '*')
-            {
-                for (int j = 0; j < 26; j++)
-                {
-                    char toTest = 'a' + j;
-                    std::string newWord = word;
-                    newWord[i] = toTest;
-                    int newArrayIndex = TrieNode::ToArrayIndex(toTest);
-                    if (CheckWord(newWord, currentNode, i))
-                        return true;
-                }
-            }
-            else
-            { 
-                if (currentNode->Children[arrayIndex] == nullptr)
-                {
-                    return false;
-                }
-                currentNode = currentNode->Children[arrayIndex].get();
-                if (i == word.size() - 2)
-                {
-                    return (currentNode->isEnd);
-                }
-            }
-        }
-
-        return false;
-
-    }
 };

@@ -67,3 +67,70 @@ int Dictionary::NumWildcards(std::string word)
     }
     return numWildcards;
 }
+void Dictionary::AddWord(std::string word)
+{
+    TrieNode* currentNode = &FirstNode;
+    for (char c : word)
+    {
+        if (!isalpha(c) || !islower(c))
+            return;
+        char arrayIndex = TrieNode::ToArrayIndex(c);
+        if (!currentNode->Children[arrayIndex])
+        {
+            currentNode->Children[arrayIndex] = std::make_unique<TrieNode>();
+        }
+        currentNode = currentNode->Children[arrayIndex].get();
+    }
+    currentNode->isEnd = true;
+}
+ bool Dictionary::CheckWord(std::string word)
+ {
+    WaitForLoading();
+    return CheckWord(word, &FirstNode, 0);
+}
+void Dictionary::ClearThreads()
+{
+    WaitForLoading();
+}
+bool Dictionary::CheckWord(std::string word, TrieNode* startAt, int depth)
+{
+    TrieNode* currentNode = startAt;
+
+    for (int i = depth; i < word.size(); i++)
+    {
+        char c = word[i];
+        char arrayIndex = TrieNode::ToArrayIndex(c);
+
+        if (word[i] == '*')
+        {
+            for (int j = 0; j < 26; j++)
+            {
+                char toTest = 'a' + j;
+                std::string newWord = word;
+                newWord[i] = toTest;
+                int newArrayIndex = TrieNode::ToArrayIndex(toTest);
+                if (CheckWord(newWord, currentNode, i))
+                    return true;
+            }
+        }
+        else
+        {
+            if (currentNode->Children[arrayIndex] == nullptr)
+            {
+                return false;
+            }
+            currentNode = currentNode->Children[arrayIndex].get();
+            if (i == word.size() - 2)
+            {
+                return (currentNode->isEnd);
+            }
+        }
+    }
+
+    return false;
+
+}
+void Dictionary::InitDictionary()
+{
+    Dictionary::LoadThread = std::thread(Dictionary::LoadDictionary);
+}

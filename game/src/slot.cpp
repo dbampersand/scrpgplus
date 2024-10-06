@@ -3,8 +3,6 @@
 #include "tile.h"
 #include "pccontrolled.h"
 
-int Slot::w = 18; 
-int Slot::h = 13;
 
 Rectangle Slot::GetPosition()
 {
@@ -12,7 +10,7 @@ Rectangle Slot::GetPosition()
 }
 void Slot::Draw(Rectangle r, Color tint)
 {
-    DrawRectangle(r.x,r.y,r.width,r.height,tint);
+    DrawRectangle((int)r.x,(int)r.y,(int)r.width,(int)r.height,tint);
 }
 void Slot::SwapSlots(Slot* s1, Slot* s2)
 {
@@ -63,10 +61,12 @@ void Slot::OnDrag(Draggable* dr)
         t2->MoveObject(position2.x,position2.y);
     }
 }
-Slot::Slot(int X, int Y) : Drawable(std::string(""), 200) {
+Slot::Slot(float X, float Y) : Drawable(std::string(""), 200) {
     x = X; y = Y;
 
     tile = std::make_unique<Tile>((' '));
+    tile->x = X;
+    tile->y = Y;
     tile->Selectable = false;
     tile->color = Color{ 0,0,0,0 };
     tile->parent = (this);
@@ -75,6 +75,8 @@ Slot::Slot(int X, int Y) : Drawable(std::string(""), 200) {
 Slot::Slot() : Drawable(std::string(""), 200) {
     x = 0; y = 0;
     tile = std::make_unique<Tile>((' '));
+    tile->x = x;
+    tile->y = y;
     tile->Selectable = false;
     tile->color = Color{ 0,0,0,0 };
     tile->parent = (this);
@@ -89,13 +91,17 @@ void Slot::ShowChildren()
     if (tile)
         tile->ShowDrawing();
 }
-void Slot::HorizontalCenterTiles(std::vector<std::shared_ptr<Slot>>* slots, int padding)
+void Slot::HorizontalCenterTiles(std::vector<std::shared_ptr<Slot>>* slots, float padding)
 {
-    int startX = Render::GetBasisWidth() / 2.0f - ((Slot::w * slots->size() / 2.0f) + (padding * slots->size() / 2.0f) - padding / 2.0f);
+    if (slots->size() <= 0)
+        return;
+
+    std::shared_ptr<Slot> slot = (*slots)[0];
+    int startX = Render::GetBasisWidth() / 2.0f - ((slot->w * slots->size() / 2.0f) + (padding * slots->size() / 2.0f) - padding / 2.0f);
 
     for (int i = 0; i < slots->size(); i++)
     {
-        int x = startX + (Slot::w * i) + (padding * i);
+        float x = startX + (slot->w * i) + (padding * i);
         (*slots)[i]->x = x;
         if ((*slots)[i]->tile)
             (*slots)[i]->tile->x = x;

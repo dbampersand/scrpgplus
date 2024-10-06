@@ -84,7 +84,7 @@ Vector2 Render::GetMousePos()
 
 void Render::DrawText(std::string text, std::string fontPath, int size, Rectangle screenSpaceRect, Color color, Sprite::SPRITE_ALIGN align)
 {
-    size *= GetScreenSizeScale().x;
+    size = (int)(size *  GetScreenSizeScale().x);
     if (fonts.find(fontPath) == fonts.end())
     {
         std::map <int, Font> fontList;

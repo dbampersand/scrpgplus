@@ -7,16 +7,20 @@
 typedef class Tile Tile;
 class Slot : public Drawable, DragTarget
 { 
+private:
+    inline static float DefaultWidth = 18;
+    inline static float DefaultHeight = 13;
+
     public:
         std::unique_ptr<Tile> tile = nullptr;
         bool filled = false;
 
         Rectangle GetPosition() override;
         void Draw(Rectangle r, Color tint) override;
-        int x; int y; 
-        static int w; static int h;
+        float x; float y;
+        float w = DefaultWidth; float h = DefaultHeight;
         void AddTile(Tile* t);
-        Slot(int X, int Y);
+        Slot(float X, float Y);
         Slot();
         ~Slot() = default;
         void OnDrag(Draggable* d) override;
@@ -31,7 +35,17 @@ class Slot : public Drawable, DragTarget
         void HideChildren();
         void ShowChildren();
 
-        static void HorizontalCenterTiles(std::vector<std::shared_ptr<Slot>>* slots, int padding);
+        static void HorizontalCenterTiles(std::vector<std::shared_ptr<Slot>>* slots, float padding);
 
         static void SwapSlots(Slot* s1, Slot* s2);
+
+        static float GetDefaultWidth()
+        {
+            return DefaultWidth;
+        }
+        static float GetDefaultHeight()
+        {
+            return DefaultWidth;
+        }
+
 }; 

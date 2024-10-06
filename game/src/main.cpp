@@ -37,7 +37,7 @@
 void Init()
 {
     //signal(SIGSEGV, handler);
-    InitWindow(Render::GetBasisWidth()*4,Render::GetBasisHeight()*4,"scrpg");
+    InitWindow((int)(Render::GetBasisWidth()*4),(int)(Render::GetBasisHeight()*4),"scrpg");
     
     GameState::SeedRNG();
     
@@ -50,7 +50,7 @@ void Init()
 
     SetTargetFPS(60);
 
-    Dictionary::LoadThread = std::thread(Dictionary::LoadDictionary);
+    Dictionary::InitDictionary();
     
 
    // GameState::currentScene->LoadScene("assets/scenes/scene_dungeon.png");

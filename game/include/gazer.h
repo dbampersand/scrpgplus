@@ -16,6 +16,7 @@ class Gazer : public AIControlled
         };
         void AITurn(int turnOrder, Player* enemyPlayer)
         {
+            // do 10 damage and 5 damage altenately
             if (turnOrder % 2 == 0)
             {
                 enemyPlayer->Damage(10);
@@ -26,8 +27,8 @@ class Gazer : public AIControlled
             }
         }
          void TakeTurn(Player* enemyPlayer) final override {
-            AITurn(turnOrder,enemyPlayer);
-            turnOrder++;
+            AITurn(TurnsTaken,enemyPlayer);
+            TurnsTaken++;
         };
 
 };

@@ -15,7 +15,7 @@ void Player::SetMaxHP(int hp, bool fill)
     this->maxHP = hp;
     if (fill)
     {
-        Heal(hp);
+        Heal((int)hp);
     }
 }
 void Player::AddShield(int shield)
@@ -56,7 +56,7 @@ int Player::GetMaxHP() {
 
 void Player::Heal(float amt)
 {
-    hp += amt;
+    hp += (int)amt;
     if (hp > maxHP)
         hp = maxHP;
     HealthBar.UpdateHP(hp, maxHP, Shield);
@@ -64,13 +64,13 @@ void Player::Heal(float amt)
 void Player::Damage(float amt)
 {
     float leftover = 0;
-    Shield -= amt;
+    Shield -= (int)amt;
     if (Shield < 0)
     {
-        leftover = -Shield;
+        leftover = (int)-Shield;
         Shield = 0;
     }
-    hp -= leftover;
+    hp -= (int)leftover;
     if (hp < 0)
         hp = 0;
     HealthBar.UpdateHP(hp, maxHP, Shield);

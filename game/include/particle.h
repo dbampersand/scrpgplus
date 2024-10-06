@@ -33,7 +33,7 @@ public:
 	}
 	void Draw(Rectangle r, Color tint) override
 	{
-		DrawCircle(r.x, r.y, r.width, color);
+		DrawCircle((int)r.x, (int)r.y, r.width, color);
 	}
 	static void CreateParticle(Vector2 Position, float Angle, Color col, float Lifetime, float Radius, float initialSpeed, int DrawOrder, void (*update)(Particle* p, float dt))
 	{

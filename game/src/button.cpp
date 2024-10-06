@@ -3,12 +3,12 @@
 #include "uigroup.h"
 #include "UI.h"
 
+Button::Button(int X, int Y, int W, int H, void (*Callback)()) : UIElement(X, Y, W, H) {
+    callback = Callback;
+};
 
 void Button::SetText(std::string str) {
     this->text = str;
-};
-Button::Button(int X, int Y, int W, int H, void (*Callback)()) : UIElement(X, Y, W, H) {
-    callback = Callback;
 };
 
 void Button::Draw(Rectangle r, Color tint)
@@ -21,14 +21,15 @@ void Button::Draw(Rectangle r, Color tint)
         c.g /= 2;
         c.b /= 2;
     }
+    // draw background - the line around it 
     DrawRectangle(r.x,r.y,r.width,r.height,background);
+    // draw foreground colour
     DrawRectangle(r.x+1,r.y+1,r.width-2,r.height-2,c);
 
     if (!text.empty())
         UI::DrawText(GetFontDefault(),text.c_str(),r.x+r.width/2.0f,r.y+r.height/2.0f,10,background,UI::ALIGN_CENTER);
-        
-
 }
+
 void Button::Clicked()
 {
     if (MousedOver(this->GetPosition()))
@@ -51,6 +52,7 @@ void Button::Released()
     }
     clicked = false;
 }
+
 void Button::Unclicked()
 {
     this->EnableShadow();

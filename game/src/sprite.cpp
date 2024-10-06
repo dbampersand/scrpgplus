@@ -129,7 +129,7 @@ void Sprite::Draw(int x, int y, int w, int h, Color tint, SPRITE_ALIGN spriteAli
     if (spriteAlign == SPRITE_ALIGN::LEFT)
         Draw(x,y,w,h,tint);
     if (spriteAlign == SPRITE_ALIGN::CENTER)
-        Draw(x - texture->width/2.0f, y -= texture->height/2.0f,w,h,tint);
+        Draw(x - texture->width/2.0f, y - texture->height/2.0f,w,h,tint);
     if (spriteAlign == SPRITE_ALIGN::RIGHT)
         Draw(x + texture->width/2.0f, y,w,h,tint);
 }

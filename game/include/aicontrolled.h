@@ -6,23 +6,14 @@
 class AIControlled : public Player
 {
 public:
-	AIControlled(std::string sprite) : Player(sprite) 
-	{
-		SetTint(GetNotActiveTint());
-	};
+	AIControlled(std::string sprite);
 
 	virtual void AITurn(int turnOrder, Player* enemyPlayer) = 0;
-	int turnOrder;
+	
+	//The number of turns this player has taken
+	int TurnsTaken = 0;
+	
+	//Creates particles when attacked by the player
+	void CreateAttackedParticles(float damage);
 
-	void CreateAttackedParticles(float damage)
-	{
-		Rectangle r = GetPosition();
-		
-		Vector2 v = Vector2{ r.x + r.width/2, r.y + r.height/2 };
-
-		for (int i = 0; i  < damage*8; i++)
-		{
-			Particle::CreateParticle(v, GameState::RandRange<float>(0, 360), Colours::Damage, 3.0f, 2.0f, GameState::RandRange<float>(0,200), 200, Particle::BasicUpdate);
-		}
-	}
 };	
