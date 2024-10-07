@@ -19,4 +19,6 @@ class GameObject : public Drawable, public Updatable
         virtual Rectangle GetHealthBarRectangle();
 
         float x; float y;
+
+        
 };

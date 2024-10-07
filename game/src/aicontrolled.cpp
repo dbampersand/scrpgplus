@@ -21,3 +21,9 @@ void AIControlled::CreateAttackedParticles(float damage)
 		Particle::CreateParticle(v, GameState::RandRange<float>(0, 360), Colours::Damage, 3.0f, 2.0f, GameState::RandRange<float>(0, 200), 200, Particle::BasicUpdate);
 	}
 }
+std::vector<Drawable*> AIControlled::GetChildren()
+{
+    std::vector<Drawable*> children;
+    children.push_back(GetHealthBar());
+    return children;
+}

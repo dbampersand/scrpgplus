@@ -49,6 +49,8 @@ public:
         void TakeTurn(Player* other) override;
         void Update(float dt) override;
 
+        std::vector<Drawable*> GetChildren() override;
+
 private:
 
     //Play a hand, attacking if it TilesPlayed represents a valid word

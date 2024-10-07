@@ -10,7 +10,8 @@ class GameState
     public:
         enum State {
             IN_MENU,
-            IN_GAME
+            IN_GAME,
+            IN_BOARD
         };
         enum PlayerTurnType {
             PC_PLAYER,
@@ -50,6 +51,9 @@ class GameState
     private:
        static State state;  
        static std::default_random_engine rng;
+
+       //Hide current members of the State
+       static void HideState(State currentState);
 
 
 };

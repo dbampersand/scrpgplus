@@ -21,12 +21,12 @@ void Player::SetMaxHP(int hp, bool fill)
 void Player::AddShield(int shield)
 {
     this->Shield += shield;
-    HealthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
+    healthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
 }
 void Player::ClearShield()
 {
     this->Shield = 0;
-    HealthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
+    healthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
 }
 void Player::AddPlayer(Player* p)
 {
@@ -35,7 +35,7 @@ void Player::AddPlayer(Player* p)
 Player::Player(std::string sprite) : GameObject(sprite) {
     x = Render::GetBasisWidth() / 2.0f;
     y = Render::GetBasisHeight() / 2.0f;
-    HealthBar.Parent = this;
+    healthBar.Parent = this;
 
     ClearShield();
     Heal((float)maxHP);
@@ -58,7 +58,7 @@ void Player::Heal(float amt)
     hp += (int)amt;
     if (hp > maxHP)
         hp = maxHP;
-    HealthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
+    healthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
 }
 void Player::Damage(float amt)
 {
@@ -76,7 +76,7 @@ void Player::Damage(float amt)
     if (hp < 0)
         hp = 0;
 
-    HealthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
+    healthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
     Attacked(amt);
 };
 void Player::Attacked(float damage)
@@ -91,3 +91,4 @@ bool Player::IsThisPlayersTurn() const
         return true;
     return false;
 }
+

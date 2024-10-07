@@ -33,7 +33,11 @@ public:
 
     //Returns true if it is currently this players' turn
     bool IsThisPlayersTurn() const;
-
+    
+    HealthBar* GetHealthBar()
+    {
+        return &healthBar;
+    }
 
     //Returns the tint value to be applied to the player's sprite that indicates it is not their turn
     Color GetNotActiveTint() const
@@ -54,6 +58,8 @@ public:
     //To be overridden with custom logic for the Player's turn
     virtual void TakeTurn(Player* enemyPlayer) = 0;
 
+
+
     static std::vector<Player*> players;
     std::string name;
 
@@ -61,7 +67,7 @@ private:
     int hp = 100;
     int maxHP = 100;
     int Shield;
-    HealthBar HealthBar;
+    HealthBar healthBar;
     Color NotActiveTint = Color{ 128,128,128,255 };
 
 protected:

@@ -51,11 +51,12 @@ private:
             return Drawable::GetOrder();
         }
 
-        void HideChildren() override;
-        void ShowChildren() override;
         Rectangle GetPosition() override;
         void Draw(Rectangle r, Color tint) override;
 
         void OnDrag(Draggable* d) override;
+
+        std::vector<Drawable*> GetChildren() override;
+
 
 }; 

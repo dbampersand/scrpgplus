@@ -189,6 +189,7 @@ void PCControlled::Win()
 {
     Board::board->Show();
     HideTiles();
+    GameState::SetState(GameState::IN_BOARD);
 }
 void PCControlled::Lose()
 {
@@ -263,6 +264,7 @@ void PCControlled::ClearHand()
         {
             std::unique_ptr<Tile> tile = std::move(TilesPlayed[i]->tile);
             tile->parent = nullptr;
+            tile->HideDrawing();
 
             //fill with a blank tile
             TilesPlayed[i]->tile = std::make_unique<Tile>((' '));
@@ -310,3 +312,17 @@ Rectangle PCControlled::GetHealthBarRectangle()
     return Rectangle{ 0,0,0,0 };
 }
 
+std::vector<Drawable*> PCControlled::GetChildren()
+{
+    std::vector<Drawable*> children;
+    for (std::shared_ptr<Slot> slot : PlayerTiles)
+    {
+        children.push_back(slot.get());
+    }
+    for (std::shared_ptr<Slot> slot : TilesPlayed)
+    {
+        children.push_back(slot.get());
+    }
+    children.push_back(GetHealthBar());
+    return children;
+}

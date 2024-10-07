@@ -42,11 +42,23 @@ class Drawable
         void ShowDrawing();
         //Returns true if the object is hidden
         bool IsHidden() const;
-        //To be overridden: called after HideDrawing() is called and should hide any other necessary objects (children)
-        virtual void HideChildren() {
+        virtual std::vector<Drawable*> GetChildren() {
+            return std::vector<Drawable*>();
+        };
+
+        void HideChildren() {
+            std::vector<Drawable*> children = GetChildren();
+            for (Drawable* drawable : children)
+            {
+                drawable->HideDrawing();
+            }
         }
-        //To be overridden: called after ShowDrawing() is called and should show any other necessary objects (children)
-        virtual void ShowChildren() {
+        void ShowChildren() {
+            std::vector<Drawable*> children = GetChildren();
+            for (Drawable* drawable : children)
+            {
+                drawable->ShowDrawing();
+            }
         }
 
         //Sets the texture this Drawable should use. The function will load the texture if it is not in memory already

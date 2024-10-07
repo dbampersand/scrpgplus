@@ -12,15 +12,18 @@ Updatable::Updatable() {
 };
  void Updatable::UpdateAll(float dt)
 {   
-    for (Updatable* u : Updatables)
-    {
-        u->Update(dt);
-    }
+     for (int i = Updatables.size() - 1; i >= 0; i--)
+     {
+         Updatable* u = Updatables[i];
+         u->Update(dt);
+     }
+
 };
  void Updatable::LateUpdateAll(float dt)
 {
-     for (Updatable* u : Updatables)
+     for (int i = Updatables.size() - 1; i >= 0; i--)
      {
-        u->LateUpdate(dt);
+         Updatable* u = Updatables[i];
+         u->LateUpdate(dt);
      }
-};
+ };

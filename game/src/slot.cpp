@@ -65,15 +65,15 @@ Slot::Slot() : Drawable(std::string(""), 200) {
     tile->color = Color{ 0,0,0,0 };
     tile->parent = (this);
 };
-void Slot::HideChildren() 
+std::vector<Drawable*> Slot::GetChildren()
 {
+    std::vector<Drawable*> children;
+    children.push_back(tile.get());
+
     if (tile)
-        tile->HideDrawing();
-}
-void Slot::ShowChildren() 
-{
-    if (tile)
-        tile->ShowDrawing();
+    {
+    }
+    return children;
 }
 void Slot::HorizontalCenterTiles(std::vector<std::shared_ptr<Slot>>* slots, float padding)
 {

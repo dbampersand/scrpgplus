@@ -14,4 +14,7 @@ public:
 	//Creates particles when attacked by the player
 	void CreateAttackedParticles(float damage);
 
+	std::vector<Drawable*> GetChildren() override;
+
 };	
+

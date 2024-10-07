@@ -3,7 +3,7 @@
 #include "player.h"
 #include "pccontrolled.h"
 #include "Timer.h"
-
+#include "board.h"
 #include <chrono>
 
 std::default_random_engine GameState::rng = std::default_random_engine {};
@@ -12,19 +12,55 @@ GameState::State GameState::state;
 std::shared_ptr<Scene> GameState::currentScene;
 GameState::PlayerTurnType GameState::player = PC_PLAYER;
 
+void GameState::HideState(State currentState)
+{
+    if (state == State::IN_GAME)
+    {
+        if (PCControlled::CurrentPlayer)
+            PCControlled::CurrentPlayer->HideDrawing();
+        if (Player::players.size() > 0 && Player::players[0])
+            Player::players[0]->HideDrawing();
+    }
+
+
+    if (state == State::IN_BOARD)
+    {
+        Board::board->Hide();
+
+    }
+
+}
+
 void GameState::SetState(State state)
 {
+    //Hide the current state objects
+    HideState(GameState::state);
+
+    //show the new ones
     GameState::state = state;
     UI::SetGroupsActive(state);
+     
+    if (state == State::IN_GAME)
+    {
+        if (PCControlled::CurrentPlayer)
+            PCControlled::CurrentPlayer->ShowTiles();
+        PCControlled::CurrentPlayer->ShowTiles();
+
+    }
+
+    if (state == State::IN_BOARD)
+    {
+        Board::board->Show();
+    }
+
 }
 void GameState::StartGame()
 {
-    GameState::SetState(GameState::State::IN_GAME);
     Player::AddPlayer(Player::GetRandomEnemy(0));
     PCControlled::CurrentPlayer = nullptr;
     PCControlled::CurrentPlayer = std::make_unique<PCControlled>(""); 
+    GameState::SetState(GameState::State::IN_GAME);
 
-    PCControlled::CurrentPlayer->ShowTiles();
 }
 void GameState::TakeTurn()
 {

@@ -41,14 +41,6 @@ class Tile : public Draggable, public Drawable, Updatable
 
         void ParentTo(Slot* parent);
         void Update(float dt) override {
-            if (!parent)
-            {
-                HideDrawing();
-            }
-            else
-            {
-                ShowDrawing();
-            }
         };
 
         bool CanBeDragged() override {

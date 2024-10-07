@@ -4,7 +4,7 @@
 #include "tween.h"  
 
 typedef class GameObject GameObject;
-class HealthBar : Drawable
+class HealthBar : public Drawable
 {
     public:
         HealthBar() : Drawable("", 600)
