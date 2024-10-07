@@ -9,9 +9,9 @@ public:
     //Sets the max health points of the player. If fill is true, then a heal of that value will also be applied.
     void SetMaxHP(int hp, bool fill);
     //Gets the players' max health points
-    int GetMaxHP();
+    int GetMaxHP() const;
     //Gets the players' current health points
-    int GetHP();
+    int GetHP() const;
     //Heals the player by an amount, will not exceed MaxHP
     void Heal(float amt);
     //Damages the player for an amount
@@ -32,11 +32,11 @@ public:
     static Player* GetEnemy();
 
     //Returns true if it is currently this players' turn
-    bool IsThisPlayersTurn();
+    bool IsThisPlayersTurn() const;
 
 
     //Returns the tint value to be applied to the player's sprite that indicates it is not their turn
-    Color GetNotActiveTint()
+    Color GetNotActiveTint() const
     {
         return NotActiveTint;
     };

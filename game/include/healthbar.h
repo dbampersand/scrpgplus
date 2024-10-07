@@ -35,7 +35,7 @@ private:
     Tween<float> ShieldBarTween = Tween<float>(&Shield, Tween<float>::EaseOutQuad, 0.1f);
     
     //Draws the health bar
-    void DrawHealthBar(Rectangle r);
+    void DrawHealthBar(Rectangle r) const;
 
 
     void Draw(Rectangle r, Color tint) override {

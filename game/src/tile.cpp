@@ -12,26 +12,21 @@ void Tile::MoveObject(float x, float y)
 
 void Tile::Draw(Rectangle r, Color tint)
 {
-    if (!IsFontReady(CharacterFont) || !IsFontReady(MultiplierFont))
-    {
-        SetFont(CharacterFontPath, CharacterSize,  MultiplierFontPath, MultiplierSize);
-    }
     DrawRectangle((int)r.x,(int)r.y,(int)r.width,(int)r.height,color);
 
+    //This is the little number at the top left which indicates the tile's power (multiplier)
     Rectangle multiplierRect = r;
     multiplierRect.x += CharacterSize / 2.0f;
     multiplierRect.height /= 2.0f;
 
     Color shadow = Color{ 20,20,20,128 };
 
-    Render::DrawText(std::string(1, character), CharacterFontPath, CharacterSize, Rectangle{ r.x + 1,r.y + 1,r.width,r.height }, shadow, Sprite::SPRITE_ALIGN::CENTER);
-    Render::DrawText(std::string(1, character), CharacterFontPath, CharacterSize,r, WHITE, Sprite::SPRITE_ALIGN::CENTER);
+    //Draw 'drop shadow' highlight first, then draw white on top
+    Render::DrawText(std::string(1, character), CharacterFontPath, (int)CharacterSize, Rectangle{ r.x + 1,r.y + 1,r.width,r.height }, shadow, Sprite::SPRITE_ALIGN::CENTER);
+    Render::DrawText(std::string(1, character), CharacterFontPath, (int)CharacterSize,r, WHITE, Sprite::SPRITE_ALIGN::CENTER);
 
     if (mutiplier > 0 && character != ' ')
-        Render::DrawText(std::to_string((int)mutiplier), MultiplierFontPath, MultiplierSize, multiplierRect, WHITE, Sprite::SPRITE_ALIGN::LEFT);
-
-    //DrawTextCodepoint(CharacterFont, character,Vector2{r.x+r.width/2.0f - CharacterSize /4.0f,r.y+r.height/2.0f - CharacterSize /2.0f}, CharacterSize,WHITE);
-    //DrawTextEx(MultiplierFont, std::to_string((int)mutiplier).c_str(), Vector2{r.x+6,r.y}, MultiplierSize, 1, WHITE);
+        Render::DrawText(std::to_string((int)mutiplier), MultiplierFontPath, (int)MultiplierSize, multiplierRect, WHITE, Sprite::SPRITE_ALIGN::LEFT);
 
 }
 Rectangle Tile::GetPosition()
@@ -53,6 +48,8 @@ Rectangle Tile::GetDefaultPosition()
 }
 void Tile::DragClick() 
 {
+    //We've just clicked on a Tile - we need to move the Tile either from played tiles to reserve tiles or vice versa
+    //check top row -> bottom row
     for (std::shared_ptr<Slot> topRow : PCControlled::CurrentPlayer->PlayerTiles)
     {
         if (this == topRow->tile.get())

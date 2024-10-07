@@ -28,29 +28,12 @@ void Slot::SwapSlots(Slot* s1, Slot* s2)
 void Slot::OnDrag(Draggable* dr)
 {
 
-    //if (filled)
-    {
-      //  Rectangle position = dr->GetDefaultPosition();
-        //dr->MoveObject(position.x,position.y);
-    }
-
-
     if (((Tile*)dr) != NULL) 
     {
         Tile* t = (Tile*)dr;
         Tile* t2 = this->tile.get();
 
-        /*Slot* previousSlot = t->parent;
-        Slot* currentSlot = this;
-
-        //swap and update parent
-        std::swap(t->parent->tile,this->tile);
-
-        t2->parent = previousSlot;
-        t->parent = currentSlot;*/
-
         SwapSlots(t->parent,this);
-
 
         Rectangle position = t->GetDefaultPosition();
         Rectangle position2 = t2->GetDefaultPosition();
@@ -62,6 +45,7 @@ void Slot::OnDrag(Draggable* dr)
 Slot::Slot(float X, float Y) : Drawable(std::string(""), 200) {
     x = X; y = Y;
 
+    //create blank tile
     tile = std::make_unique<Tile>((' '));
     tile->x = X;
     tile->y = Y;
@@ -72,6 +56,8 @@ Slot::Slot(float X, float Y) : Drawable(std::string(""), 200) {
 };
 Slot::Slot() : Drawable(std::string(""), 200) {
     x = 0; y = 0;
+
+    //create blank tile
     tile = std::make_unique<Tile>((' '));
     tile->x = x;
     tile->y = y;
@@ -95,7 +81,8 @@ void Slot::HorizontalCenterTiles(std::vector<std::shared_ptr<Slot>>* slots, floa
         return;
 
     std::shared_ptr<Slot> slot = (*slots)[0];
-    int startX = Render::GetBasisWidth() / 2.0f - ((slot->w * slots->size() / 2.0f) + (padding * slots->size() / 2.0f) - padding / 2.0f);
+
+    int startX = (int)(Render::GetBasisWidth() / 2.0f - ((slot->w * slots->size() / 2.0f) + (padding * slots->size() / 2.0f) - padding / 2.0f));
 
     for (int i = 0; i < slots->size(); i++)
     {

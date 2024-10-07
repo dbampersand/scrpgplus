@@ -35,7 +35,7 @@ public:
     //Gets the Idle animation
     std::vector<Animation>* GetIdle();
     //To be overridden - sets the current sprite to a Texture2D
-    virtual void SetSprite(Texture2D* Textu) = 0;
+    virtual void SetSprite(Texture2D* Textu, std::string fileName) = 0;
 
     //Gets the current Sprite that the Animator should be on given the time and calls SetSprite
     void UpdateAnimatorSprite();
@@ -80,7 +80,7 @@ class Sprite : public Animator
         //Generates a null sprite and assigns it to the name ""
         static void GenerateNullSprite();
         //Sets the current sprite to a Texture2D
-        void SetSprite(Texture2D* Textu) final override;
+        void SetSprite(Texture2D* Textu, std::string fileName) final override;
         //Adds the Sprite to the list of sprites so it can be accessed by the path without reloading
         void AddSpriteToList(Texture2D tex, std::string path);
 

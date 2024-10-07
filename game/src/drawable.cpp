@@ -13,7 +13,7 @@ void Drawable::SetOrder(int ord) {
     isSorted = false;
     order = ord;
 }
-int Drawable::GetOrder() {
+int Drawable::GetOrder() const {
     return order;
 };
 bool Drawable::IsSorted()
@@ -31,13 +31,14 @@ void Drawable::ShowDrawing() {
     Hidden = false;
     ShowChildren();
 }
-bool Drawable::IsHidden()
+bool Drawable::IsHidden() const
 {
     return Hidden;
 }
 Drawable::~Drawable()
 {
     //if element 'this' exists inside drawables, remove it
+    //the std::find should always be true and so isn't strictly necessary however optimising this probably isn't needed
     if (drawables.size() > 0 && std::find(drawables.begin(), drawables.end(), this) != drawables.end())
         drawables.erase(std::remove(drawables.begin(), drawables.end(), this), drawables.end());
 }
@@ -53,7 +54,7 @@ Vector2 Drawable::GetSize() {
 
 void Drawable::Draw(Rectangle r, Color tint)
 {
-    sprite.Draw(r.x,r.y,r.width,r.height,tint);
+    sprite.Draw((int)r.x,(int)r.y,(int)r.width,(int)r.height,tint);
 }
 void Drawable::SetTexture(std::string path) {
     sprite = Sprite(path);
@@ -62,8 +63,9 @@ void Drawable::SetTexture(std::string path) {
 bool SortFunc(Drawable* d1, Drawable* d2) 
 { return (d1->GetOrder() < d2->GetOrder()); }
 
-void Drawable::DrawAll()
+void Drawable::DrawAll(float dt)
 {
+    //if we are unsorted, sort it by draw order / z-index first
     if (Drawable::IsSorted() == false)
     {
         std::sort(drawables.begin(), drawables.end(), SortFunc);
@@ -73,10 +75,12 @@ void Drawable::DrawAll()
     {
         if (!d->IsHidden())
         {
-            d->sprite.UpdateAnimator(0.01f);
+            //update animator first, which will change the texture if it needs to
+            d->sprite.UpdateAnimator(dt);
+
             Rectangle r = Render::TranslateToScreenSpace(d->GetPosition());
             if (d->ShadowEnabled())
-            d->DrawShadow(r);
+                d->DrawShadow(r);
             d->Draw(r,d->Tint);
         }
         else

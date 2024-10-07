@@ -13,10 +13,13 @@ std::vector<std::string> Sprite::LoadedAseFiles;
 
 void Animator::PlayAnimation(std::string tag)
 {
+    //convert tag to lowercase
+    //TODO: could just check at compile time if string is lowercase
     for (auto& elem : tag)
     {
         elem = std::tolower(elem);
     }
+    //if we've got the tag, play it
     if (Sprite::LoadedAnimations.contains(GetTagFilename(Filename,tag)))
     {
         std::vector<Animation>* a = &Sprite::LoadedAnimations.at(GetTagFilename(Filename, tag));
@@ -32,7 +35,7 @@ void Animator::PlayAnimation(std::string tag)
 }
 void Animator::UpdateAnimatorSprite()
 {
-    SetSprite(&CurrentlyPlaying->at(CurrentlyPlayingIndex).Texture);
+    SetSprite(&CurrentlyPlaying->at(CurrentlyPlayingIndex).Texture,  Filename);
 }
 std::vector<Animation>* Animator::GetIdle()
 {
@@ -46,6 +49,7 @@ void Animator::UpdateAnimator(float dt)
 {
     if (!CurrentlyPlaying)
         return;
+
     Timer += dt;
     Animation current = CurrentlyPlaying->at(CurrentlyPlayingIndex);
     if (Timer >= current.FrameTime)
@@ -73,8 +77,8 @@ void Animator::AddFrame(std::string fileName, std::string tag, int time, ase_col
         elem = std::tolower(elem);
     }
 
+    //Generate new image, and fill it with the image data
     Image i = GenImageColor(w, h, Color{ 0,0,0,0 });
-
     for (int y = 0; y < h; y++)
     {
         for (int x = 0; x < w; x++)
@@ -84,15 +88,19 @@ void Animator::AddFrame(std::string fileName, std::string tag, int time, ase_col
             ImageDrawPixel(&i, x, y, c);
         }
     }
+    //load to GPU and drop the CPU copy
     Texture2D t = LoadTextureFromImage(i);
     UnloadImage(i);
 
+    //if we don't already have the tag, then add it to the list
     if (Sprite::LoadedAnimations.find(GetTagFilename(Filename,tag)) == Sprite::LoadedAnimations.end())
     {
         Sprite::LoadedAnimations.insert({ GetTagFilename(Filename,tag), std::vector<Animation>() });
     }
-    Animation a;
+
+    Animation a { 0 };
     a.Texture = t;
+    //frametime is in milliseconds
     a.FrameTime = time / 1000.0f;
     Sprite::LoadedAnimations.at(GetTagFilename(Filename,tag)).push_back(a);
 }
@@ -100,9 +108,10 @@ void Sprite::AddSpriteToList(Texture2D tex, std::string path)
 {
     sprites.insert({ path,tex });
 }
-void Sprite::SetSprite(Texture2D* Textu)
+void Sprite::SetSprite(Texture2D* Textu, std::string fileName)
 {
     tex = Textu;
+    TexName = fileName;
 }
 void Sprite::Draw(int x, int y, int w, int h, Color tint)
 {
@@ -120,9 +129,9 @@ void Sprite::Draw(int x, int y, int w, int h, Color tint, SPRITE_ALIGN spriteAli
     if (spriteAlign == SPRITE_ALIGN::LEFT)
         Draw(x,y,w,h,tint);
     if (spriteAlign == SPRITE_ALIGN::CENTER)
-        Draw(x - texture->width/2.0f, y - texture->height/2.0f,w,h,tint);
+        Draw((int)(x - texture->width/2.0f), (int)(y - texture->height/2.0f),w,h,tint);
     if (spriteAlign == SPRITE_ALIGN::RIGHT)
-        Draw(x + texture->width/2.0f, y,w,h,tint);
+        Draw((int)(x + texture->width/2.0f), y,w,h,tint);
 }
 bool Sprite::IsAse(std::string path)
 {
@@ -146,10 +155,12 @@ Texture2D* Sprite::AddLoadedSprite(std::string path)
         fflush(stdout);
         return &sprites[""];
     }
+    //if we are an Aseprite file and the file isn't loaded, we need to load it
     if (IsAse(path) && !IsAseLoaded(path))
     {
         Filename = path;
         ase_t* ase = cute_aseprite_load_from_file(path.c_str(), NULL);
+        //for every tag in the file, load the frames they point to individually
         for (int i = 0; i < ase->tag_count; i++)
         {
             ase_tag_t* tag = &ase->tags[i];
@@ -166,15 +177,18 @@ Texture2D* Sprite::AddLoadedSprite(std::string path)
         cute_aseprite_free(ase);
 
         PlayAnimation("idle");
+        return tex;
     }
+    //if we are an Aseprite file but it's already loaded
     else if (IsAse(path) && IsAseLoaded(path))
     {
         Filename = path;
         PlayAnimation("idle");
+        return tex;
     }
+    //otherwise we're a normal image format like png and it isn't loaded
     else if (!SpriteExists(path))
     {
-
         Filename = path;
         
         Texture2D t = LoadTexture(path.c_str());
@@ -182,7 +196,7 @@ Texture2D* Sprite::AddLoadedSprite(std::string path)
         return &sprites[path];
     }
 
-
+    //it is a normal image format and we've already loaded it
     return &sprites[path];
 };
 Vector2 Sprite::GetTexSize()

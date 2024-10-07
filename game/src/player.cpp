@@ -15,18 +15,18 @@ void Player::SetMaxHP(int hp, bool fill)
     this->maxHP = hp;
     if (fill)
     {
-        Heal((int)hp);
+        Heal((float)hp);
     }
 }
 void Player::AddShield(int shield)
 {
     this->Shield += shield;
-    HealthBar.UpdateHP(hp, maxHP, Shield);
+    HealthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
 }
 void Player::ClearShield()
 {
     this->Shield = 0;
-    HealthBar.UpdateHP(hp, maxHP, Shield);
+    HealthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
 }
 void Player::AddPlayer(Player* p)
 {
@@ -38,8 +38,7 @@ Player::Player(std::string sprite) : GameObject(sprite) {
     HealthBar.Parent = this;
 
     ClearShield();
-    Heal(maxHP);
-    //AddShield(200);
+    Heal((float)maxHP);
 };
 Player* Player::GetEnemy() {
     if (players.size() > 0)
@@ -47,10 +46,10 @@ Player* Player::GetEnemy() {
     else
         return nullptr;
 };
-int Player::GetHP() {
+int Player::GetHP() const {
     return hp;
 }
-int Player::GetMaxHP() {
+int Player::GetMaxHP() const {
     return maxHP;
 }
 
@@ -59,28 +58,32 @@ void Player::Heal(float amt)
     hp += (int)amt;
     if (hp > maxHP)
         hp = maxHP;
-    HealthBar.UpdateHP(hp, maxHP, Shield);
+    HealthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
 }
 void Player::Damage(float amt)
 {
     float leftover = 0;
+    //remove from shield first
     Shield -= (int)amt;
+    //if we have any leftover damage after damaging the shield, we want to apply this to the player's HP
     if (Shield < 0)
     {
-        leftover = (int)-Shield;
+        leftover = (float)-Shield;
         Shield = 0;
     }
     hp -= (int)leftover;
+    
     if (hp < 0)
         hp = 0;
-    HealthBar.UpdateHP(hp, maxHP, Shield);
+
+    HealthBar.UpdateHP((float)hp, (float)maxHP, (float)Shield);
     Attacked(amt);
 };
 void Player::Attacked(float damage)
 {
     CreateAttackedParticles(damage);
 }
-bool Player::IsThisPlayersTurn()
+bool Player::IsThisPlayersTurn() const
 {
     if (AiControlled && GameState::player == GameState::PlayerTurnType::AI_PLAYER)
         return true;

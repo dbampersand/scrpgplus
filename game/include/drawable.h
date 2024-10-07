@@ -24,7 +24,7 @@ class Drawable
         //Sets the rendering order / z-index
         void SetOrder(int ord);
         //Gets the rendering order / z-index
-        int GetOrder();
+        int GetOrder() const;
         //Adds to the rendering order / z-index
         void AddRenderOrder(int amt);
 
@@ -41,7 +41,7 @@ class Drawable
         //Enables drawing of the object
         void ShowDrawing();
         //Returns true if the object is hidden
-        bool IsHidden();
+        bool IsHidden() const;
         //To be overridden: called after HideDrawing() is called and should hide any other necessary objects (children)
         virtual void HideChildren() {
         }
@@ -56,7 +56,7 @@ class Drawable
         Vector2 GetSize();
 
         //Draws all Drawables in order
-        static void DrawAll();
+        static void DrawAll(float dt);
 
         //Disables shadow rendering
         void DisableShadow() {
@@ -68,7 +68,7 @@ class Drawable
             ShadowDoesDraw = true;
         }
         //Returns true if the shadow is drawing
-        bool ShadowEnabled()
+        bool ShadowEnabled() const
         {
             return ShadowDoesDraw;
         }

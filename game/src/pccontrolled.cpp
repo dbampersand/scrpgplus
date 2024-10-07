@@ -47,6 +47,7 @@ void PCControlled::FillDrawBag()
 {
     for (int i = 0; i < discardedBag.size(); i++)
     {
+        //Remove from discarded bag and insert into bag
         std::unique_ptr<Tile> drawn = std::move(discardedBag.back());
         discardedBag.pop_back();
         bag.push_back(std::move(drawn));
@@ -56,10 +57,12 @@ void PCControlled::FillDrawBag()
 }
 std::unique_ptr<Tile> PCControlled::DrawTile()
 {
+    //if we have no Tiles left in the bag, then fill it up again with the contents of DiscardedBag
     if (bag.size() == 0)
     {
         FillDrawBag();
     }
+
     std::unique_ptr<Tile> drawn = std::move(bag.back());
     bag.pop_back();
     return drawn;
@@ -70,9 +73,10 @@ void PCControlled::AddTilesToBag(std::vector<std::unique_ptr<Tile>>* bag, int nu
     for (int i = 0; i < numToAdd; i++)
     {
         std::unique_ptr<Tile> t;
-
+        //generate random number to decide what tile we've chosen
         float total = chanceOfDamage + chanceOfHeal + chanceOfShield;
         float rand = GameState::RandRange<float>(0, total);
+
         //damage
         if (rand >= 0 && rand <= chanceOfDamage)
         {
@@ -97,7 +101,6 @@ void PCControlled::AddTilesToBag(std::vector<std::unique_ptr<Tile>>* bag, int nu
 }
 void PCControlled::InitBag()
 {
-
     bag.clear();
     discardedBag.clear();
     PlayerTiles.clear();
@@ -107,6 +110,9 @@ void PCControlled::InitBag()
     float healTileChance = 0.2f;
     float shieldTileChance = 0.1f;
 
+
+    //Add all the tiles to the bag
+    //This line is adding 12 e tiles with a multiplier of 1 and so on
     AddTilesToBag(&bag, 12, 'e', 1, damageTileChance, healTileChance, shieldTileChance);
 
     AddTilesToBag(&bag, 9, 'a', 1, damageTileChance, healTileChance, shieldTileChance);
@@ -141,6 +147,7 @@ void PCControlled::InitBag()
     AddTilesToBag(&bag, 1, 'q', 10, damageTileChance, healTileChance, shieldTileChance);
     AddTilesToBag(&bag, 1, 'z', 10, damageTileChance, healTileChance, shieldTileChance);
 
+    //Wildcards
     AddTilesToBag(&bag, 2, '*', 0, damageTileChance, healTileChance, shieldTileChance);
 
 }
@@ -220,6 +227,7 @@ std::string PCControlled::GetPlayedHand()
     std::string word = "";
     for (std::shared_ptr<Slot> s : PCControlled::CurrentPlayer->TilesPlayed)
     {
+        //if there is no tile here, just ignore that one
         if (s->tile->character != ' ')
             word += s->tile->character;
     }
@@ -248,23 +256,26 @@ void PCControlled::DrawToMax()
 }
 void PCControlled::ClearHand()
 {
-    auto removeFunc = [](std::shared_ptr<Slot> t){ return t->tile->character != ' ';};
     for (int i = 0; i < TilesPlayed.size(); i++)
     {
+        //we only want to remove tiles that have characters on them as the other ones are just blank tiles
         if (TilesPlayed[i]->tile->character != ' ')
         {
             std::unique_ptr<Tile> tile = std::move(TilesPlayed[i]->tile);
             tile->parent = nullptr;
+
+            //fill with a blank tile
             TilesPlayed[i]->tile = std::make_unique<Tile>((' '));
             TilesPlayed[i]->tile->parent = TilesPlayed[i].get();
             TilesPlayed[i]->tile->Selectable = false;
             TilesPlayed[i]->tile->color = Color{0,0,0,0};
             TilesPlayed[i]->tile->HideDrawing();
 
+            //discard the tile
             discardedBag.push_back(std::move(tile));
-            i--;
         }
     }
+    //Redraw tiles
     DrawToMax();
 }
 void PCControlled::PlayHand()
@@ -277,6 +288,7 @@ void PCControlled::PlayHand()
         ClearHand();
         return;
     }
+    //we have a valid word
     float multiplier = GetMultiplier(word);
     Attack(multiplier);
     ClearHand();

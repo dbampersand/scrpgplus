@@ -56,7 +56,7 @@ void UI::EndTurnButton()
 void UI::CreateMainMenuUI()
 {
     UIGroup u = UIGroup("MainMenu");
-    std::shared_ptr<Button> b = std::make_shared<Button>(100,100,80,35,UI::StartGameButton);
+    std::shared_ptr<Button> b = std::make_shared<Button>(100.0f,100.0f,80.0f,35.0f,UI::StartGameButton);
     
     b->SetText("Start Game");
     u.AddElement<Button>(b);
@@ -67,7 +67,7 @@ void UI::CreateMainMenuUI()
 void UI::CreateGameUI()
 {
     UIGroup u = UIGroup("InGame");
-    _endTurnButton = std::make_shared<Button>(Render::GetBasisWidth()/2.0f,Render::GetBasisHeight() - 20,160,25,UI::EndTurnButton);
+    _endTurnButton = std::make_shared<Button>((Render::GetBasisWidth()/2.0f),(Render::GetBasisHeight() - 20),160.0f,25.0f,UI::EndTurnButton);
     
     _endTurnButton->SetText("End turn");
     u.AddElement<Button>(_endTurnButton);
@@ -136,12 +136,14 @@ void UI::RegisterUIToGameState(GameState::State stateToAdd,  std::string name)
                 break;
             }
         }
+        //the group exists, we need to push the current name to it
         if (shouldAdd)
         {
             exists = true;
             it->second.push_back(name);
         }
     }
+    //if the group doesn't already exist, we need to create the state first
     if (!exists)
     {
         std::vector<std::string> str;

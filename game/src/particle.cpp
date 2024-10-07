@@ -45,6 +45,8 @@ void Particle::Draw(Rectangle r, Color tint)
 void Particle::CreateParticle(Vector2 Position, float Angle, Color col, float Lifetime, float Radius, float initialSpeed, int DrawOrder, void (*update)(Particle* p, float dt))
 {
 	Particle p = Particle(Position, Angle, col, Lifetime, Radius, initialSpeed, DrawOrder, update);
+	
+	//circular queue: when the index reaches MAX_PARTICLES, it resets to 0 and overwrites the particle in that position
 	particles[_PARTICLES_CURRENT] = p;
 	_PARTICLES_CURRENT++;
 

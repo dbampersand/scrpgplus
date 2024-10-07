@@ -3,7 +3,7 @@
 #include "gameobject.h"
 #include "colours.h"
 
-void HealthBar::DrawHealthBar(Rectangle r)
+void HealthBar::DrawHealthBar(Rectangle r) const
 {
     DrawRectangleRounded(r, 0.25, 10, Colours::UIGray);
 
@@ -11,6 +11,7 @@ void HealthBar::DrawHealthBar(Rectangle r)
     float hpVal = std::max(0.0f,std::min(1.0f, HP));
     float shieldVal = std::max(0.0f,std::min(1.0f,Shield));
 
+    //Create the part of the rectangle that represents the health (red part)
     Rectangle health = r;
     health.width -= padding;
     health.height -= padding;
@@ -18,6 +19,8 @@ void HealthBar::DrawHealthBar(Rectangle r)
     health.y += padding / 2.0f;
     health.width *= (hpVal);
 
+    //Create the part of the rectangle that represents the shield (yellow part)
+    //this is based on the proportion of their shield to their health and placed on the right hand side
     Rectangle shield = r;
     shield.width -= padding;
     shield.height -= padding;

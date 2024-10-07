@@ -9,6 +9,7 @@
 
 void InitPath()
 {
+    //MacOS sets the initial path to the root directory of the entire file system (i.e. "/") so we need to traverse to where this executable lies
     #ifdef __APPLE__
         uint32_t buffSize = 0;
         char* buffer = (char*)calloc(1,sizeof(char));

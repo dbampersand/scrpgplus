@@ -3,7 +3,7 @@
 Updatable::~Updatable()
 {
     //if 'this' exists inside of Updatables, add it to the list to remove it later
-      std::erase(Updatables, this);
+    std::erase(Updatables, this);
 }
 Updatable::Updatable() {
     if (Updatables.size() == 0)

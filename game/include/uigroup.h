@@ -18,10 +18,7 @@ class UIGroup
         void Show();
         //Hides the UIGroup
         void Hide();
-        //Updates the UIGroup
-        void UpdateGroup(float dt);
-        //Draws the UIGroup
-        void DrawGroup();
+
         UIGroup(std::string Name) { name = Name; };
         
         std::vector<std::shared_ptr<UIElement>> elements;

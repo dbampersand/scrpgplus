@@ -23,25 +23,3 @@ void UIGroup::Hide()
         e->HideDrawing(); 
     }
 }
-void UIGroup::UpdateGroup(float dt)
-{
-   for(std::shared_ptr<UIElement> e : elements)
-    {
-        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-        {
-            e->Clicked();
-        }
-        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
-        {
-            e->Released();
-        }
-    }
-}
-void UIGroup::DrawGroup()
-{
- /*
-    for(std::shared_ptr<UIElement> e : elements)
-    {   
-       e->Draw();
-    }*/
-}

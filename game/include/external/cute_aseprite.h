@@ -94,7 +94,7 @@
 
 		https://github.com/RandyGaul/cute_headers/issues
 */
-
+#pragma warning(push)
 #ifndef CUTE_ASEPRITE_H
 #define CUTE_ASEPRITE_H
 
@@ -1356,3 +1356,4 @@ void cute_aseprite_free(ase_t* ase)
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	------------------------------------------------------------------------------
 */
+#pragma warning(pop)

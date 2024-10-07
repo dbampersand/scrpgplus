@@ -30,22 +30,26 @@ void GameState::TakeTurn()
 {
     UI::EnableEndTurnButton(false);
 
+    //if it's currently the human player's turn and they have just ended their turn
     if (GameState::player == PC_PLAYER)
     { 
+
+        //Change back to the player's turn after a given amount of time
         auto func = []() -> void {
             GameState::player = PC_PLAYER;
             UI::EnableEndTurnButton(true);
         };
-        
         Timer::CreateTimer(func, 0.5f);
-        GameState::player = AI_PLAYER;
+
+        //take the player's turn
         PCControlled::CurrentPlayer->TakeTurn(Player::players[0]);
-        Player::players[0]->SetTint(Player::players[0]->GetNotActiveTint());
+
+        //set the AI player to active
+        GameState::player = AI_PLAYER;
         Player::players[0]->SetTint(Color{ 255,255,255,255 });
 
-
+        //take the AI player's turn and then change back to the human's turn after an amount of time
         auto aiTurnFunc = []() -> void {
-            GameState::player = PC_PLAYER;
             Player::players[0]->TakeTurn(PCControlled::CurrentPlayer.get());
             Player::players[0]->SetTint(Player::players[0]->GetNotActiveTint());
             };
@@ -54,5 +58,5 @@ void GameState::TakeTurn()
 }
 void GameState::SeedRNG()
 {
-    rng.seed(std::chrono::system_clock::now().time_since_epoch().count());
+    rng.seed((unsigned int)(std::chrono::system_clock::now().time_since_epoch().count()));
 }

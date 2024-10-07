@@ -55,13 +55,6 @@ class Tile : public Draggable, public Drawable, Updatable
             return !Drawable::IsHidden();
         };
         void DragClick() override;
-        Font* GetCharacterFont()
-        {
-            return &CharacterFont;
-        }
-        void SetFont(std::string characterFontPath, float characterSize, std::string multiplierFontPath, float multiplierSize)
-        {
-        }
 
         int GetDrawingOrder() override
         {
@@ -75,8 +68,6 @@ class Tile : public Draggable, public Drawable, Updatable
         ~Tile() = default;
 
 private:    
-    Font CharacterFont{ 0 };
-    Font MultiplierFont{ 0 };
 
     const std::string CharacterFontPath = "assets/fonts/PlayfairDisplay/PlayfairDisplay-Bold.ttf";
     const std::string MultiplierFontPath = "assets/fonts/PlayfairDisplay/PlayfairDisplay-Regular.ttf";

@@ -7,7 +7,7 @@ class Button : public UIElement
 {
     public:
 
-        Button(int X, int Y, int W, int H, void (*Callback)());
+        Button(float X, float Y, float W, float H, void (*Callback)());
 
         void SetText(std::string str);
         void Draw(Rectangle r, Color tint) override;

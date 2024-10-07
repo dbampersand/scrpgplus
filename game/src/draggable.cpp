@@ -20,7 +20,6 @@ Draggable::~Draggable() {
 
 void Draggable::Drag() 
 {
-    
 }
 
 bool DragTarget::SortFunc(DragTarget* d1, DragTarget* d2)
@@ -48,29 +47,35 @@ void Draggable::CheckDraggables(float dt)
     for (Draggable* d : AllDraggables)
     {
         Drawable* dr = (Drawable*)d;
+
+        //if not drawing or can't be dragged, continue to next 
         if (!dr)
             continue;
         if (!d->CanBeDragged())
             continue;
         if (dr->IsHidden())
             continue;
+        if (!d->Selectable)
+            continue;
 
+        //if we've just pressed the mouse button and we're moused over the Draggable
         if (IsMouseButtonPressed(0) && CheckCollisionPointRec(Render::GetMousePos(), d->GetPosition()))
         {
-            if (d->Selectable)
-            {
-                d->TimeHasBeenDraggedFor = 0;
+            d->TimeHasBeenDraggedFor = 0;
+            d->IsDragged = true;
+            d->Offset = Vector2{Render::GetMousePos().x-d->GetPosition().x, Render::GetMousePos().y-d->GetPosition().y};
 
-                d->IsDragged = true;
-                d->Offset = Vector2{Render::GetMousePos().x-d->GetPosition().x, Render::GetMousePos().y-d->GetPosition().y};
-                if (dr) {
-                    dr->AddRenderOrder(d->RenderOrderAdd);
-                    dr->EnableShadow();
-                }
+            //add render order so that we draw this over the top of other similar objects
+            if (dr) {
+                dr->AddRenderOrder(d->RenderOrderAdd);
+                dr->EnableShadow();
             }
         }
+        //if we're currently dragging an object and we've just released the mouse button
         if (d->IsDragged && IsMouseButtonReleased(0))
         {
+            //if the time the object has been dragged for is less than ClickTime, then activate a click
+            //and continue to the next Draggable
             if (d->TimeHasBeenDraggedFor <= Draggable::ClickTime)
             {
                 d->DragClick();
@@ -83,11 +88,13 @@ void Draggable::CheckDraggables(float dt)
                 }
                 continue;
             }
-
+            bool hasFoundADragTarget = false;
+            //otherwise: iterate over all the DragTargets and check if we're hovering over them
             for (DragTarget* dt : DragTarget::DragTargets)
             {
                 if (dt->IsHidden())
                     continue;
+                //if we are over one, then call the DragTarget's OnDrag function
                 if (CheckCollisionPointRec(Render::GetMousePos(), dt->GetPosition()))
                 {
                     d->IsDragged = false;
@@ -98,29 +105,20 @@ void Draggable::CheckDraggables(float dt)
                         dr->AddRenderOrder(-d->RenderOrderAdd);
                         dr->DisableShadow();
                     }
+                    hasFoundADragTarget = true;
                     break;
                 }
             }
-        }
-        if (IsMouseButtonReleased(0) && d->IsDragged)
-        {
-            d->IsDragged = false;
-            if (dr)
+            //if we haven't found a DragTarget, then we need to reset the object's position
+            if (!hasFoundADragTarget)
             {
-                dr->AddRenderOrder(-d->RenderOrderAdd);
-                dr->DisableShadow();
-            }
+                d->IsDragged = false;
 
-            if (d->TimeHasBeenDraggedFor <= Draggable::ClickTime)
-            {
-                d->DragClick();
-            }
-            else
-            {
                 Rectangle defaultPosition = d->GetDefaultPosition();
-                d->MoveObject(defaultPosition.x,defaultPosition.y);
+                d->MoveObject(defaultPosition.x, defaultPosition.y);
             }
         }
+        //if we're still dragging, then move the object 
         if (d->IsDragged)
         {
             d->TimeHasBeenDraggedFor += dt;

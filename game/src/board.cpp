@@ -22,6 +22,7 @@ Board::Board()
 			slots[x][y].y = (y * slots[x][y].h + (padding * y));
 		}
 	}
+	//Initialise slots and center them horizontally
 	for (int i = 0; i < _BOARD_PLAYER_SLOTS; i++)
 	{
 		std::shared_ptr<Slot> playerTile = std::make_shared<Slot>(0.0f, boardHeight + padding);

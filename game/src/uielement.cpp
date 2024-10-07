@@ -15,6 +15,7 @@ std::vector<Clickable*> Clickable::Clickables;
 
 Clickable::Clickable()
 {
+    clicked = false;
     Clickables.push_back(this);
 }
 Clickable::~Clickable()
@@ -31,13 +32,16 @@ void Clickable::UpdateClickables()
     {
         if (c->IsClickable)
         {
+            //if we're over the object 
             if (c->MousedOver(c->GetPosition()))
             {
+                //just pressed mouse button
                 if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                 {
                     c->Clicked();
                     c->clicked = true;
                 }
+                //just released mouse button
                 if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
                 {
                     c->Released();
@@ -45,7 +49,8 @@ void Clickable::UpdateClickables()
                 }
             }
         }
-        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+        //just released mouse button, but not over the clicked element anymore
+        if (c->clicked && IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
         {
             c->clicked = false;
             c->Unclicked();
