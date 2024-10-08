@@ -42,7 +42,7 @@ class Drawable
         void ShowDrawing();
         //Returns true if the object is hidden
         bool IsHidden() const;
-        virtual std::vector<Drawable*> GetChildren() {
+         virtual std::vector<Drawable*> GetChildren() {
             return std::vector<Drawable*>();
         };
 
