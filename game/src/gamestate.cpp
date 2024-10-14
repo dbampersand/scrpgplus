@@ -22,13 +22,19 @@ void GameState::HideState(State currentState)
             Player::players[0]->HideDrawing();
     }
 
-
     if (state == State::IN_BOARD)
     {
         Board::board->Hide();
+        bool success = false;
+        std::vector<BoardWord> words = Board::board->CheckBoardWords(&success);
+        if (!success)
+        {
+            Board::board->CleanBadPlayedBoard();
+        }
+        for (BoardWord word : words)
+            UI::ConsolePrint(word.word);
 
     }
-
 }
 
 void GameState::SetState(State state)
@@ -42,6 +48,10 @@ void GameState::SetState(State state)
      
     if (state == State::IN_GAME)
     {
+        Player::players.clear();
+
+        Player::players.push_back(Player::GetRandomEnemy(0));
+
         if (PCControlled::CurrentPlayer)
             PCControlled::CurrentPlayer->ShowTiles();
         PCControlled::CurrentPlayer->ShowTiles();
@@ -50,17 +60,35 @@ void GameState::SetState(State state)
 
     if (state == State::IN_BOARD)
     {
+        Board::board->DrawTiles(PCControlled::CurrentPlayer.get());
         Board::board->Show();
     }
 
 }
 void GameState::StartGame()
 {
-    Player::AddPlayer(Player::GetRandomEnemy(0));
+    //Player::AddPlayer(Player::GetRandomEnemy(0));
     PCControlled::CurrentPlayer = nullptr;
     PCControlled::CurrentPlayer = std::make_unique<PCControlled>(""); 
     GameState::SetState(GameState::State::IN_GAME);
 
+}
+void GameState::TakeBoardTurn()
+{
+    GameState::SetState(GameState::IN_GAME);
+
+    for (int x = 0; x < _BOARD_TILE_COUNT_X; x++)
+    {
+        for (int y = 0; y < _BOARD_TILE_COUNT_Y; y++)
+        {
+            if (Board::board->slots[x][y].tile && Board::board->slots[x][y].tile->character != ' ')
+            {
+                Board::board->slots[x][y].Lock();
+                Board::board->slots[x][y].tile->Lock();
+            }
+
+        }
+    }
 }
 void GameState::TakeTurn()
 {
@@ -80,16 +108,19 @@ void GameState::TakeTurn()
         //take the player's turn
         PCControlled::CurrentPlayer->TakeTurn(Player::players[0]);
 
-        //set the AI player to active
-        GameState::player = AI_PLAYER;
-        Player::players[0]->SetTint(Color{ 255,255,255,255 });
+        if (Player::players[0]->GetHP() > 0)
+        {
+            //set the AI player to active
+            GameState::player = AI_PLAYER;
+            Player::players[0]->SetTint(Color{ 255,255,255,255 });
 
-        //take the AI player's turn and then change back to the human's turn after an amount of time
-        auto aiTurnFunc = []() -> void {
-            Player::players[0]->TakeTurn(PCControlled::CurrentPlayer.get());
-            Player::players[0]->SetTint(Player::players[0]->GetNotActiveTint());
-            };
-        Timer::CreateTimer(aiTurnFunc, 0.25f);
+            //take the AI player's turn and then change back to the human's turn after an amount of time
+            auto aiTurnFunc = []() -> void {
+                Player::players[0]->TakeTurn(PCControlled::CurrentPlayer.get());
+                Player::players[0]->SetTint(Player::players[0]->GetNotActiveTint());
+                };
+            Timer::CreateTimer(aiTurnFunc, 0.25f);
+        }
     }
 }
 void GameState::SeedRNG()

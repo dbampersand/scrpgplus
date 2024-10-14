@@ -10,6 +10,12 @@ Rectangle Slot::GetPosition()
 }
 void Slot::Draw(Rectangle r, Color tint)
 {
+    if (IsLocked())
+    {
+        tint.r /= 2;
+        tint.g /= 2;
+        tint.b /= 2;
+    }
     DrawRectangle((int)r.x,(int)r.y,(int)r.width,(int)r.height,tint);
 }
 void Slot::SwapSlots(Slot* s1, Slot* s2)
@@ -92,3 +98,24 @@ void Slot::HorizontalCenterTiles(std::vector<std::shared_ptr<Slot>>* slots, floa
             (*slots)[i]->tile->x = x;
     }
 }
+void Slot::SetTile(std::unique_ptr<Tile> Tile)
+{
+    tile = std::move(Tile);
+    tile->x = x;
+    tile->y = y;
+    tile->parent = (this);
+}
+void Slot::Lock()
+{
+    DragTarget::SetLocked(true);
+    if (tile)
+        tile->SetLocked(true);
+}
+void Slot::Unlock()
+{
+    DragTarget::SetLocked(false);
+    if (tile)
+        tile->SetLocked(false);
+
+}
+

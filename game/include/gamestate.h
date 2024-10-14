@@ -27,6 +27,8 @@ class GameState
 
         //End the current turn and changes to the other player
         static void TakeTurn();
+        static void TakeBoardTurn();
+
 
         //Initialise the random number generator
         static void SeedRNG();

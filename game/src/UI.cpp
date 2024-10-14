@@ -53,6 +53,10 @@ void UI::EndTurnButton()
 {
     GameState::TakeTurn();
 }
+void UI::BoardPlayButton()
+{
+    GameState::TakeBoardTurn();
+}
 void UI::CreateMainMenuUI()
 {
     UIGroup u = UIGroup("MainMenu");
@@ -75,11 +79,24 @@ void UI::CreateGameUI()
     UI::AddGroup(u);
     UI::RegisterUIToGameState(GameState::State::IN_GAME, "InGame");
 }
+void UI::CreateBoardUI()
+{
+    UIGroup u = UIGroup("InBoard");
+    _endTurnButton = std::make_shared<Button>((Render::GetBasisWidth() / 2.0f), (Render::GetBasisHeight() - 20), 160.0f, 25.0f, UI::BoardPlayButton);
 
+    _endTurnButton->SetText("Play word");
+    u.AddElement<Button>(_endTurnButton);
+
+    UI::AddGroup(u);
+    UI::RegisterUIToGameState(GameState::State::IN_BOARD, "InBoard");
+
+
+}
 void UI::CreateUI()
 {
     UI::CreateMainMenuUI();
     UI::CreateGameUI();
+    UI::CreateBoardUI();
 }
 void UI::AddGroup(UIGroup u)
 {
@@ -161,5 +178,5 @@ void UI::EnableEndTurnButton(bool enable)
 
 void UI::ConsolePrint(std::string str)
 {
-    std::cout << str;
+    std::cout << str << "\n";
 }

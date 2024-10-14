@@ -30,7 +30,7 @@ void Clickable::UpdateClickables()
 {
     for (Clickable* c : Clickables)
     {
-        if (c->IsClickable)
+        if (c->IsClickable && !c->IsHidden())
         {
             //if we're over the object 
             if (c->MousedOver(c->GetPosition()))

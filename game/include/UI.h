@@ -47,6 +47,8 @@ class UI
         static void StartGameButton();
         //The event function for when the end turn button is clicked
         static void EndTurnButton();
+        //The event function for when the board play word button is clicked
+        static void BoardPlayButton();
 
         //Enables/disables the end turn button
         static void EnableEndTurnButton(bool enable);
@@ -60,9 +62,9 @@ private:
 
     //Initialisation function, creates the main menu UI
     static void CreateMainMenuUI();
-    //Initialisation function, creates the game  UI
+    //Initialisation function, creates the game UI
     static void CreateGameUI();
-
-
+    //Initialisation function, creates the board UI
+    static void CreateBoardUI();
 };
 

@@ -58,6 +58,7 @@ public:
     //To be overridden with custom logic for the Player's turn
     virtual void TakeTurn(Player* enemyPlayer) = 0;
 
+    std::string GetName() override { return name; }
 
 
     static std::vector<Player*> players;

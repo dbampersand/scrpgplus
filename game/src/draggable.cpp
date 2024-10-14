@@ -92,7 +92,7 @@ void Draggable::CheckDraggables(float dt)
             //otherwise: iterate over all the DragTargets and check if we're hovering over them
             for (DragTarget* dt : DragTarget::DragTargets)
             {
-                if (dt->IsHidden())
+                if (dt->IsHidden() || dt->IsLocked())
                     continue;
                 //if we are over one, then call the DragTarget's OnDrag function
                 if (CheckCollisionPointRec(Render::GetMousePos(), dt->GetPosition()))

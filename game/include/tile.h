@@ -24,7 +24,7 @@ class Tile : public Draggable, public Drawable, Updatable
         Slot* parent = nullptr;
         Color color;
         TileType tileType;
-
+        
 
         float x; float y; float w; float h;
         void Draw(Rectangle r, Color tint) override;
@@ -44,8 +44,24 @@ class Tile : public Draggable, public Drawable, Updatable
         };
 
         bool CanBeDragged() override {
-            return !Drawable::IsHidden();
+            return !Drawable::IsHidden() && !Locked;
         };
+        void Lock()
+        {
+            Locked = true;
+        }
+        void Unlock()
+        {
+            Locked = false;
+        }
+        void SetLocked(bool isLocked)
+        {
+            Locked = isLocked;
+        }
+        bool IsLocked()
+        {
+            return Locked;
+        }
         void DragClick() override;
 
         int GetDrawingOrder() override
@@ -67,6 +83,7 @@ private:
     inline static float CharacterSize = 12;
     inline static float MultiplierSize = 8;
 
+    bool Locked = false;
 
 };
 

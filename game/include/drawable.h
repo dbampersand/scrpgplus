@@ -89,6 +89,9 @@ class Drawable
         {
             Tint = tint;
         }
+        //used for debugging purposes - to be overridden, gets the name of the current object
+        virtual std::string GetName() { return ""; }
+
     private:
         static std::vector<Drawable*> drawables;
 

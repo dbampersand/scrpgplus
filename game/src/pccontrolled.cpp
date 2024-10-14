@@ -43,6 +43,11 @@ void PCControlled::ShowTiles()
 
     }
 }
+void PCControlled::DiscardTile(std::unique_ptr<Tile> tile)
+{
+    tile->HideDrawing();
+    discardedBag.push_back(std::move(tile));
+}
 void PCControlled::FillDrawBag()
 {
     for (int i = 0; i < discardedBag.size(); i++)
@@ -274,7 +279,7 @@ void PCControlled::ClearHand()
             TilesPlayed[i]->tile->HideDrawing();
 
             //discard the tile
-            discardedBag.push_back(std::move(tile));
+            DiscardTile(std::move(tile));
         }
     }
     //Redraw tiles

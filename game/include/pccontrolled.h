@@ -50,6 +50,12 @@ public:
         void Update(float dt) override;
 
         std::vector<Drawable*> GetChildren() override;
+        //Draws and removes a Tile from the bag
+        std::unique_ptr<Tile> DrawTile();
+        //Moves the Tile to the discard bag
+        void DiscardTile(std::unique_ptr<Tile> tile);
+
+
 
 private:
 
@@ -61,8 +67,6 @@ private:
 
     //Swaps and shuffles the discarded bag and bag so that bag is full of the discarded tiles, now ready to be drawn again
     void FillDrawBag();
-    //Draws and removes a Tile from the bag
-    std::unique_ptr<Tile> DrawTile();
     //Adds a tile to the bag a given number of times with a character and a multiplier. 
     //ChanceOfDamage, ChanceOfHeal and ChanceOfShield are the probability it will be a damage tile, healing tile of shielding tile respectively, and should be between 0-1
     void AddTilesToBag(std::vector<std::unique_ptr<Tile>>* bag, int numToAdd, char character, float multiplier, float chanceOfDamage, float chanceOfHeal, float chanceOfShield);

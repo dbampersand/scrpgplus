@@ -87,8 +87,25 @@ class DragTarget
         //List of all the DragTargets, automatically managed in constructor/destructor
         static std::vector<DragTarget*> DragTargets;
 
+        void Lock()
+        {
+            Locked = true;
+        }
+        void Unlock()
+        {
+            Locked = false;
+        }
+        void SetLocked(bool isLocked)
+        {
+            Locked = isLocked;
+        }
+        bool IsLocked()
+        {
+            return Locked;
+        }
 private:
     //Reverse sort function for DragTargets, sorts by rendering order
     static bool SortFunc(DragTarget* d1, DragTarget* d2);
-
+    //
+    bool Locked = false;
 };

@@ -58,5 +58,11 @@ private:
 
         std::vector<Drawable*> GetChildren() override;
 
+        void SetTile(std::unique_ptr<Tile> tile);
+
+        void Lock();
+        void Unlock();
+
+
 
 }; 

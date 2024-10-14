@@ -30,6 +30,8 @@ class Clickable
         //To be overridden, returns the position in world space
         virtual Rectangle GetPosition() = 0;
 
+        virtual bool IsHidden() = 0;
+
 private:
 
     static std::vector<Clickable*> Clickables;
@@ -66,6 +68,10 @@ class UIElement : public Drawable, public Clickable, public Updatable
         };
         virtual void Draw(Rectangle r, Color tint) override {
         };
+
+        bool IsHidden() override {
+            return Drawable::IsHidden();
+        }
 
 
     private:

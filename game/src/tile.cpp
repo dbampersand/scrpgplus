@@ -109,7 +109,7 @@ Tile::Tile() : Drawable(std::string(""), 600) {
     x = 0; y = 0; w = 0; h = 0;
     mutiplier = 0;
     DisableShadow();
-    character = 0;
+    character = ' ';
     color = Color{ 100,0,100 };
 };
 
