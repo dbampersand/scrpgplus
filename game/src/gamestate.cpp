@@ -62,7 +62,7 @@ void GameState::SetState(State state)
         Player::players.push_back(Player::GetRandomEnemy(0));
 
         if (PCControlled::CurrentPlayer)
-            PCControlled::CurrentPlayer->ShowTiles();
+            PCControlled::CurrentPlayer->ShowDrawing();
         PCControlled::CurrentPlayer->ShowTiles();
 
     }

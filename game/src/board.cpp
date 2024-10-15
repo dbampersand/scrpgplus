@@ -115,7 +115,7 @@ BoardWord Board::CheckTileVertical(int tileX, int tileY, bool* IsAWord)
 		}
 		if (y == _BOARD_TILE_COUNT_Y - 1)
 		{
-			boundsMaxY = y;
+			boundsMaxY = y-1;
 		}
 	}
 	std::string vertical = "";
@@ -174,7 +174,7 @@ BoardWord Board::CheckTileHorizontal(int tileX, int tileY, bool* IsAWord)
 	{
 		if (!board->slots[x][tileY].tile || board->slots[x][tileY].tile->character == ' ')
 		{
-			boundsMaxX = x;
+			boundsMaxX = x-1;
 			break;
 		}
 		if (x == _BOARD_TILE_COUNT_X - 1)
