@@ -10,6 +10,10 @@ Board::Board()
 	float boardWidth = Render::GetBasisWidth();
 	float boardHeight = Render::GetBasisHeight() - Render::GetBasisHeight() / 6.0f;
 
+	int slotW = boardWidth / (float)_BOARD_TILE_COUNT_X - padding;
+	int slotH = boardHeight / (float)_BOARD_TILE_COUNT_Y - padding;
+
+
 	Board::PlayerSlots.clear();
 
 	for (int x = 0; x < _BOARD_TILE_COUNT_X; x++)
@@ -17,8 +21,8 @@ Board::Board()
 		for (int y = 0; y < _BOARD_TILE_COUNT_Y; y++)
 		{
 			//Create grid of Slots
-			slots[x][y].w = boardWidth / (float)_BOARD_TILE_COUNT_X - padding;
-			slots[x][y].h = boardHeight / (float)_BOARD_TILE_COUNT_Y - padding;
+			slots[x][y].w = slotW;
+			slots[x][y].h = slotH;
 
 			slots[x][y].x = (x * slots[x][y].w + (padding * x));
 			slots[x][y].y = (y * slots[x][y].h + (padding * y));
@@ -27,7 +31,7 @@ Board::Board()
 	//Initialise slots and center them horizontally
 	for (int i = 0; i < _BOARD_PLAYER_SLOTS; i++)
 	{
-		std::shared_ptr<BoardSlot> playerTile = std::make_shared<BoardSlot>(0.0f, boardHeight + padding);
+		std::shared_ptr<BoardSlot> playerTile = std::make_shared<BoardSlot>(0.0f, boardHeight + padding, slotW, slotH);
 		Board::PlayerSlots.push_back(playerTile);
 	}
 	std::vector<std::shared_ptr<Slot>> slotsCasted;
@@ -104,14 +108,18 @@ BoardWord Board::CheckTileVertical(int tileX, int tileY, bool* IsAWord)
 	//get bounds max on vertical axis (bottom side of the tile played)
 	for (int y = tileY; y < _BOARD_TILE_COUNT_Y; y++)
 	{
-		if (!board->slots[tileX][y].tile || board->slots[tileX][y].tile->character == ' ' || y == _BOARD_TILE_COUNT_Y - 1)
+		if (!board->slots[tileX][y].tile || board->slots[tileX][y].tile->character == ' ')
+		{
+			boundsMaxY = y-1;
+			break;
+		}
+		if (y == _BOARD_TILE_COUNT_Y - 1)
 		{
 			boundsMaxY = y;
-			break;
 		}
 	}
 	std::string vertical = "";
-	for (int y = boundsMinY; y < boundsMaxY; y++)
+	for (int y = boundsMinY; y <= boundsMaxY; y++)
 	{
 		Tile* t = board->slots[tileX][y].tile.get();
 
@@ -164,16 +172,20 @@ BoardWord Board::CheckTileHorizontal(int tileX, int tileY, bool* IsAWord)
 	//get bounds max on horizontal axis (right side of the tile played)
 	for (int x = tileX; x < _BOARD_TILE_COUNT_X; x++)
 	{
-		if (!board->slots[x][tileY].tile || board->slots[x][tileY].tile->character == ' ' || x == _BOARD_TILE_COUNT_X - 1)
+		if (!board->slots[x][tileY].tile || board->slots[x][tileY].tile->character == ' ')
 		{
 			boundsMaxX = x;
 			break;
+		}
+		if (x == _BOARD_TILE_COUNT_X - 1)
+		{
+			boundsMaxX = x;
 		}
 
 	}
 	std::string horizontal = "";
 	//get the word on the horizontal and vertical axes
-	for (int x = boundsMinX; x < boundsMaxX; x++)
+	for (int x = boundsMinX; x <= boundsMaxX; x++)
 	{
 		Tile* t = board->slots[x][tileY].tile.get();
 

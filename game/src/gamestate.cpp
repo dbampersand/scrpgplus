@@ -27,6 +27,15 @@ void GameState::HideState(State currentState)
         Board::board->Hide();
         bool success = false;
         std::vector<BoardWord> words = Board::board->CheckBoardWords(&success);
+        if (success)
+        {
+            for (BoardWord b : words)
+            {
+                PCControlled::CurrentPlayer->AddToMultiplier(Tile::TileType::Damage, b.valueDamage);
+                PCControlled::CurrentPlayer->AddToMultiplier(Tile::TileType::Heal, b.valueHeal);
+                PCControlled::CurrentPlayer->AddToMultiplier(Tile::TileType::Shield, b.valueShield);
+            }
+        }
         if (!success)
         {
             Board::board->CleanBadPlayedBoard();

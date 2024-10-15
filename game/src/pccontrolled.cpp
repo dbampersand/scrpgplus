@@ -181,12 +181,17 @@ PCControlled::PCControlled(std::string path) : Player(path) {
         playerTile->tile->parent = playerTile.get();
 
         PlayerTiles.push_back((playerTile));
-
+        
         std::shared_ptr<Slot> tilePlayed = std::make_shared<Slot>(0.0f, y + Slot::GetDefaultHeight() + padding);
         TilesPlayed.push_back((tilePlayed));
     }
     Slot::HorizontalCenterTiles(&PlayerTiles,(float)padding);
     Slot::HorizontalCenterTiles(&TilesPlayed,(float)padding);
+
+    DamageMultiplierIndicator.SetPosition(GetHealthBarRectangle().x, GetHealthBarRectangle().y - 10);
+    HealMultiplierIndicator.SetPosition(GetHealthBarRectangle().x+10, GetHealthBarRectangle().y - 10);
+    ShieldMultiplierIndicator.SetPosition(GetHealthBarRectangle().x+20, GetHealthBarRectangle().y - 10);
+
     
     HideTiles();
 };
@@ -243,7 +248,15 @@ void PCControlled::Attack(float multiplier)
 {
     for (std::shared_ptr<Slot> s : PCControlled::CurrentPlayer->TilesPlayed)
     {
-        s->tile->ApplyEffect(Player::GetEnemy(),this,multiplier);
+        float multiplierFinal = multiplier;
+        if (s->tile->tileType == Tile::TileType::Damage)
+            multiplierFinal *= MultiplierDamage;
+        if (s->tile->tileType == Tile::TileType::Heal)
+            multiplierFinal *= MultiplierHeal;
+        if (s->tile->tileType == Tile::TileType::Shield)
+            multiplierFinal *= MultiplierShield;
+
+        s->tile->ApplyEffect(Player::GetEnemy(),this, multiplierFinal);
     }
 }
 void PCControlled::DrawToMax()

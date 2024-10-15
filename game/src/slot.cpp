@@ -48,7 +48,7 @@ void Slot::OnDrag(Draggable* dr)
         t2->MoveObject(position2.x,position2.y);
     }
 }
-Slot::Slot(float X, float Y) : Drawable(std::string(""), 200) {
+Slot::Slot(float X, float Y) : Drawable(std::string(""), Slot::RenderOrder) {
     x = X; y = Y;
 
     //create blank tile
@@ -60,7 +60,7 @@ Slot::Slot(float X, float Y) : Drawable(std::string(""), 200) {
     tile->parent = (this);
 
 };
-Slot::Slot() : Drawable(std::string(""), 200) {
+Slot::Slot() : Drawable(std::string(""), Slot::RenderOrder) {
     x = 0; y = 0;
 
     //create blank tile

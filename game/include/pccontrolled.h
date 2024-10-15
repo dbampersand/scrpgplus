@@ -3,6 +3,7 @@
 #include "player.h"
 #include "slot.h"
 #include "tile.h"
+#include "TileMultiplierIndicator.h"
 
 #include <memory>
 
@@ -56,6 +57,25 @@ public:
         void DiscardTile(std::unique_ptr<Tile> tile);
 
 
+        void AddToMultiplier(Tile::TileType type, float TileValue)
+        {
+            if (type == Tile::Damage)
+            {
+                MultiplierDamage += TileValue * MultiplierAddDamage;
+                DamageMultiplierIndicator.SetMultiplier(MultiplierDamage);
+            }
+            if (type == Tile::Heal)
+            {
+                MultiplierHeal += TileValue * MultiplierAddHeal;
+                HealMultiplierIndicator.SetMultiplier(MultiplierHeal);
+
+            }
+            if (type == Tile::Shield)
+            {
+                MultiplierShield += TileValue * MultiplierAddShield;
+                ShieldMultiplierIndicator.SetMultiplier(MultiplierShield);
+            }
+        }
 
 private:
 
@@ -82,6 +102,28 @@ private:
 
     //Number of slots to be created
     const static int  _MaxTiles = 12;
+
+    //The multiplier we apply to the final damage value
+    float MultiplierDamage = 1;
+    //The multiplier we apply to the final shield value
+    float MultiplierShield = 1;
+    //The multiplier we apply to the final heal value
+    float MultiplierHeal = 1;
+
+    //How much one tile multiplier counts when adding to MultiplierDamage
+    //This is only added from the board gamestate
+    float MultiplierAddDamage = 0.01;
+    //How much one tile multiplier counts when adding to MultiplierShield
+    //This is only added from the board gamestate
+    float MultiplierAddShield = 0.01;
+    //How much one tile multiplier counts when adding to MultiplierHeal
+    //This is only added from the board gamestate
+    float MultiplierAddHeal = 0.01;
+
+    TileMultiplierIndicator DamageMultiplierIndicator = TileMultiplierIndicator(0,0,10,Colours::Damage) ;
+    TileMultiplierIndicator ShieldMultiplierIndicator = TileMultiplierIndicator(20, 0, 10, Colours::Shield);
+    TileMultiplierIndicator HealMultiplierIndicator = TileMultiplierIndicator(30, 0, 10, Colours::Heal);
+
 
 
 };

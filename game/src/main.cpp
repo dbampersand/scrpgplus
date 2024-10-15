@@ -21,6 +21,8 @@
 #include "colours.h"
 #include "board.h"
 
+#include <iostream>
+
 void Init()
 {
     InitWindow((int)(Render::GetBasisWidth()*4),(int)(Render::GetBasisHeight()*4),"scrpg");
@@ -73,7 +75,6 @@ void Draw()
 
 int main()
 {
-
     Init(); 
     GameState::SetState(GameState::IN_MENU);
 

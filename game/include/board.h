@@ -38,8 +38,10 @@ class BoardSlot : public Slot
 {
 public:
  	bool locked = false;
-	BoardSlot(float X, float Y) : Slot(X, Y) {
+	BoardSlot(float X, float Y, int W, int H) : Slot(X, Y) {
 		Drawable::SetTint(Color{ 200, 200, 200, 255 });
+		w = W;
+		h = H;
 	}
 	BoardSlot()
 	{

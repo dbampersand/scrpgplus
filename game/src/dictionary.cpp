@@ -2,7 +2,9 @@
 #include "dictionary.h"
 #include <fstream>
 #include "UI.h"
-
+#include <chrono>
+#include <thread>
+#include <iostream>
 std::string Dictionary::WordListPath = "assets/words/words.txt";
 #define CEIL(x,y) (((x) + (y) - 1) / (y))
 
@@ -79,6 +81,10 @@ int Dictionary::NumWildcards(std::string word)
 }
 void Dictionary::AddWord(std::string word)
 {
+    if (word == "star")
+    {
+        std::cout << "aaA";
+    }
     TrieNode* currentNode = &FirstNode;
     for (char c : word)
     {
@@ -139,7 +145,7 @@ bool Dictionary::CheckWord(std::string word, TrieNode* startAt, int depth)
             //set current node to the current character's index so we can continue going down the trie
             currentNode = currentNode->Children[arrayIndex].get();
             //if the next node is the final node, then we just need to check if it's a word or not
-            if (i == word.size() - 2)
+            if (i == word.size() - 1)
             {
                 return (currentNode->isEnd);
             }

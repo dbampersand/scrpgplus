@@ -10,12 +10,16 @@ typedef class Tile Tile;
 class Slot : public Drawable, DragTarget
 { 
 private:
+
     //Default width/height of a Slot
     inline static float DefaultWidth = 18;
     inline static float DefaultHeight = 13;
 
 
     public:
+        
+        static const int RenderOrder = 200;
+
         //The tile owned by this slot
         std::unique_ptr<Tile> tile = nullptr;
 

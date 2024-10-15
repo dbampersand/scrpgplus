@@ -4,6 +4,8 @@
 #include "pccontrolled.h"
 #include <string>
 #include "player.h"
+#include "gamestate.h"
+
 void Tile::MoveObject(float x, float y)
 {
     this->x = x;
@@ -48,41 +50,49 @@ Rectangle Tile::GetDefaultPosition()
 }
 void Tile::DragClick() 
 {
-    //We've just clicked on a Tile - we need to move the Tile either from played tiles to reserve tiles or vice versa
-    //check top row -> bottom row
-    for (std::shared_ptr<Slot> topRow : PCControlled::CurrentPlayer->PlayerTiles)
+    //if in main game state (fighting enemy)
+    if (GameState::GetState() == GameState::State::IN_GAME)
     {
-        if (this == topRow->tile.get())
+        //We've just clicked on a Tile - we need to move the Tile either from played tiles to reserve tiles or vice versa
+        //check top row -> bottom row
+        for (std::shared_ptr<Slot> topRow : PCControlled::CurrentPlayer->PlayerTiles)
         {
-            //current on the top row - move to the first free slot on the bottom row
-            for (std::shared_ptr<Slot> bottomRow : PCControlled::CurrentPlayer->TilesPlayed)
+            if (this == topRow->tile.get())
             {
-                if (bottomRow->tile && bottomRow->tile->character == ' ')
+                //current on the top row - move to the first free slot on the bottom row
+                for (std::shared_ptr<Slot> bottomRow : PCControlled::CurrentPlayer->TilesPlayed)
                 {
-                    Slot::SwapSlots(bottomRow.get(),this->parent);
-                    return;
+                    if (bottomRow->tile && bottomRow->tile->character == ' ')
+                    {
+                        Slot::SwapSlots(bottomRow.get(), this->parent);
+                        return;
+                    }
+                }
+            }
+        }
+        //check bottom row -> top row
+        for (std::shared_ptr<Slot> bottomRow : PCControlled::CurrentPlayer->TilesPlayed)
+        {
+            if (this == bottomRow->tile.get())
+            {
+                //current on the bottom row - move to the first free slot on the top row
+                for (std::shared_ptr<Slot> topRow : PCControlled::CurrentPlayer->PlayerTiles)
+                {
+                    if (topRow->tile && topRow->tile->character == ' ')
+                    {
+                        Slot::SwapSlots(topRow.get(), this->parent);
+                        return;
+                    }
                 }
             }
         }
     }
-    //check bottom row -> top row
-    for (std::shared_ptr<Slot> bottomRow : PCControlled::CurrentPlayer->TilesPlayed)
+    else if (GameState::GetState() == GameState::State::IN_BOARD)
     {
-        if (this == bottomRow->tile.get())
-        {
-            //current on the bottom row - move to the first free slot on the top row
-            for (std::shared_ptr<Slot> topRow : PCControlled::CurrentPlayer->PlayerTiles)
-            {
-                if (topRow->tile && topRow->tile->character == ' ')
-                {
-                    Slot::SwapSlots(topRow.get(),this->parent);
-                    return;
-                }
-            }
-        }
+        Rectangle defaultPosition = GetDefaultPosition();
+        MoveObject(defaultPosition.x, defaultPosition.y);
+
     }
-
-
 };
 
 Tile::Tile(char c) : Drawable(std::string(""), 600)

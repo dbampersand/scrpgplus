@@ -10,7 +10,7 @@ class Gazer : public AIControlled
         {   
             name = "Gazer"; 
             SetMaxHP(100,true);
-            Damage(100);
+            Damage(90);
         };
         ~Gazer() {};
         void Update(float dt) override {
