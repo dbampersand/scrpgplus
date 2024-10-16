@@ -120,9 +120,9 @@ private:
     //This is only added from the board gamestate
     float MultiplierAddHeal = 0.01;
 
-    TileMultiplierIndicator DamageMultiplierIndicator = TileMultiplierIndicator(0,0,10,Colours::Damage) ;
-    TileMultiplierIndicator ShieldMultiplierIndicator = TileMultiplierIndicator(20, 0, 10, Colours::Shield);
-    TileMultiplierIndicator HealMultiplierIndicator = TileMultiplierIndicator(30, 0, 10, Colours::Heal);
+    TileMultiplierIndicator DamageMultiplierIndicator = TileMultiplierIndicator(0,0,15,Colours::Damage) ;
+    TileMultiplierIndicator ShieldMultiplierIndicator = TileMultiplierIndicator(20, 0, 15, Colours::Shield);
+    TileMultiplierIndicator HealMultiplierIndicator = TileMultiplierIndicator(30, 0, 15, Colours::Heal);
 
 
 

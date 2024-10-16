@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "raylib.h"
 
 #include "external/cute_aseprite.h"
@@ -15,6 +16,8 @@ public:
     Texture2D Texture;
     //The amount of time for this frame to play for
     float FrameTime;
+    //script stored in udata, used for playing sounds but possibly extending later
+    std::string script = "";
 };
 
 class Animator
@@ -27,7 +30,7 @@ class Animator
 
 public:
     //Adds a tagged frame to the Animator
-    void AddFrame(std::string fileName, std::string tag, int time, ase_color_t* data, int w, int h);
+    void AddFrame(std::string fileName, std::string tag, int time, ase_color_t* data, int w, int h, const char* udata);
     //Plays an animation given a tag (e.g. "idle", "attack")
     void PlayAnimation(std::string tag);
     //Updates the animator to automatically move to the next frame when the timer has reached the frametime
@@ -39,6 +42,10 @@ public:
 
     //Gets the current Sprite that the Animator should be on given the time and calls SetSprite
     void UpdateAnimatorSprite();
+    
+    //plays script (attached as user data to the .ase frame)
+    static void PlayScript(std::string script);
+
 
     //Returns the full name of a tagged texture name, e.g. assets/enemies/gazer.aseprite/idle 
     //i.e. appends /tagname to the filename

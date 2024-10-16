@@ -20,6 +20,7 @@
 #include "particle.h"
 #include "colours.h"
 #include "board.h"
+#include "script.h"
 
 #include <iostream>
 
@@ -76,6 +77,8 @@ void Draw()
 int main()
 {
     Init(); 
+    Script::InitScript();
+    Animator::PlayScript("PlaySound(\"test\",0.5)");
     GameState::SetState(GameState::IN_MENU);
 
     bool shouldExit = false;

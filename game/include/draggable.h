@@ -28,7 +28,7 @@ class Draggable
     //Used to call DragClick - i.e. if the player has just clicked and is not holding
     float TimeHasBeenDraggedFor = 0;
     //The maximum amount of time that can be considered a 'click' rather than a drag when the mouse button is released
-    inline static float ClickTime = 0.25f;
+    inline static float ClickTime = 0.1f;
     //To be overridden - if the player has clicked an object then very quickly released 
     virtual void DragClick() = 0;
 

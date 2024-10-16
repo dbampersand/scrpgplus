@@ -188,9 +188,9 @@ PCControlled::PCControlled(std::string path) : Player(path) {
     Slot::HorizontalCenterTiles(&PlayerTiles,(float)padding);
     Slot::HorizontalCenterTiles(&TilesPlayed,(float)padding);
 
-    DamageMultiplierIndicator.SetPosition(GetHealthBarRectangle().x, GetHealthBarRectangle().y - 10);
-    HealMultiplierIndicator.SetPosition(GetHealthBarRectangle().x+10, GetHealthBarRectangle().y - 10);
-    ShieldMultiplierIndicator.SetPosition(GetHealthBarRectangle().x+20, GetHealthBarRectangle().y - 10);
+    DamageMultiplierIndicator.SetPosition(GetHealthBarRectangle().x, GetHealthBarRectangle().y - 20);
+    HealMultiplierIndicator.SetPosition(GetHealthBarRectangle().x+15, GetHealthBarRectangle().y - 20);
+    ShieldMultiplierIndicator.SetPosition(GetHealthBarRectangle().x+30, GetHealthBarRectangle().y - 20);
 
     
     HideTiles();

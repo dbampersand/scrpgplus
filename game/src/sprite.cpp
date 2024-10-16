@@ -1,6 +1,13 @@
 #include "sprite.h"
 #include "render.h"
 #include "UI.h"
+#include "script.h"
+
+
+#include <string>
+#include <sstream>
+#include <tuple>
+#include <any>
 
 #include <algorithm>
 #define CUTE_ASEPRITE_IMPLEMENTATION
@@ -33,9 +40,66 @@ void Animator::PlayAnimation(std::string tag)
     UpdateAnimatorSprite();
 
 }
+std::string Trim(std::string str, const char* delimiter)
+{
+    str.erase(0, str.find_first_not_of(delimiter));
+    str.erase(str.find_last_not_of(delimiter) + 1);
+    return str;
+}
+void Animator::PlayScript(std::string script)
+{
+    std::stringstream stream = std::stringstream(script);
+
+    std::string functionToken;
+    std::string argumentToken;
+
+    char lineDelimiter = ';';
+    
+    char argumentDelimiter = ',';
+
+    std::string functionName;
+
+    std::vector<std::any> test;
+    while (std::getline(stream, functionToken, lineDelimiter)) {
+        std::string function = std::string(functionToken);
+
+        std::string functionName = function.substr(0, function.find('('));
+
+        int argumentsStart = function.find('(')+1;
+        int argumentsEnd = function.find(')')-1;
+
+        //if we have both ( and ) in the string
+        if (argumentsStart >= 0 && argumentsEnd >= 0)
+        {
+            std::string argumentsStr = function.substr(argumentsStart, argumentsEnd);
+
+            std::stringstream argumentsStream = std::stringstream(argumentsStr);
+            while (std::getline(argumentsStream, argumentToken, argumentDelimiter)) {
+                std::string trimmed = Trim(argumentToken, "\t\n\r\f\v()");
+                if (argumentToken[0] == '\"')
+                {
+                    test.push_back(trimmed);
+
+                }
+                else
+                {
+                    test.push_back((float)atof(trimmed.c_str()));
+                }
+            }
+        }
+        Script::CallFunction(functionName, test);
+
+    }
+    
+}
 void Animator::UpdateAnimatorSprite()
 {
     SetSprite(&CurrentlyPlaying->at(CurrentlyPlayingIndex).Texture,  Filename);
+    //if we have a script attached as user data to the frame
+    if (CurrentlyPlaying->at(CurrentlyPlayingIndex).script.size() > 0)
+    {
+        PlayScript(CurrentlyPlaying->at(CurrentlyPlayingIndex).script);
+    }
 }
 std::vector<Animation>* Animator::GetIdle()
 {
@@ -66,7 +130,7 @@ std::string Animator::GetTagFilename(std::string fileName, std::string tag)
 {
     return fileName + "/" + tag;
 }
-void Animator::AddFrame(std::string fileName, std::string tag, int time, ase_color_t* data, int w, int h)
+void Animator::AddFrame(std::string fileName, std::string tag, int time, ase_color_t* data, int w, int h, const char* udata)
 {
     for (auto& elem : tag)
     {
@@ -102,6 +166,8 @@ void Animator::AddFrame(std::string fileName, std::string tag, int time, ase_col
     a.Texture = t;
     //frametime is in milliseconds
     a.FrameTime = time / 1000.0f;
+    if (udata)
+        a.script = std::string(udata);
     Sprite::LoadedAnimations.at(GetTagFilename(Filename,tag)).push_back(a);
 }
 void Sprite::AddSpriteToList(Texture2D tex, std::string path)
@@ -170,7 +236,7 @@ Texture2D* Sprite::AddLoadedSprite(std::string path)
             for (int j = from; j < to + 1; j++)
             {
                 ase_frame_t* frame = ase->frames + j;
-                AddFrame(Filename, tag->name, frame->duration_milliseconds, frame->pixels, ase->w, ase->h);
+                AddFrame(Filename, tag->name, frame->duration_milliseconds, frame->pixels, ase->w, ase->h, frame->cels->udata.text);
             }
         }
         LoadedAseFiles.push_back(path);

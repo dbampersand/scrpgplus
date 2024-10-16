@@ -7,7 +7,7 @@
 class TileMultiplierIndicator : Drawable
 {
 	static inline const std::string font = "assets/fonts/PlayfairDisplay/PlayfairDisplay-Bold.ttf";
-	static const int fontSize = 6;
+	static const int fontSize = 9;
 
 	int x; int y;  int size;
 	float multiplier;
