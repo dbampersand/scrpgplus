@@ -78,8 +78,8 @@ void Animator::PlayScript(std::string script)
                 std::string trimmed = Trim(argumentToken, "\t\n\r\f\v()");
                 if (argumentToken[0] == '\"')
                 {
-                    test.push_back(trimmed);
-
+                    std::string quotationsTrimmed = Trim(trimmed, "\"");
+                    test.push_back(quotationsTrimmed);
                 }
                 else
                 {
@@ -88,9 +88,7 @@ void Animator::PlayScript(std::string script)
             }
         }
         Script::CallFunction(functionName, test);
-
     }
-    
 }
 void Animator::UpdateAnimatorSprite()
 {

@@ -56,6 +56,5 @@ public:
 	static void InitScript()
 	{
 		functions["PlaySound"] = ScriptFunction(Script::Scr_PlayAudio);
-		//CallFunction("PlaySound", std::string("test"), (float)1 );
 	}
 };
